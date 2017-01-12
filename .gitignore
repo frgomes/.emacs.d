@@ -7,5 +7,7 @@ var/
 \#*\#
 .\#*
 README.el
+README.html
+README.pdf
 projectile-bookmarks.eld
 .mc-lists.el

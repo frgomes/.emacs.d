@@ -1,49 +1,32 @@
 #+TITLE: Emacs configuration
+#+OPTIONS: toc:nil
 
-Emacs is a fully programmable text editor which employs extensions, made available as packages, in order to accomplish a myriad of needs.
+Emacs very powerful programmable text editor.
 
-General purpose packages
+[[http://youtu.be/jNa3axo40qM][This video demonstrates some of Emacs' editing capabilities]]
 
-| Package                 | Purpose |
-|-------------------------+---------|
-| projectile              |         |
-| undo-tree               |         |
-| highlight-symbol        |         |
-| goto-chg                |         |
-| company                 |         |
-| yasnippet               |         |
-| yatemplate              |         |
-| smartparens             |         |
-| helm                    |         |
-| neotree                 |         |
-| magit                   |         |
-| monky                   |         |
-| gist                    |         |
-| find-file-in-repository |         |
-| multiple-cursors)       |         |
-| window-numbering        |         |
-| expand-region           |         |
-| monokai-theme           |         |
+Just clone this repository onto your $HOME directoty and start Emacs, like this:
+
+#+BEGIN_SRC bash
+    $ cd $HOME
+    $ if [ -d .emacs.d ] ;then mv .emacs.d .emacs.d.SAVE ;done
+    $ git clone http://github.com/frgomes/.emacs.d
+    $ emacs &
+#+END_SRC
 
 
-Packages for programming languages
+The configuration shown below focus on Typescript and Scala developement.
 
-| Package         | Purpose                            |
-|-----------------+------------------------------------|
-| scala-mode      | Scala language                     |
-| typescript-mode | Typescript language                |
-| lua-mode        | Lua language                       |
-| ensime          | IDE for Scala and Java development |
-| tide            | IDE for Typescript development     |
-
+----
 
 * First of all: a silent bootstrap
 
 #+BEGIN_SRC emacs-lisp 
 ;; Turn off mouse interface early in startup to avoid momentary display
-(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(if (fboundp 'menu-bar-mode)   (menu-bar-mode -1))
+(if (fboundp 'tool-bar-mode)   (tool-bar-mode -1))
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(if (fboundp 'tooltip-mode)    (tooltip-mode -1))
 
 ;; No splash screen please ... jeez
 (setq inhibit-startup-message t)
@@ -69,7 +52,7 @@ Packages for programming languages
 		     neotree magit monky gist find-file-in-repository 
                      multiple-cursors window-numbering expand-region
 		     monokai-theme
-		     scala-mode typescript-mode lua-mode
+		     scala-mode typescript-mode web-mode lua-mode
 		     markdown-mode markdown-preview-eww 
                      ;ensime slime yafolding dumb-jump ag
 		     ;rainbow-delimiters 
@@ -90,9 +73,31 @@ Packages for programming languages
 (require 'bind-key)                ;; if you use any :bind variant
 #+END_SRC
 
-* Configure basic extensions
+* General purpose packages
 
-** /projectile/
+| Package                 | Purpose                                        |
+|-------------------------+------------------------------------------------|
+| projectile              | project interaction library                    |
+| undo-tree               | recovers any past state of a buffer            |
+| highlight-symbol        | highlight and navigate between symbols         |
+| goto-chg                | goto last change in current buffer             |
+| company                 | "complete anything" in-buffer completion       |
+| yasnippet               | template system                                |
+| yatemplate              | expand abbreviations into function templates   |
+| smartparens             | deals with parens pairs in smart ways          |
+| helm                    | incremental completion and selection narrowing |
+| neotree                 | tree navigation sidebar                        |
+| magit                   | a powerful frontend for Git                    |
+| monky                   | a powerful frontend for Mercurial/Hg           |
+| gist                    | share snippets and pastes                      |
+| find-file-in-repository | find files in the source control               |
+| multiple-cursors        | edit multiple places of a buffer at once       |
+| window-numbering        | assign numbers to windows for quick access     |
+| expand-region           | increase selected region by semantic units     |
+| monokai-theme           | a dark colour theme                            |
+
+
+** /projectile/: project interaction library
 
 #+BEGIN_SRC emacs-lisp 
 (use-package projectile
@@ -103,7 +108,7 @@ Packages for programming languages
            ("s-F" . projectile-grep)))
 #+END_SRC
 
-** /undo-tree/
+** /undo-tree/: recovers any past state of a buffer
 
 #+BEGIN_SRC emacs-lisp 
 (use-package undo-tree
@@ -112,7 +117,7 @@ Packages for programming languages
   :bind ("s-/" . undo-tree-visualize))
 #+END_SRC
 
-** /highlight-symbol/
+** /highlight-symbol/: highlight and navigate between symbols
 
 #+BEGIN_SRC emacs-lisp 
 (use-package highlight-symbol
@@ -121,7 +126,7 @@ Packages for programming languages
   :bind ("s-h" . highlight-symbol))
 #+END_SRC
 
-** /goto-chg/
+** /goto-chg/: goto last change in current buffer
 
 #+BEGIN_SRC emacs-lisp 
 (use-package goto-chg
@@ -132,8 +137,8 @@ Packages for programming languages
   :bind (("C-." . goto-last-change)
          ("C-," . goto-last-change-reverse)))
 #+END_SRC
-
-** /company/
+   
+** /company/: "complete anything" in-buffer completion
 
 #+BEGIN_SRC emacs-lisp 
 (use-package company
@@ -152,7 +157,7 @@ Packages for programming languages
     (define-key company-active-map (kbd "TAB") nil))
 #+END_SRC
 
-** /yasnippet/
+** /yasnippet/: template system
 
 #+BEGIN_SRC emacs-lisp 
 (use-package yasnippet
@@ -161,7 +166,7 @@ Packages for programming languages
   :config (yas-reload-all))
 #+END_SRC
 
-** /yatemplate/
+** /yatemplate/: expands abbreviations into function templates
 
 #+BEGIN_SRC emacs-lisp 
 (use-package yatemplate
@@ -172,7 +177,7 @@ Packages for programming languages
     (yatemplate-fill-alist))
 #+END_SRC
 
-** /smartparens/
+** /smartparens/: deals with parens pairs in smart ways
 
 #+BEGIN_SRC emacs-lisp 
 (use-package smartparens
@@ -196,77 +201,88 @@ Packages for programming languages
     (bind-key "s-<backspace>" 'sp-backward-kill-sexp smartparens-mode-map))
 #+END_SRC
 
-** /helm/
+** /helm/: incremental completion and selection narrowing
 
 #+BEGIN_SRC emacs-lisp 
 (use-package helm
+  :diminish helm-mode
+  :commands helm-mode
   :bind (("M-x"     . helm-M-x)
          ("C-x C-m" . helm-M-x)
          ("C-x C-f" . helm-find-files)))
 #+END_SRC
 
-** /neotree/
+** /neotree/: tree natigation sidebar
 
 #+BEGIN_SRC emacs-lisp 
 (use-package neotree
-  :init (neotree)
+  :diminish neotree
+  :commands neotree
+  :config (neotree)
   :bind ("s-d" . neotree-toggle))
 #+END_SRC
 
 ** Source Control tools
-
-*** /magit/ is a powerful frontend for Git
+*** /magit/: a powerful frontend for Git
 
 #+BEGIN_SRC emacs-lisp 
 (use-package magit
+  :diminish magit-status
+  :commands magit-status
   :config (setq magit-last-seen-setup-instructions "1.4.0")
   :bind ("M-s M-g" . magit-status))
 #+END_SRC
 
-*** /monky/ is a powerful frontend for Mercurial
+*** /monky/: a powerful frontend for Mercurial/Hg
 
 #+BEGIN_SRC emacs-lisp 
 (use-package monky
+  :diminish monky-status
+  :commands monky-status
   :init (setq monky-process-type 'cmdserver)
   :bind ("M-s M-m" . monky-status))
 #+END_SRC
 
-*** /gist/ allows managing gists hosted in Github
+*** /gist/ shares snippets and pastes
 
 #+BEGIN_SRC emacs-lisp 
 (use-package gist
+  :diminish gist-list
+  :commands (gist-list gist-region-or-buffer)
   :bind (("M-s M-o" . gist-list)
 	 ("M-s M-s" . gist-region-or-buffer)))
 #+END_SRC
   
-*** /find-file-in-repository/ gives access to files in source control
+*** /find-file-in-repository/ find files in the source control
 
 #+BEGIN_SRC emacs-lisp 
 (use-package find-file-in-repository
+  :diminish find-file-in-repository
+  :commands find-file-in-repository
   :bind ("M-s M-f" . find-file-in-repository))
 #+END_SRC
 
-** /multiple-cursors/
+** /multiple-cursors/: edit multiple places of a buffer at once
 
 #+BEGIN_SRC emacs-lisp 
 (use-package multiple-cursors)
 #+END_SRC
 
-** /window-numbering/
+** /window-numbering/: assign numbers to windows for quick access
 
 #+BEGIN_SRC emacs-lisp 
 (use-package window-numbering
   :init (window-numbering-mode 1))
 #+END_SRC
 
-** /expand-region/
+** /expand-region/: increase selected region by semantic units
 
 #+BEGIN_SRC emacs-lisp 
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
 #+END_SRC
   
-** /monokai-theme/
+** /monokai-theme/: a dark colour theme
 
 #+BEGIN_SRC emacs-lisp 
 (use-package monokai-theme
@@ -276,14 +292,72 @@ Packages for programming languages
 
 * Configure programming language modes
 
-Pending packages for programming languages
+| Package         | Purpose                            | Status  |
+|-----------------+------------------------------------+---------|
+| scala-mode      | Scala language                     | testing |
+| typescript-mode | Typescript language                | testing |
+| web-mode        | Javascript language                | testing |
+| lua-mode        | Lua language                       | testing |
+| ensime          | IDE for Scala and Java development | pending |
+| tide            | IDE for Typescript development     | testing |
 
-| Package         | Purpose                            |
-|-----------------+------------------------------------|
-| ensime          | IDE for Scala and Java development |
-| tide            | IDE for Typescript development     |
+#+BEGIN_SRC emacs-lisp
+(use-package scala-mode
+  :diminish scala-mode
+  :commands scala-mode)
 
-#+BEGIN_SRC emacs-lisp 
+(use-package typescript-mode
+  :diminish typescript-mode
+  :commands typescript-mode)
+
+(use-package web-mode
+  :diminish web-mode
+  :commands web-mode)
+
+(use-package lua-mode
+  :diminish lua-mode
+  :commands lua-mode)
+
+(use-package tide
+  :diminish tide-mode
+  :commands tide-mode
+  :config
+    (defun setup-tide-mode ()
+      (interactive)
+      (require 'typescript-mode)
+      (tide-setup)
+      (flycheck-mode +1)
+      (setq flycheck-check-syntax-automatically '(save mode-enabled))
+      (eldoc-mode +1)
+      (tide-hl-identifier-mode +1)
+      ;; company is an optional dependency. You have to
+      ;; install it separately via package-install
+      ;; `M-x package-install [ret] company`
+      (company-mode +1))
+    ;; aligns annotation to the right hand side
+    (setq company-tooltip-align-annotations t)
+    ;; formats the buffer before saving
+    (add-hook 'before-save-hook 'tide-format-before-save)
+    (add-hook 'typescript-mode-hook #'setup-tide-mode)
+    ;; format options
+    (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
+    ;; support for JS files 
+    (add-hook 'js2-mode-hook #'setup-tide-mode)
+    ;; from now on web-mode is required
+    (require 'web-mode)
+    ;; support for TSX files
+    (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+    (add-hook 'web-mode-hook
+              (lambda ()
+                (when (string-equal "tsx" (file-name-extension buffer-file-name))
+                  (setup-tide-mode))))
+    ;; support for JSX files
+    (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+    (add-hook 'web-mode-hook
+              (lambda ()
+                (when (string-equal "jsx" (file-name-extension buffer-file-name))
+                  (setup-tide-mode)))))
+
 ;(require 'rainbow-delimiters)
 ;(add-hook 'scala-mode-hook #'rainbow-delimiters-mode)
 ;(add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
@@ -299,4 +373,5 @@ Pending packages for programming languages
 (global-set-key (kbd "C-\\") 'cua-rectangle-mark-mode)
 (global-set-key (kbd "RET")  'newline-and-indent)
 (cua-mode)
+(neotree)
 #+END_SRC

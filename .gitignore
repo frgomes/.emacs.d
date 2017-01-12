@@ -4,4 +4,8 @@ snippets/
 var/
 
 *~
+\#*\#
+.\#*
+README.el
 projectile-bookmarks.eld
+.mc-lists.el

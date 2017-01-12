@@ -22,7 +22,7 @@
 ;; List the package we want
 (setq package-list '(use-package diminish bind-key
 		     projectile undo-tree highlight-symbol goto-chg company yasnippet yatemplate smartparens helm
-		     neotree find-file-in-repository 
+		     neotree magit monky gist find-file-in-repository 
                      multiple-cursors window-numbering expand-region
 		     monokai-theme
                      ;ensime lua-mode magit gist
@@ -124,8 +124,20 @@
   :init (neotree)
   :bind ("s-d" . neotree-toggle))
 
+(use-package magit
+  :config (setq magit-last-seen-setup-instructions "1.4.0")
+  :bind ("M-s M-g" . magit-status))
+
+(use-package monky
+  :init (setq monky-process-type 'cmdserver)
+  :bind ("M-s M-m" . monky-status))
+
+(use-package gist
+  :bind (("M-s M-o" . gist-list)
+	 ("M-s M-s" . gist-region-or-buffer)))
+  
 (use-package find-file-in-repository
-  :bind ("C-x C-M-f" . find-file-in-repository))
+  :bind ("M-s M-f" . find-file-in-repository))
 
 (use-package multiple-cursors)
 

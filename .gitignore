@@ -6,6 +6,8 @@ var/
 *~
 \#*\#
 .\#*
+*.ZILESAVE
+session.*
 README.el
 README.html
 README.pdf

@@ -47,21 +47,16 @@ The configuration shown below focus on Typescript and Scala developement.
 (unless package-archive-contents (package-refresh-contents))
 
 ;; List the package we want
-(setq package-list '(use-package diminish bind-key
-		     projectile undo-tree highlight-symbol goto-chg company yasnippet yatemplate smartparens helm
-		     neotree magit monky gist find-file-in-repository 
-                     multiple-cursors window-numbering expand-region
-		     monokai-theme
-		     scala-mode typescript-mode web-mode lua-mode
-		     markdown-mode markdown-preview-eww 
-                     ;ensime slime yafolding dumb-jump ag
-		     ;rainbow-delimiters 
-))
+(setq package-list '(use-package diminish bind-key))
 
 ;; Install the packages that are missing, if any
 (dolist (package package-list)
 	(unless (package-installed-p package)
 		(package-install package)))
+
+;; From now on, use-package is responsible for downloading packages
+(setq use-package-always-ensure t)
+
 #+END_SRC
 
 * Employ /use-package/ for package configuration
@@ -206,7 +201,7 @@ The configuration shown below focus on Typescript and Scala developement.
 #+BEGIN_SRC emacs-lisp 
 (use-package helm
   :diminish helm-mode
-  :commands helm-mode
+  :commands (helm-mode helm-M-x helm-find-files)
   :bind (("M-x"     . helm-M-x)
          ("C-x C-m" . helm-M-x)
          ("C-x C-f" . helm-find-files)))
@@ -303,23 +298,18 @@ The configuration shown below focus on Typescript and Scala developement.
 
 #+BEGIN_SRC emacs-lisp
 (use-package scala-mode
-  :diminish scala-mode
   :commands scala-mode)
 
 (use-package typescript-mode
-  :diminish typescript-mode
   :commands typescript-mode)
 
 (use-package web-mode
-  :diminish web-mode
   :commands web-mode)
 
 (use-package lua-mode
-  :diminish lua-mode
   :commands lua-mode)
 
 (use-package tide
-  :diminish tide-mode
   :commands tide-mode
   :config
     (defun setup-tide-mode ()
@@ -370,8 +360,6 @@ The configuration shown below focus on Typescript and Scala developement.
 * Global keybindings and configurations
 
 #+BEGIN_SRC emacs-lisp 
-(global-set-key (kbd "C-\\") 'cua-rectangle-mark-mode)
 (global-set-key (kbd "RET")  'newline-and-indent)
-(cua-mode)
 (neotree)
 #+END_SRC

@@ -360,6 +360,14 @@ The configuration shown below focus on Typescript and Scala developement.
 * Global keybindings and configurations
 
 #+BEGIN_SRC emacs-lisp 
+;; Behaviour of RETURN
 (global-set-key (kbd "RET")  'newline-and-indent)
+
+;; CUA selection mode, which highlights rectangular regions.
+;; However, keeps default Emacs behaviour and keybindings.
+(global-set-key (kbd "C-\\") 'cua-rectangle-mark-mode)
+(cua-selection-mode t)
+
+;; Navigation sidebar
 (neotree)
 #+END_SRC

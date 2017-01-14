@@ -406,18 +406,18 @@ Make sure we are employing org-plus-contrib instead of org.
 
 Unfortunately, I was not able to manage to get this code below working inside use-package.
 
-#+BEGIN_SRC 
+#+BEGIN_SRC emacs-lisp
 (require 'org-index)
 (global-set-key (kbd "C-c i") 'org-index)
 #+END_SRC
 
 ** Behaviour of <return>
-#+BEGIN_SRC 
+#+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "RET")  'newline-and-indent)
 #+END_SRC
 
 ** General purpose shortcuts
-#+BEGIN_SRC 
+#+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-|")  'toggle-truncate-lines)
 #+END_SRC
 
@@ -426,7 +426,15 @@ Unfortunately, I was not able to manage to get this code below working inside us
 CUA selection mode is handy for highlighting rectangular regions properly.
 However, I prefer to keep the default Emacs keybindings.
 
-#+BEGIN_SRC 
+#+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-\\") 'cua-rectangle-mark-mode)
 (cua-selection-mode t)
+#+END_SRC
+
+* Prologue
+
+Inform that the initialization ended with success.
+
+#+BEGIN_SRC emacs-lisp
+(message "Initialization complete.")
 #+END_SRC

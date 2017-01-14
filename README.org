@@ -32,6 +32,14 @@ The configuration shown below focus on Typescript and Scala developement.
 (setq inhibit-startup-message t)
 #+END_SRC
 
+* Never pollute init.el
+
+Make sure our on-liner /init.el/ never gets polluted by anyone.
+
+#+BEGIN_SRC 
+(setq custom-file "~/.emacs.d/custom.el")
+#+END_SRC
+
 * Load packages
 
 #+BEGIN_SRC emacs-lisp 
@@ -39,9 +47,25 @@ The configuration shown below focus on Typescript and Scala developement.
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
+#+END_SRC
+
+We are using packages from org-plus-contrib such as [[http://orgmode.org/worg/org-contrib/org-index.html][org-index]], which requires http://orgmode.org/elpa/ to be added to ``package-archives``.
+
+#+BEGIN_SRC emacs-lisp 
+(add-to-list 'package-archives 
+             '("org"   . "http://orgmode.org/elpa/") t)
+#+END_SRC
+
+We account for backwards compatibility here... possibly... not really tested.
+
+#+BEGIN_SRC emacs-lisp 
 (when (< emacs-major-version 24)
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+#+END_SRC
 
+Install use-package and its dependencies. Nothing else at this point.
+
+#+BEGIN_SRC emacs-lisp 
 ;; Fetch list of available packages
 (package-initialize) 
 (unless package-archive-contents (package-refresh-contents))
@@ -53,10 +77,13 @@ The configuration shown below focus on Typescript and Scala developement.
 (dolist (package package-list)
 	(unless (package-installed-p package)
 		(package-install package)))
+#+END_SRC
 
+Make sure that from now on use-package manages installation of packages, including downloading them.
+
+#+BEGIN_SRC emacs-lisp 
 ;; From now on, use-package is responsible for downloading packages
 (setq use-package-always-ensure t)
-
 #+END_SRC
 
 * Employ /use-package/ for package configuration
@@ -66,6 +93,17 @@ The configuration shown below focus on Typescript and Scala developement.
 (eval-when-compile (require 'use-package))
 (require 'diminish)                ;; if you use :diminish
 (require 'bind-key)                ;; if you use any :bind variant
+#+END_SRC
+
+* Employ /org-plus-contrib/ instead of /org/
+
+Make sure we are employing org-plus-contrib instead of org.
+
+#+BEGIN_SRC emacs-lisp
+(use-package org
+    :defer 3
+    :ensure   org-plus-contrib
+    :commands org-index)
 #+END_SRC
 
 * General purpose packages
@@ -209,7 +247,7 @@ The configuration shown below focus on Typescript and Scala developement.
 
 #+BEGIN_SRC emacs-lisp 
 (use-package neotree
-  :defer 3
+  :defer 2
   :diminish neotree
   :commands neotree
   :config (neotree)
@@ -283,8 +321,6 @@ The configuration shown below focus on Typescript and Scala developement.
   :config (load-theme 'monokai t)
   :init (setq frame-background-mode 'dark))
 #+END_SRC
-
-
 * Configure programming language modes
 
 | Package         | Purpose                            | Status  |
@@ -357,25 +393,40 @@ The configuration shown below focus on Typescript and Scala developement.
 ;(add-hook 'js-mode-hook #'smartparens-mode)
 #+END_SRC
 
-* Runs user defined Org Mode configurations
-
+* User defined configurations
 #+BEGIN_SRC emacs-lisp
 ;; runs configuration for org files, if any.
 ;; see: http://cestlaz.github.io/posts/using-emacs-26-gcal
 ;; credits: Mike Zamansky
-(mapcar 'org-babel-load-file
-  (directory-files "~/Documents/orgfiles/config" t ".+\.org$"))
+;(mapcar 'org-babel-load-file
+;  (directory-files "~/Documents/orgfiles/config" t ".+\.org$"))
+#+END_SRC
+* Global keybindings and configurations
+** Hardwiring org-index
+
+Unfortunately, I was not able to manage to get this code below working inside use-package.
+
+#+BEGIN_SRC 
+(require 'org-index)
+(global-set-key (kbd "C-c i") 'org-index)
 #+END_SRC
 
-* Global keybindings and configurations
-
-#+BEGIN_SRC emacs-lisp 
-;; Behaviour of RETURN
+** Behaviour of <return>
+#+BEGIN_SRC 
 (global-set-key (kbd "RET")  'newline-and-indent)
+#+END_SRC
 
-;; CUA selection mode, which highlights rectangular regions.
-;; However, keeps default Emacs behaviour and keybindings.
+** General purpose shortcuts
+#+BEGIN_SRC 
 (global-set-key (kbd "C-|")  'toggle-truncate-lines)
+#+END_SRC
+
+** Configure CUA mode
+
+CUA selection mode is handy for highlighting rectangular regions properly.
+However, I prefer to keep the default Emacs keybindings.
+
+#+BEGIN_SRC 
 (global-set-key (kbd "C-\\") 'cua-rectangle-mark-mode)
 (cua-selection-mode t)
 #+END_SRC

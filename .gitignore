@@ -11,5 +11,6 @@ session.*
 README.el
 README.html
 README.pdf
+custom.el
 projectile-bookmarks.eld
 .mc-lists.el

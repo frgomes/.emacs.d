@@ -202,7 +202,6 @@ The configuration shown below focus on Typescript and Scala developement.
   :diminish helm-mode
   :commands (helm-mode helm-M-x helm-find-files)
   :bind (("M-x"     . helm-M-x)
-         ("C-x C-m" . helm-M-x)
          ("C-x C-f" . helm-find-files)))
 #+END_SRC
 
@@ -376,6 +375,7 @@ The configuration shown below focus on Typescript and Scala developement.
 
 ;; CUA selection mode, which highlights rectangular regions.
 ;; However, keeps default Emacs behaviour and keybindings.
+(global-set-key (kbd "C-|")  'toggle-truncate-lines)
 (global-set-key (kbd "C-\\") 'cua-rectangle-mark-mode)
 (cua-selection-mode t)
 #+END_SRC

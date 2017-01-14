@@ -10,3 +10,6 @@
 
 ;; Generate README.el and perform configurations from it
 (org-babel-load-file "~/.emacs.d/README.org")
+
+;; Load custom settings
+(load-file "~/.emacs.d/custom.el")

@@ -91,7 +91,6 @@ The configuration shown below focus on Typescript and Scala developement.
 | expand-region           | increase selected region by semantic units     |
 | monokai-theme           | a dark colour theme                            |
 
-
 ** /projectile/: project interaction library
 
 #+BEGIN_SRC emacs-lisp 
@@ -211,6 +210,7 @@ The configuration shown below focus on Typescript and Scala developement.
 
 #+BEGIN_SRC emacs-lisp 
 (use-package neotree
+  :defer 3
   :diminish neotree
   :commands neotree
   :config (neotree)
@@ -285,6 +285,7 @@ The configuration shown below focus on Typescript and Scala developement.
   :init (setq frame-background-mode 'dark))
 #+END_SRC
 
+
 * Configure programming language modes
 
 | Package         | Purpose                            | Status  |
@@ -357,6 +358,16 @@ The configuration shown below focus on Typescript and Scala developement.
 ;(add-hook 'js-mode-hook #'smartparens-mode)
 #+END_SRC
 
+* Runs user defined Org Mode configurations
+
+#+BEGIN_SRC emacs-lisp
+;; runs configuration for org files, if any.
+;; see: http://cestlaz.github.io/posts/using-emacs-26-gcal
+;; credits: Mike Zamansky
+(mapcar 'org-babel-load-file
+  (directory-files "~/Documents/orgfiles/config" t ".+\.org$"))
+#+END_SRC
+
 * Global keybindings and configurations
 
 #+BEGIN_SRC emacs-lisp 
@@ -367,7 +378,4 @@ The configuration shown below focus on Typescript and Scala developement.
 ;; However, keeps default Emacs behaviour and keybindings.
 (global-set-key (kbd "C-\\") 'cua-rectangle-mark-mode)
 (cua-selection-mode t)
-
-;; Navigation sidebar
-(neotree)
 #+END_SRC

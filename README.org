@@ -328,6 +328,7 @@ Make sure we are employing org-plus-contrib instead of org.
 | scala-mode      | Scala language                     | testing |
 | typescript-mode | Typescript language                | testing |
 | web-mode        | Javascript language                | testing |
+| dart-mode       | Dart language                      | testing |
 | lua-mode        | Lua language                       | testing |
 | ensime          | IDE for Scala and Java development | pending |
 | tide            | IDE for Typescript development     | testing |
@@ -341,6 +342,12 @@ Make sure we are employing org-plus-contrib instead of org.
 
 (use-package web-mode
   :commands web-mode)
+
+(use-package dart-mode
+  :commands dart-mode
+  :config
+    ((setq dart-enable-analysis-server t)
+     (add-hook 'dart-mode-hook 'flycheck-mode)))
 
 (use-package lua-mode
   :commands lua-mode)

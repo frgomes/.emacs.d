@@ -5,7 +5,7 @@ Emacs is a programmable text editor.
 
 [[http://youtu.be/jNa3axo40qM][This video demonstrates some of Emacs' powerful editing capabilities]]
 
-Just clone this repository onto your $HOME directoty and start Emacs, like this:
+Just clone this repository onto your $HOME directory and start Emacs, like this:
 
 #+BEGIN_SRC bash
 $ cd $HOME
@@ -16,7 +16,7 @@ $ emacs &
 
 Fingers crossed...
 
-If everything goes as expected, Emacs will download a lot of stuff from the Internet, compile everything, configure itself and present a dark window with a sidebar showing the current directory tree.
+If everything goes according to plan, Emacs will download a lot of stuff from the Internet, compile everything, configure itself and present a dark window with a sidebar showing the current directory tree.
 
 ** Overview
 

@@ -346,7 +346,24 @@ Additional usability extensions (or packages) employed in this configuration:
 
  (use-package lua-mode
    :commands lua-mode)
+ #+END_SRC
 
+** TODO [0/2] Configure IDE environment for Scala
+
+ - [ ] borrow ideas from https://github.com/frgomes/emacs-for-scala
+ - [ ] review the code below
+#+BEGIN_SRC emacs-lisp
+ ;(require 'rainbow-delimiters)
+ ;(add-hook 'scala-mode-hook #'rainbow-delimiters-mode)
+ ;(add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+
+ ;(add-hook 'scala-mode-hook #'smartparens-mode)
+ ;(add-hook 'typescript-mode-hook #'smartparens-mode)
+ ;(add-hook 'js-mode-hook #'smartparens-mode)
+#+END_SRC
+
+** TODO [0/1] Configure IDE environment for Typescript
+#+BEGIN_SRC emacs-lisp
  (use-package tide
    :commands tide-mode
    :config
@@ -385,15 +402,9 @@ Additional usability extensions (or packages) employed in this configuration:
                (lambda ()
                  (when (string-equal "jsx" (file-name-extension buffer-file-name))
                    (setup-tide-mode)))))
+#+END_SRC
 
- ;(require 'rainbow-delimiters)
- ;(add-hook 'scala-mode-hook #'rainbow-delimiters-mode)
- ;(add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
-
- ;(add-hook 'scala-mode-hook #'smartparens-mode)
- ;(add-hook 'typescript-mode-hook #'smartparens-mode)
- ;(add-hook 'js-mode-hook #'smartparens-mode)
- #+END_SRC
+ - [ ] tide-mode should activate when a in a =.ts= buffer.
 
 ** User defined configurations
  #+BEGIN_SRC emacs-lisp

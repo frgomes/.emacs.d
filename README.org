@@ -5,21 +5,6 @@ Emacs very powerful programmable text editor.
 
 [[http://youtu.be/jNa3axo40qM][This video demonstrates some of Emacs' editing capabilities]]
 
-The configuration provided by this file focus on usability provided by [[http://orgmode.org/][Org Mode]] and powerful editor capabilities which makes Emacs a very good choice as an IDE for several programming languages.
-
- | Package          | Purpose                            | Status  |
- |------------------+------------------------------------+---------|
- | org-plus-contrib | Org Mode with contributions        | testing |
- | scala-mode       | Scala language                     | done    |
- | typescript-mode  | Typescript language                | done    |
- | web-mode         | Javascript language                | done    |
- | dart-mode        | Dart language                      | done    |
- | python-mode      | Python language                    |         |
- | lua-mode         | Lua language                       | done    |
- | ensime           | IDE for Scala and Java development |         |
- | tide             | IDE for Typescript development     | testing |
-
-
 Just clone this repository onto your $HOME directoty and start Emacs, like this:
 
 #+BEGIN_SRC bash
@@ -33,9 +18,46 @@ Fingers crossed...
 
 If everything goes as expected, Emacs will download a lot of stuff from the Internet, compile everything, configure itself and present a dark window with a sidebar showing the current directory tree.
 
-Below you can see the actual configuration with comments.
+** Overview
 
-** First of all: a silent bootstrap
+The file you are reading now is also a configuration file for Emacs which focus on usability provided by [[http://orgmode.org/][Org Mode]] and provides powerful editor capabilities which makes Emacs a very good choice as an IDE for several programming languages.
+
+ | Package          | Purpose                            | Status  |
+ |------------------+------------------------------------+---------|
+ | org-plus-contrib | Org Mode with contributions        | testing |
+ | scala-mode       | Scala language                     | done    |
+ | typescript-mode  | Typescript language                | done    |
+ | web-mode         | Javascript language                | done    |
+ | dart-mode        | Dart language                      | done    |
+ | python-mode      | Python language                    |         |
+ | lua-mode         | Lua language                       | done    |
+ | ensime           | IDE for Scala and Java development |         |
+ | tide             | IDE for Typescript development     | testing |
+
+Additional usability extensions (or packages) employed in this configuration:
+
+| Package                 | Purpose                                        |
+|-------------------------+------------------------------------------------|
+| projectile              | project interaction library                    |
+| undo-tree               | recovers any past state of a buffer            |
+| highlight-symbol        | highlight and navigate between symbols         |
+| goto-chg                | goto last change in current buffer             |
+| company                 | "complete anything" in-buffer completion       |
+| yasnippet               | template system                                |
+| yatemplate              | expand abbreviations into function templates   |
+| smartparens             | deals with parens pairs in smart ways          |
+| helm                    | incremental completion and selection narrowing |
+| neotree                 | tree navigation sidebar                        |
+| magit                   | a powerful frontend for Git                    |
+| monky                   | a powerful frontend for Mercurial/Hg           |
+| gist                    | share snippets and pastes                      |
+| find-file-in-repository | find files in the source control               |
+| multiple-cursors        | edit multiple places of a buffer at once       |
+| window-numbering        | assign numbers to windows for quick access     |
+| expand-region           | increase selected region by semantic units     |
+| monokai-theme           | a dark colour theme                            |
+
+** A silent bootstrap
 
  #+BEGIN_SRC emacs-lisp 
  ;; Turn off mouse interface early in startup to avoid momentary display
@@ -71,7 +93,7 @@ Below you can see the actual configuration with comments.
    (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
  #+END_SRC
 
- Install use-package and its dependencies. Nothing else at this point.
+ Install =use-package= and its dependencies. Nothing else at this point.
 
  #+BEGIN_SRC emacs-lisp 
  ;; Fetch list of available packages
@@ -87,7 +109,7 @@ Below you can see the actual configuration with comments.
 		 (package-install package)))
  #+END_SRC
 
- Make sure that from now on use-package manages installation of packages, including downloading them.
+ Make sure that from now on =use-package= manages installation of packages, including downloading them.
 
  #+BEGIN_SRC emacs-lisp 
  ;; From now on, use-package is responsible for downloading packages
@@ -113,29 +135,6 @@ Below you can see the actual configuration with comments.
      :ensure   org-plus-contrib
      :commands org-index)
  #+END_SRC
-
-** General purpose packages
-
-| Package                 | Purpose                                        |
-|-------------------------+------------------------------------------------|
-| projectile              | project interaction library                    |
-| undo-tree               | recovers any past state of a buffer            |
-| highlight-symbol        | highlight and navigate between symbols         |
-| goto-chg                | goto last change in current buffer             |
-| company                 | "complete anything" in-buffer completion       |
-| yasnippet               | template system                                |
-| yatemplate              | expand abbreviations into function templates   |
-| smartparens             | deals with parens pairs in smart ways          |
-| helm                    | incremental completion and selection narrowing |
-| neotree                 | tree navigation sidebar                        |
-| magit                   | a powerful frontend for Git                    |
-| monky                   | a powerful frontend for Mercurial/Hg           |
-| gist                    | share snippets and pastes                      |
-| find-file-in-repository | find files in the source control               |
-| multiple-cursors        | edit multiple places of a buffer at once       |
-| window-numbering        | assign numbers to windows for quick access     |
-| expand-region           | increase selected region by semantic units     |
-| monokai-theme           | a dark colour theme                            |
 
 ** /projectile/: project interaction library
 
@@ -262,8 +261,7 @@ Below you can see the actual configuration with comments.
   :bind ("s-d" . neotree-toggle))
 #+END_SRC
 
-** Source Control tools
-*** /magit/: a powerful frontend for Git
+** /magit/: a powerful frontend for Git
 
 #+BEGIN_SRC emacs-lisp 
 (use-package magit
@@ -273,7 +271,7 @@ Below you can see the actual configuration with comments.
   :bind ("M-s M-g" . magit-status))
 #+END_SRC
 
-*** /monky/: a powerful frontend for Mercurial/Hg
+** /monky/: a powerful frontend for Mercurial/Hg
 
 #+BEGIN_SRC emacs-lisp 
 (use-package monky
@@ -283,7 +281,7 @@ Below you can see the actual configuration with comments.
   :bind ("M-s M-m" . monky-status))
 #+END_SRC
 
-*** /gist/ shares snippets and pastes
+** /gist/ shares snippets and pastes
 
 #+BEGIN_SRC emacs-lisp 
 (use-package gist
@@ -293,7 +291,7 @@ Below you can see the actual configuration with comments.
 	 ("M-s M-s" . gist-region-or-buffer)))
 #+END_SRC
   
-*** /find-file-in-repository/ find files in the source control
+** /find-file-in-repository/ find files in the source control
 
 #+BEGIN_SRC emacs-lisp 
 (use-package find-file-in-repository
@@ -428,7 +426,6 @@ Unfortunately, I was not able to manage to get this code below working inside us
 ** Configure CUA mode
 
 CUA selection mode is handy for highlighting rectangular regions properly.
-However, I prefer to keep the default Emacs keybindings.
 
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-\\") 'cua-rectangle-mark-mode)

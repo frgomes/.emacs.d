@@ -1,9 +1,9 @@
 * Emacs configuration
 #+OPTIONS: toc:nil
 
-Emacs very powerful programmable text editor.
+Emacs is a programmable text editor.
 
-[[http://youtu.be/jNa3axo40qM][This video demonstrates some of Emacs' editing capabilities]]
+[[http://youtu.be/jNa3axo40qM][This video demonstrates some of Emacs' powerful editing capabilities]]
 
 Just clone this repository onto your $HOME directoty and start Emacs, like this:
 

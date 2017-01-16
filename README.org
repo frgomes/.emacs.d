@@ -404,7 +404,11 @@ Additional usability extensions (or packages) employed in this configuration:
                    (setup-tide-mode)))))
 #+END_SRC
 
- - [ ] tide-mode should activate when a in a =.ts= buffer.
+ - [ ] tide-mode should activate when editing a =.ts= buffer.
+
+** TODO [0/1] Configure IDE environment for Python
+
+ - [ ] borrow ideas from [[http://rgomes-info.blogspot.co.uk/2013/11/ready-for-python-development-with-emacs.html][Ready for Python development with Emacs in just 60 seconds]]
 
 ** User defined configurations
  #+BEGIN_SRC emacs-lisp

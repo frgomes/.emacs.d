@@ -48,14 +48,6 @@ Below you can see the actual configuration with comments.
  (setq inhibit-startup-message t)
  #+END_SRC
 
-** Never pollute init.el
-
- Make sure our on-liner /init.el/ never gets polluted by anyone.
-
- #+BEGIN_SRC 
- (setq custom-file "~/.emacs.d/custom.el")
- #+END_SRC
-
 ** Load packages
 
  #+BEGIN_SRC emacs-lisp 

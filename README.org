@@ -410,7 +410,8 @@ Additional usability extensions (or packages) employed in this configuration:
 
  - [ ] borrow ideas from [[http://rgomes-info.blogspot.co.uk/2013/11/ready-for-python-development-with-emacs.html][Ready for Python development with Emacs in just 60 seconds]]
 
-** User defined configurations
+** TODO [0/1] User defined configurations
+ - [ ] Integration with Google Calendar
  #+BEGIN_SRC emacs-lisp
  ;; runs configuration for org files, if any.
  ;; see: http://cestlaz.github.io/posts/using-emacs-26-gcal
@@ -419,33 +420,29 @@ Additional usability extensions (or packages) employed in this configuration:
  ;  (directory-files "~/Documents/orgfiles/config" t ".+\.org$"))
  #+END_SRC
 ** Global keybindings and configurations
-** Hardwiring org-index
+*** Hardwiring org-index
 
-Unfortunately, I was not able to manage to get this code below working inside use-package.
+ Unfortunately, I was not able to manage to get this code below working inside use-package.
 
-#+BEGIN_SRC emacs-lisp
-(require 'org-index)
-(global-set-key (kbd "C-c i") 'org-index)
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+ (require 'org-index)
+ (global-set-key (kbd "C-c i") 'org-index)
+ #+END_SRC
 
-** Behaviour of <return>
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "RET")  'newline-and-indent)
-#+END_SRC
+*** Configuring keybindings
+ #+BEGIN_SRC emacs-lisp
+ (global-set-key (kbd "RET")  'newline-and-indent)
+ (global-set-key (kbd "C-|")  'toggle-truncate-lines)
+ #+END_SRC
 
-** General purpose shortcuts
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-|")  'toggle-truncate-lines)
-#+END_SRC
+*** Configure CUA mode
 
-** Configure CUA mode
+ CUA selection mode is handy for highlighting rectangular regions properly.
 
-CUA selection mode is handy for highlighting rectangular regions properly.
-
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-\\") 'cua-rectangle-mark-mode)
-(cua-selection-mode t)
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+ (global-set-key (kbd "C-\\") 'cua-rectangle-mark-mode)
+ (cua-selection-mode t)
+ #+END_SRC
 
 ** Prologue
 

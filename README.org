@@ -1,112 +1,128 @@
-#+TITLE: Emacs configuration
+* Emacs configuration
 #+OPTIONS: toc:nil
 
 Emacs very powerful programmable text editor.
 
 [[http://youtu.be/jNa3axo40qM][This video demonstrates some of Emacs' editing capabilities]]
 
+The configuration provided by this file focus on usability provided by [[http://orgmode.org/][Org Mode]] and powerful editor capabilities which makes Emacs a very good choice as an IDE for several programming languages.
+
+ | Package          | Purpose                            | Status  |
+ |------------------+------------------------------------+---------|
+ | org-with-contrib | Org Mode with contributions        | testing |
+ | scala-mode       | Scala language                     | done    |
+ | typescript-mode  | Typescript language                | done    |
+ | web-mode         | Javascript language                | done    |
+ | dart-mode        | Dart language                      | done    |
+ | python-mode      | Python language                    |         |
+ | lua-mode         | Lua language                       | done    |
+ | ensime           | IDE for Scala and Java development |         |
+ | tide             | IDE for Typescript development     | testing |
+
+
 Just clone this repository onto your $HOME directoty and start Emacs, like this:
 
 #+BEGIN_SRC bash
-    $ cd $HOME
-    $ if [ -d .emacs.d ] ;then mv .emacs.d .emacs.d.SAVE ;done
-    $ git clone http://github.com/frgomes/.emacs.d
-    $ emacs &
+$ cd $HOME
+$ if [ -d .emacs.d ] ;then mv .emacs.d .emacs.d.SAVE ;fi
+$ git clone http://github.com/frgomes/.emacs.d
+$ emacs &
 #+END_SRC
 
+Fingers crossed...
 
-The configuration shown below focus on Typescript and Scala developement.
+If everything goes as expected, Emacs will download a lot of stuff from the Internet, compile everything, configure itself and present a dark window with a sidebar showing the current directory tree.
 
-----
+Below you can see the actual configuration with comments.
 
-* First of all: a silent bootstrap
+** First of all: a silent bootstrap
 
-#+BEGIN_SRC emacs-lisp 
-;; Turn off mouse interface early in startup to avoid momentary display
-(if (fboundp 'menu-bar-mode)   (menu-bar-mode -1))
-(if (fboundp 'tool-bar-mode)   (tool-bar-mode -1))
-(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-(if (fboundp 'tooltip-mode)    (tooltip-mode -1))
+ #+BEGIN_SRC emacs-lisp 
+ ;; Turn off mouse interface early in startup to avoid momentary display
+ (if (fboundp 'menu-bar-mode)   (menu-bar-mode -1))
+ (if (fboundp 'tool-bar-mode)   (tool-bar-mode -1))
+ (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+ (if (fboundp 'tooltip-mode)    (tooltip-mode -1))
 
-;; No splash screen please ... jeez
-(setq inhibit-startup-message t)
-#+END_SRC
+ ;; No splash screen please ... jeez
+ (setq inhibit-startup-message t)
+ #+END_SRC
 
-* Never pollute init.el
+** Never pollute init.el
 
-Make sure our on-liner /init.el/ never gets polluted by anyone.
+ Make sure our on-liner /init.el/ never gets polluted by anyone.
 
-#+BEGIN_SRC 
-(setq custom-file "~/.emacs.d/custom.el")
-#+END_SRC
+ #+BEGIN_SRC 
+ (setq custom-file "~/.emacs.d/custom.el")
+ #+END_SRC
 
-* Load packages
+** Load packages
 
-#+BEGIN_SRC emacs-lisp 
-;; Package repositories
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/") t)
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp 
+ ;; Package repositories
+ (require 'package)
+ (add-to-list 'package-archives
+              '("melpa" . "http://melpa.org/packages/") t)
+ #+END_SRC
 
-We are using packages from org-plus-contrib such as [[http://orgmode.org/worg/org-contrib/org-index.html][org-index]], which requires http://orgmode.org/elpa/ to be added to ``package-archives``.
+ We are using packages from org-plus-contrib such as [[http://orgmode.org/worg/org-contrib/org-index.html][org-index]], which requires http://orgmode.org/elpa/ to be added to ``package-archives``.
 
-#+BEGIN_SRC emacs-lisp 
-(add-to-list 'package-archives 
-             '("org"   . "http://orgmode.org/elpa/") t)
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp 
+ (add-to-list 'package-archives 
+              '("org"   . "http://orgmode.org/elpa/") t)
+ #+END_SRC
 
-We account for backwards compatibility here... possibly... not really tested.
+ We account for backwards compatibility here... possibly... not really tested.
 
-#+BEGIN_SRC emacs-lisp 
-(when (< emacs-major-version 24)
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp 
+ (when (< emacs-major-version 24)
+   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+ #+END_SRC
 
-Install use-package and its dependencies. Nothing else at this point.
+ Install use-package and its dependencies. Nothing else at this point.
 
-#+BEGIN_SRC emacs-lisp 
-;; Fetch list of available packages
-(package-initialize) 
-(unless package-archive-contents (package-refresh-contents))
+ #+BEGIN_SRC emacs-lisp 
+ ;; Fetch list of available packages
+ (package-initialize) 
+ (unless package-archive-contents (package-refresh-contents))
 
-;; List the package we want
-(setq package-list '(use-package diminish bind-key))
+ ;; List the package we want
+ (setq package-list '(use-package diminish bind-key))
 
-;; Install the packages that are missing, if any
-(dolist (package package-list)
-	(unless (package-installed-p package)
-		(package-install package)))
-#+END_SRC
+ ;; Install the packages that are missing, if any
+ (dolist (package package-list)
+	 (unless (package-installed-p package)
+		 (package-install package)))
+ #+END_SRC
 
-Make sure that from now on use-package manages installation of packages, including downloading them.
+ Make sure that from now on use-package manages installation of packages, including downloading them.
 
-#+BEGIN_SRC emacs-lisp 
-;; From now on, use-package is responsible for downloading packages
-(setq use-package-always-ensure t)
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp 
+ ;; From now on, use-package is responsible for downloading packages
+ (setq use-package-always-ensure t)
+ #+END_SRC
 
-* Employ /use-package/ for package configuration
+** Employ /use-package/ for package configuration
 
-#+BEGIN_SRC emacs-lisp 
-;; Wire use-package https://github.com/jwiegley/use-package
-(eval-when-compile (require 'use-package))
-(require 'diminish)                ;; if you use :diminish
-(require 'bind-key)                ;; if you use any :bind variant
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp 
+ ;; Wire use-package https://github.com/jwiegley/use-package
+ (eval-when-compile (require 'use-package))
+ (require 'diminish)                ;; if you use :diminish
+ (require 'bind-key)                ;; if you use any :bind variant
+ #+END_SRC
 
-* Employ /org-plus-contrib/ instead of /org/
+** Employ /org-plus-contrib/ instead of /org/
 
-Make sure we are employing org-plus-contrib instead of org.
+ Make sure we are employing org-plus-contrib instead of org.
 
-#+BEGIN_SRC emacs-lisp
-(use-package org
-    :defer 3
-    :ensure   org-plus-contrib
-    :commands org-index)
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+ (use-package org
+     :defer 3
+     :ensure   org-plus-contrib
+     :commands org-index)
+ #+END_SRC
 
-* General purpose packages
+** General purpose packages
 
 | Package                 | Purpose                                        |
 |-------------------------+------------------------------------------------|
@@ -321,94 +337,83 @@ Make sure we are employing org-plus-contrib instead of org.
   :config (load-theme 'monokai t)
   :init (setq frame-background-mode 'dark))
 #+END_SRC
-* Configure programming language modes
+** Configure programming language modes
+ #+BEGIN_SRC emacs-lisp
+ (use-package scala-mode
+   :commands scala-mode)
 
-| Package         | Purpose                            | Status  |
-|-----------------+------------------------------------+---------|
-| scala-mode      | Scala language                     | testing |
-| typescript-mode | Typescript language                | testing |
-| web-mode        | Javascript language                | testing |
-| dart-mode       | Dart language                      | testing |
-| lua-mode        | Lua language                       | testing |
-| ensime          | IDE for Scala and Java development | pending |
-| tide            | IDE for Typescript development     | testing |
+ (use-package typescript-mode
+   :commands typescript-mode)
 
-#+BEGIN_SRC emacs-lisp
-(use-package scala-mode
-  :commands scala-mode)
+ (use-package web-mode
+   :commands web-mode)
 
-(use-package typescript-mode
-  :commands typescript-mode)
+ (use-package dart-mode
+   :commands dart-mode
+   :config
+     ((setq dart-enable-analysis-server t)
+      (add-hook 'dart-mode-hook 'flycheck-mode)))
 
-(use-package web-mode
-  :commands web-mode)
+ (use-package lua-mode
+   :commands lua-mode)
 
-(use-package dart-mode
-  :commands dart-mode
-  :config
-    ((setq dart-enable-analysis-server t)
-     (add-hook 'dart-mode-hook 'flycheck-mode)))
+ (use-package tide
+   :commands tide-mode
+   :config
+     (defun setup-tide-mode ()
+       (interactive)
+       (require 'typescript-mode)
+       (tide-setup)
+       (flycheck-mode +1)
+       (setq flycheck-check-syntax-automatically '(save mode-enabled))
+       (eldoc-mode +1)
+       (tide-hl-identifier-mode +1)
+       ;; company is an optional dependency. You have to
+       ;; install it separately via package-install
+       ;; `M-x package-install [ret] company`
+       (company-mode +1))
+     ;; aligns annotation to the right hand side
+     (setq company-tooltip-align-annotations t)
+     ;; formats the buffer before saving
+     (add-hook 'before-save-hook 'tide-format-before-save)
+     (add-hook 'typescript-mode-hook #'setup-tide-mode)
+     ;; format options
+     (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
+     ;; support for JS files 
+     (add-hook 'js2-mode-hook #'setup-tide-mode)
+     ;; from now on web-mode is required
+     (require 'web-mode)
+     ;; support for TSX files
+     (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+     (add-hook 'web-mode-hook
+               (lambda ()
+                 (when (string-equal "tsx" (file-name-extension buffer-file-name))
+                   (setup-tide-mode))))
+     ;; support for JSX files
+     (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+     (add-hook 'web-mode-hook
+               (lambda ()
+                 (when (string-equal "jsx" (file-name-extension buffer-file-name))
+                   (setup-tide-mode)))))
 
-(use-package lua-mode
-  :commands lua-mode)
+ ;(require 'rainbow-delimiters)
+ ;(add-hook 'scala-mode-hook #'rainbow-delimiters-mode)
+ ;(add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
 
-(use-package tide
-  :commands tide-mode
-  :config
-    (defun setup-tide-mode ()
-      (interactive)
-      (require 'typescript-mode)
-      (tide-setup)
-      (flycheck-mode +1)
-      (setq flycheck-check-syntax-automatically '(save mode-enabled))
-      (eldoc-mode +1)
-      (tide-hl-identifier-mode +1)
-      ;; company is an optional dependency. You have to
-      ;; install it separately via package-install
-      ;; `M-x package-install [ret] company`
-      (company-mode +1))
-    ;; aligns annotation to the right hand side
-    (setq company-tooltip-align-annotations t)
-    ;; formats the buffer before saving
-    (add-hook 'before-save-hook 'tide-format-before-save)
-    (add-hook 'typescript-mode-hook #'setup-tide-mode)
-    ;; format options
-    (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
-    ;; support for JS files 
-    (add-hook 'js2-mode-hook #'setup-tide-mode)
-    ;; from now on web-mode is required
-    (require 'web-mode)
-    ;; support for TSX files
-    (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-    (add-hook 'web-mode-hook
-              (lambda ()
-                (when (string-equal "tsx" (file-name-extension buffer-file-name))
-                  (setup-tide-mode))))
-    ;; support for JSX files
-    (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-    (add-hook 'web-mode-hook
-              (lambda ()
-                (when (string-equal "jsx" (file-name-extension buffer-file-name))
-                  (setup-tide-mode)))))
+ ;(add-hook 'scala-mode-hook #'smartparens-mode)
+ ;(add-hook 'typescript-mode-hook #'smartparens-mode)
+ ;(add-hook 'js-mode-hook #'smartparens-mode)
+ #+END_SRC
 
-;(require 'rainbow-delimiters)
-;(add-hook 'scala-mode-hook #'rainbow-delimiters-mode)
-;(add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
-
-;(add-hook 'scala-mode-hook #'smartparens-mode)
-;(add-hook 'typescript-mode-hook #'smartparens-mode)
-;(add-hook 'js-mode-hook #'smartparens-mode)
-#+END_SRC
-
-* User defined configurations
-#+BEGIN_SRC emacs-lisp
-;; runs configuration for org files, if any.
-;; see: http://cestlaz.github.io/posts/using-emacs-26-gcal
-;; credits: Mike Zamansky
-;(mapcar 'org-babel-load-file
-;  (directory-files "~/Documents/orgfiles/config" t ".+\.org$"))
-#+END_SRC
-* Global keybindings and configurations
+** User defined configurations
+ #+BEGIN_SRC emacs-lisp
+ ;; runs configuration for org files, if any.
+ ;; see: http://cestlaz.github.io/posts/using-emacs-26-gcal
+ ;; credits: Mike Zamansky
+ ;(mapcar 'org-babel-load-file
+ ;  (directory-files "~/Documents/orgfiles/config" t ".+\.org$"))
+ #+END_SRC
+** Global keybindings and configurations
 ** Hardwiring org-index
 
 Unfortunately, I was not able to manage to get this code below working inside use-package.
@@ -438,10 +443,10 @@ However, I prefer to keep the default Emacs keybindings.
 (cua-selection-mode t)
 #+END_SRC
 
-* Prologue
+** Prologue
 
-Inform that the initialization ended with success.
+ Inform that the initialization ended with success.
 
-#+BEGIN_SRC emacs-lisp
-(message "Initialization complete.")
-#+END_SRC
+ #+BEGIN_SRC emacs-lisp
+ (message "Initialization complete.")
+ #+END_SRC

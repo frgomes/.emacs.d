@@ -9,7 +9,7 @@ The configuration provided by this file focus on usability provided by [[http://
 
  | Package          | Purpose                            | Status  |
  |------------------+------------------------------------+---------|
- | org-with-contrib | Org Mode with contributions        | testing |
+ | org-plus-contrib | Org Mode with contributions        | testing |
  | scala-mode       | Scala language                     | done    |
  | typescript-mode  | Typescript language                | done    |
  | web-mode         | Javascript language                | done    |
@@ -57,7 +57,7 @@ Below you can see the actual configuration with comments.
               '("melpa" . "http://melpa.org/packages/") t)
  #+END_SRC
 
- We are using packages from org-plus-contrib such as [[http://orgmode.org/worg/org-contrib/org-index.html][org-index]], which requires http://orgmode.org/elpa/ to be added to ``package-archives``.
+ We are using packages from =org-plus-contrib= such as [[http://orgmode.org/worg/org-contrib/org-index.html][org-index]], which requires http://orgmode.org/elpa/ to be added to ``package-archives``.
 
  #+BEGIN_SRC emacs-lisp 
  (add-to-list 'package-archives 
@@ -105,7 +105,7 @@ Below you can see the actual configuration with comments.
 
 ** Employ /org-plus-contrib/ instead of /org/
 
- Make sure we are employing org-plus-contrib instead of org.
+ Make sure we are employing =org-plus-contrib= instead of =org=.
 
  #+BEGIN_SRC emacs-lisp
  (use-package org

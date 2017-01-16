@@ -376,7 +376,7 @@ See: https://org-trello.github.io/trello-setup.html
  ;(add-hook 'js-mode-hook #'smartparens-mode)
 #+END_SRC
 
-** TODO [0/1] Configure IDE environment for Typescript
+** TODO [0/2] Configure IDE environment for Typescript
 #+BEGIN_SRC emacs-lisp
  (use-package tide
    :commands tide-mode
@@ -418,7 +418,38 @@ See: https://org-trello.github.io/trello-setup.html
                    (setup-tide-mode)))))
 #+END_SRC
 
- - [ ] tide-mode should activate when editing a =.ts= buffer.
+*** TODO [ ] tide-mode should activate when editing a =.ts= buffer.
+*** TODO [ ] consolidate keybinds
+
+This is the default keybinds exposed by /tide-mode/ which should match similar functionality of exposed by Ensime.
+
+#+BEGIN_SRC 
+setup-tide-mode
+tide-mode
+tide-setup
+tide-format
+tide-jump-back (M-,)
+tide-references
+tide-goto-error
+tide-compile-file
+tide-rename-symbol
+tide-hl-identifier
+tide-project-errors
+tide-goto-reference
+tide-restart-server
+tide-find-next-error
+tide-references-mode
+tide-auto-compile-file
+tide-format-before-save
+tide-jump-to-definition (M-.)
+tide-hl-identifier-mode
+tide-find-previous-error
+tide-next-error-function
+tide-documentation-at-point (C-c d)
+tide-next-reference-function
+tide-find-previous-reference
+company-tide
+#+END_SRC
 
 ** TODO [0/1] Configure IDE environment for Python
 

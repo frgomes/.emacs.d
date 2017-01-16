@@ -127,13 +127,27 @@ Additional usability extensions (or packages) employed in this configuration:
 
 ** Employ /org-plus-contrib/ instead of /org/
 
- Make sure we are employing =org-plus-contrib= instead of =org=.
+Make sure we are employing =org-plus-contrib= instead of =org=.
 
  #+BEGIN_SRC emacs-lisp
  (use-package org
-     :defer 3
+     :defer 2
      :ensure   org-plus-contrib
      :commands org-index)
+ #+END_SRC
+
+** TODO [0/1] Configure other Org Mode packages
+
+*** TODO [ ] Integrate with Trello, a kanban project management tool.
+
+See: https://org-trello.github.io/trello-setup.html
+
+ #+BEGIN_SRC emacs-lisp
+ ;(use-package org-trello
+ ;    :defer 3
+ ;    :commands org-trello
+ ;    config 
+ ;      (custom-set-variables '(org-trello-files '("/path/to/file0" "/path/to/file1"))))
  #+END_SRC
 
 ** /projectile/: project interaction library

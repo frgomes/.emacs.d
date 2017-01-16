@@ -446,8 +446,6 @@ Additional usability extensions (or packages) employed in this configuration:
 
 ** Prologue
 
- Inform that the initialization ended with success.
-
  #+BEGIN_SRC emacs-lisp
  (message "Initialization complete.")
  #+END_SRC

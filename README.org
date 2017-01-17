@@ -365,25 +365,24 @@ Make sure we are employing =org-plus-contrib= instead of =org=.
 ** TODO [0/2] Configure IDE environment for Typescript
 #+BEGIN_SRC emacs-lisp
  (use-package tide
-   :commands tide-mode
+   :commands tide-setup tide-mode setup-tide-mode
    :config
      (defun setup-tide-mode ()
        (interactive)
-       (require 'typescript-mode)
+       ;;(require 'typescript-mode)
        (tide-setup)
+       (tide-mode +1)
        (flycheck-mode +1)
+       (setq-default tab-width 2)
        (setq flycheck-check-syntax-automatically '(save mode-enabled))
        (eldoc-mode +1)
        (tide-hl-identifier-mode +1)
-       ;; company is an optional dependency. You have to
-       ;; install it separately via package-install
-       ;; `M-x package-install [ret] company`
        (company-mode +1))
+     (require 'typescript-mode)
+     (add-hook 'typescript-mode-hook #'setup-tide-mode)
+
      ;; aligns annotation to the right hand side
      (setq company-tooltip-align-annotations t)
-     ;; formats the buffer before saving
-     (add-hook 'before-save-hook 'tide-format-before-save)
-     (add-hook 'typescript-mode-hook #'setup-tide-mode)
      ;; format options
      (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
      ;; support for JS files 

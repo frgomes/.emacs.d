@@ -116,6 +116,23 @@ Additional usability extensions (or packages) employed in this configuration:
  (setq use-package-always-ensure t)
  #+END_SRC
 
+** Define utility functions
+#+BEGIN_SRC emacs-lisp
+ (defun list-file-contents (path)
+   "Lists agenda files referenced from a configuration file."
+   (if (file-exists-p (expand-file-name path))
+     (with-temp-buffer
+       (insert-file-contents (expand-file-name path))
+       (split-string (buffer-string) "\n" t))
+     nil))
+
+ (defun eval-file (path)
+   "Evaluates a file file."
+   (if (file-exists-p (expand-file-name path))
+     (load-file (expand-file-name path))
+     nil))
+#+END_SRC
+
 ** Employ /use-package/ for package configuration
 
  #+BEGIN_SRC emacs-lisp 
@@ -132,8 +149,7 @@ Make sure we are employing =org-plus-contrib= instead of =org=.
  #+BEGIN_SRC emacs-lisp
  (use-package org
      :ensure   org-plus-contrib
-     :commands org-agenda org-capture org-index
-)
+     :commands org-agenda org-capture org-index)
  #+END_SRC
 
 ** /projectile/: project interaction library
@@ -435,20 +451,9 @@ tide-next-reference-function
 tide-find-previous-reference
 company-tide
 #+END_SRC
-
 ** TODO [0/1] Configure IDE environment for Python
 
  - [ ] borrow ideas from [[http://rgomes-info.blogspot.co.uk/2013/11/ready-for-python-development-with-emacs.html][Ready for Python development with Emacs in just 60 seconds]]
-
-** TODO [0/1] User defined configurations
- - [ ] Integration with Google Calendar
- #+BEGIN_SRC emacs-lisp
- ;; runs configuration for org files, if any.
- ;; see: http://cestlaz.github.io/posts/using-emacs-26-gcal
- ;; credits: Mike Zamansky
- ;(mapcar 'org-babel-load-file
- ;  (directory-files "~/Documents/orgfiles/config" t ".+\.org$"))
- #+END_SRC
 ** Global keybindings and configurations
 *** Configure CUA mode
 
@@ -462,47 +467,45 @@ company-tide
  #+BEGIN_SRC emacs-lisp
  (global-set-key (kbd "RET")  'newline-and-indent)
  (global-set-key (kbd "C-|")  'toggle-truncate-lines)
-
- (require 'org-agenda)
- (require 'org-capture)
- (require 'org-index)
- (global-set-key (kbd "C-c a") 'org-agenda)
- (global-set-key (kbd "C-c c") 'org-capture)
- (global-set-key (kbd "C-c i") 'org-index)
+ ;(require 'org-capture)
+ ;(require 'org-index)
+ ;(global-set-key (kbd "C-c c") 'org-capture)
+ ;(global-set-key (kbd "C-c i") 'org-index)
  #+END_SRC
-*** Define utility functions
-#+BEGIN_SRC emacs-lisp
- (defun list-file-contents (filePath)
-   "Lists agenda files referenced from a configuration file."
-   (if (file-exists-p (expand-file-name filePath))
-     (with-temp-buffer
-       (insert-file-contents filePath)
-       (split-string (buffer-string) "\n" t))
-     nil))
- (defun load-agenda-files (filePath)
-   "Loads agenda files referenced from a configuration file."
-   (setq org-agenda-files (list-file-contents filePath)))
- (defun load-trello-files (filePath)
-   "Loads agenda files referenced from a configuration file."
-   (setq org-trello-files (list-file-contents filePath)))
-#+END_SRC
+
+** TODO [0/1] Configure additional Org Mode modules
 *** Support for multiple agendas
  #+BEGIN_SRC emacs-lisp
- (load-agenda-files "~/Documents/org-mode/agenda")
+ (require 'org-agenda)
+ (global-set-key (kbd "C-c a") 'org-agenda)
+ (setq org-agenda-files (list-file-contents "~/Documents/org-mode/agenda"))
  #+END_SRC
-
-*** Support for multiple Trello boards
-See: https://org-trello.github.io/trello-setup.html
+*** TODO [0/1] Support for multiple Trello boards
+ See: https://org-trello.github.io/trello-setup.html
  #+BEGIN_SRC emacs-lisp
- ;(use-package org-trello
- ;    :defer 3
- ;    :commands org-trello
- ;    config 
- ;      (custom-set-variables '(org-trello-files '("/path/to/file0" "/path/to/file1"))))
- #+END_SRC
-#+BEGIN_SRC emacs-lisp
- (load-trello-files "~/Documents/org-mode/trello")
+ (use-package org-trello
+     :commands org-trello org-trello-mode)
+
+ (require 'org-trello)
+ (setq orgtrello-log-level orgtrello-log-debug)
+ (eval-file "~/Documents/org-mode/config/trello/richardgomes1.el")
+ (setq org-trello-files
+   (directory-files-recursively "~/Documents/org-mode/trello" ".*\.org$"))
 #+END_SRC
+
+ - [ ] C-c o s (sync from Trello to org-trello) is failing with message: 
+#+BEGIN_QUOTE
+       Symbols's function definition is void: entities-adjacencies
+#+END_QUOTE
+
+*** TODO [ ] Integration with Google Calendar
+ #+BEGIN_SRC emacs-lisp
+ ;; runs configuration for org files, if any.
+ ;; see: http://cestlaz.github.io/posts/using-emacs-26-gcal
+ ;; credits: Mike Zamansky
+ ;(mapcar 'org-babel-load-file
+ ;  (directory-files "~/Documents/orgfiles/config" t ".+\.org$"))
+ #+END_SRC
 
 ** Prologue
 

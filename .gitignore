@@ -2,6 +2,8 @@ auto-save-list/
 elpa/
 snippets/
 var/
+request/
+.trello/
 
 *~
 \#*\#

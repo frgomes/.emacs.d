@@ -3,7 +3,6 @@ elpa/
 snippets/
 var/
 request/
-.trello/
 
 *~
 \#*\#
@@ -17,3 +16,8 @@ custom.el
 projectile-bookmarks.eld
 .mc-lists.el
 .org-id-locations
+
+# symlinks
+.trello
+.trello/
+

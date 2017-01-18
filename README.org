@@ -500,8 +500,9 @@ company-tide
 #+BEGIN_SRC emacs-lisp
  (load-packages '(org-trello))
  (require 'org-trello)
+ ;(setq orgtrello-log-level orgtrello-log-trace)
  (setq org-trello-files
-   (directory-files-recursively "~/Documents/org-mode/trello" ".*\.org$"))
+   (directory-files "~/Documents/org-mode/trello" ".*\.org$"))
 #+END_SRC
 
 *** TODO [0/1] Integration with Google Calendar

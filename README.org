@@ -147,16 +147,16 @@ Additional usability extensions (or packages) employed in this configuration:
 Make sure we are employing =org-plus-contrib= instead of =org=.
 
  #+BEGIN_SRC emacs-lisp
- (use-package org
-     :ensure   org-plus-contrib
-     :commands org-agenda org-capture org-index)
+; (use-package org
+;     :ensure   org-plus-contrib
+;     :commands org-agenda org-capture org-index)
  #+END_SRC
 
-In case of trouble, you can try to employ only =org=, like this:
+In case of trouble caused by =use-package=, you can try to load =oreg-plus-contrib= like this:
 
-#+BEGIN_EXAMPLE emacs-lisp
- (require 'org)
-#+END_EXAMPLE
+#+BEGIN_SRC emacs-lisp
+ (load-packages '(org-plus-contrib))
+#+END_SRC
 
 ** /projectile/: project interaction library
 
@@ -466,26 +466,48 @@ company-tide
  CUA selection mode is handy for highlighting rectangular regions properly.
 
  #+BEGIN_SRC emacs-lisp
- (global-set-key (kbd "C-\\") 'cua-rectangle-mark-mode)
  (cua-selection-mode t)
  #+END_SRC
+
 *** Configuring keybindings
  #+BEGIN_SRC emacs-lisp
- (global-set-key (kbd "RET")  'newline-and-indent)
+ ;; keybinding for multiple-cursors
+ (require 'sgml-mode)
+ (global-set-key (kbd "C-` <right>")  'mc/mark-next-like-this)
+ (global-set-key (kbd "C-` <left>")   'mc/mark-previous-like-this)
+ (global-set-key (kbd "C-` <return>") 'mc/mark-all-like-this)
+ (global-set-key (kbd "C-` /")        'mc/mark-sgml-tag-pair)
+ (global-set-key (kbd "C-` <SPC>")    'mc/vertical-align-with-spaces)
+ ;; editing very long lines... 
  (global-set-key (kbd "C-|")  'toggle-truncate-lines)
- ;(require 'org-capture)
- ;(require 'org-index)
- ;(global-set-key (kbd "C-c c") 'org-capture)
- ;(global-set-key (kbd "C-c i") 'org-index)
  #+END_SRC
-
-** TODO [0/1] Configure additional Org Mode modules
+*** General defaults
+#+BEGIN_SRC emacs-lisp
+(setq-default indent-tabs-mode nil)
+#+END_SRC
+** TODO [0/2] Configure additional Org Mode modules
 *** Support for multiple agendas
  #+BEGIN_SRC emacs-lisp
  (require 'org-agenda)
  (global-set-key (kbd "C-c a") 'org-agenda)
  (setq org-agenda-files (list-file-contents "~/Documents/org-mode/agenda"))
  #+END_SRC
+
+*** Support for /org-index/
+
+#+BEGIN_SRC emacs-lisp
+ (require 'org-index)
+ (global-set-key (kbd "C-c i") 'org-index)
+#+END_SRC
+*** TODO [0/1] Support for /org-capture/
+
+- [ ] See: https://www.gnu.org/software/emacs/manual/html_node/org/Capture.html
+
+#+BEGIN_SRC emacs-lisp
+ ;(require 'org-capture)
+ ;(global-set-key (kbd "C-c c") 'org-capture)
+#+END_SRC
+
 *** Support for multiple Trello boards
 
  [[https://org-trello.github.io/trello-setup.html][See org-trello setup instructions here]]

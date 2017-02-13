@@ -78,7 +78,7 @@ Additional usability extensions (or packages) employed in this configuration:
        (package-install package))))
 
  (defun list-file-contents (path)
-   "Lists agenda files referenced from a configuration file."
+   "Lists files referenced from a configuration file."
    (if (file-exists-p (expand-file-name path))
      (with-temp-buffer
        (insert-file-contents (expand-file-name path))

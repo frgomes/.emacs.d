@@ -374,6 +374,13 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
 
  - [ ] borrow ideas from https://github.com/frgomes/emacs-for-scala
  - [ ] review the code below
+
+#+BEGIN_SRC 
+(use-package ensime
+  :ensure t
+  :pin melpa)
+#+END_SRC
+
 #+BEGIN_SRC emacs-lisp
  ;(require 'rainbow-delimiters)
  ;(add-hook 'scala-mode-hook #'rainbow-delimiters-mode)

@@ -31,6 +31,7 @@ The file you are reading now is also a configuration file for Emacs which focus 
  | dart-mode        | Dart language                      | done    |
  | python-mode      | Python language                    |         |
  | lua-mode         | Lua language                       | done    |
+ | markdown-mode    | Markdown support                   | done    |
  | ensime           | IDE for Scala and Java development |         |
  | tide             | IDE for Typescript development     | testing |
 
@@ -368,6 +369,9 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
 
  (use-package lua-mode
    :commands lua-mode)
+
+ (use-package markdown-mode
+   :commands markdown-mode)
  #+END_SRC
 
 ** TODO [0/2] Configure IDE environment for Scala

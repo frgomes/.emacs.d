@@ -25,6 +25,8 @@ The file you are reading now is also a configuration file for Emacs which focus 
  | Package          | Purpose                            | Status  |
  |------------------+------------------------------------+---------|
  | org-plus-contrib | Org Mode with contributions        | testing |
+ | rust-mode        | Rust language                      | done    |
+ | toml-mode        | Rust language (toml files)         | done    |
  | scala-mode       | Scala language                     | done    |
  | typescript-mode  | Typescript language                | done    |
  | web-mode         | Javascript language                | done    |
@@ -352,6 +354,12 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
 #+END_SRC
 ** Configure programming language modes
  #+BEGIN_SRC emacs-lisp
+ (use-package rust-mode
+   :commands rust-mode)
+
+ (use-package toml-mode
+   :commands toml-mode)
+
  (use-package scala-mode
    :commands scala-mode)
 

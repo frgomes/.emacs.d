@@ -27,6 +27,7 @@ The file you are reading now is also a configuration file for Emacs which focus 
  | org-plus-contrib | Org Mode with contributions        | testing |
  | rust-mode        | Rust language                      | done    |
  | toml-mode        | Rust language (toml files)         | done    |
+ | racer-mode       | Rust language (syntax completion)  | testing |
  | scala-mode       | Scala language                     | done    |
  | typescript-mode  | Typescript language                | done    |
  | web-mode         | Javascript language                | done    |
@@ -359,6 +360,15 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
 
  (use-package toml-mode
    :commands toml-mode)
+
+ (use-package racer
+   :commands racer-mode
+   :config
+     (add-hook 'rust-mode-hook  #'racer-mode)
+     (add-hook 'racer-mode-hook #'eldoc-mode)
+     (add-hook 'racer-mode-hook #'company-mode)
+     (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
+     (setq company-tooltip-align-annotations t))
 
  (use-package scala-mode
    :commands scala-mode)

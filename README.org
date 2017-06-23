@@ -35,7 +35,7 @@ The file you are reading now is also a configuration file for Emacs which focus 
  | python-mode      | Python language                    |         |
  | lua-mode         | Lua language                       | done    |
  | markdown-mode    | Markdown support                   | done    |
- | ensime           | IDE for Scala and Java development |         |
+ | ensime           | IDE for Scala and Java development | done    |
  | tide             | IDE for Typescript development     | testing |
 
 Additional usability extensions (or packages) employed in this configuration:
@@ -397,7 +397,7 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
  - [ ] borrow ideas from https://github.com/frgomes/emacs-for-scala
  - [ ] review the code below
 
-#+BEGIN_SRC 
+#+BEGIN_SRC emacs-lisp
 (use-package ensime
   :ensure t
   :pin melpa)

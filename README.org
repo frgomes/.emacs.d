@@ -44,6 +44,7 @@ Additional usability extensions (or packages) employed in this configuration:
 |-------------------------+------------------------------------------------|
 | projectile              | project interaction library                    |
 | undo-tree               | recovers any past state of a buffer            |
+| move-dup                | Eclipse-like move and duplicate lines          |
 | highlight-symbol        | highlight and navigate between symbols         |
 | goto-chg                | goto last change in current buffer             |
 | company                 | "complete anything" in-buffer completion       |
@@ -180,6 +181,17 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
   :diminish undo-tree-mode
   :config (global-undo-tree-mode)
   :bind ("s-/" . undo-tree-visualize))
+#+END_SRC
+
+** /move-dup/: Eclipse-like move and duplicate lines
+
+#+BEGIN_SRC emacs-lisp
+(use-package move-dup
+  :config (global-move-dup-mode)
+  :bind (("M-<up>"     . md/move-lines-up)
+         ("M-<down>"   . md/move-lines-down)
+         ("C-M-<up>"   . md/duplicate-up)
+         ("C-M-<down>" . md/duplicate-down)))
 #+END_SRC
 
 ** /highlight-symbol/: highlight and navigate between symbols

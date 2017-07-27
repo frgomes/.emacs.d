@@ -365,8 +365,9 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
   :config (load-theme 'monokai t)
   :init (setq frame-background-mode 'dark))
 #+END_SRC
+
 ** Configure programming language modes
- #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
  (use-package rust-mode
    :commands rust-mode)
 
@@ -382,8 +383,11 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
      (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
      (setq company-tooltip-align-annotations t))
 
+ (use-package sbt-mode
+   :pin melpa)
+
  (use-package scala-mode
-   :commands scala-mode)
+   :pin melpa)
 
  (use-package typescript-mode
    :commands typescript-mode)
@@ -410,9 +414,9 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
  - [ ] review the code below
 
 #+BEGIN_SRC emacs-lisp
-(use-package ensime
-  :ensure t
-  :pin melpa)
+ (use-package ensime
+   :ensure t
+   :pin melpa)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp

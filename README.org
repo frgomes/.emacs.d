@@ -1,9 +1,7 @@
 * Emacs configuration
 #+OPTIONS: toc:nil
 
-Emacs is a programmable text editor.
-
-[[http://youtu.be/jNa3axo40qM][This video demonstrates some of Emacs' powerful editing capabilities]]
+Emacs is a programmable text editor.ttp://youtu.be/jNa3axo40qM][This video demonstrates some of Emacs' powerful editing capabilities]]
 
 Just clone this repository onto your $HOME directory and start Emacs, like this:
 
@@ -31,10 +29,10 @@ The file you are reading now is also a configuration file for Emacs which focus 
  | scala-mode       | Scala language                     | done    |
  | typescript-mode  | Typescript language                | done    |
  | web-mode         | Javascript language                | done    |
- | dart-mode        | Dart language                      | done    |
  | python-mode      | Python language                    |         |
  | lua-mode         | Lua language                       | done    |
  | markdown-mode    | Markdown support                   | done    |
+ | yaml-mode        | YAML mode                          | done    |
  | ensime           | IDE for Scala and Java development | done    |
  | tide             | IDE for Typescript development     | testing |
 
@@ -395,17 +393,20 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
  (use-package web-mode
    :commands web-mode)
 
- (use-package dart-mode
-   :commands dart-mode
-   :config
-     ((setq dart-enable-analysis-server t)
-      (add-hook 'dart-mode-hook 'flycheck-mode)))
-
  (use-package lua-mode
    :commands lua-mode)
 
  (use-package markdown-mode
    :commands markdown-mode)
+
+ (use-package yaml-mode
+   :commands yaml-mode
+   :config
+     (add-to-list 'auto-mode-alist '("\\.yml\\'"  . yaml-mode))
+     (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
+     (add-hook 'yaml-mode-hook
+               (lambda ()
+                 (define-key yaml-mode-map (kbd "<return>") #'newline-and-indent))))
  #+END_SRC
 
 ** TODO [0/2] Configure IDE environment for Scala
@@ -526,6 +527,10 @@ company-tide
  ;; editing very long lines... 
  (global-set-key (kbd "C-|")  'toggle-truncate-lines)
  #+END_SRC
+
+*** 
+*** 
+*** 
 *** General defaults
 #+BEGIN_SRC emacs-lisp
 (setq-default indent-tabs-mode nil)

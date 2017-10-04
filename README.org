@@ -1,7 +1,11 @@
 * Emacs configuration
 #+OPTIONS: toc:nil
 
-Emacs is a programmable text editor.ttp://youtu.be/jNa3axo40qM][This video demonstrates some of Emacs' powerful editing capabilities]]
+Emacs is a programmable text editor.
+
+[[http://youtu.be/jNa3axo40qM][This video demonstrates some of Emacs' powerful editing capabilities]]
+
+[[screenshot.png]]
 
 Just clone this repository onto your $HOME directory and start Emacs, like this:
 
@@ -381,6 +385,10 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
      (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
      (setq company-tooltip-align-annotations t))
 
+ (use-package ensime
+   :ensure t
+   :pin melpa)
+
  (use-package sbt-mode
    :pin melpa)
 
@@ -415,9 +423,9 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
  - [ ] review the code below
 
 #+BEGIN_SRC emacs-lisp
- (use-package ensime
-   :ensure t
-   :pin melpa)
+; (use-package ensime
+;   :ensure t
+;   :pin melpa)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp

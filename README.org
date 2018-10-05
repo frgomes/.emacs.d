@@ -298,7 +298,7 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
   :diminish neotree
   :commands neotree
   :config (neotree)
-  :bind ("s-d" . neotree-toggle))
+  :bind ("<f8>" . neotree-toggle))
 #+END_SRC
 
 ** /magit/: a powerful frontend for Git
@@ -369,43 +369,52 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
 #+END_SRC
 
 ** Configure programming language modes
+*** Configure Rust
+
 #+BEGIN_SRC emacs-lisp
  (use-package rust-mode
-   :commands rust-mode)
+   :ensure t
+   :commands rust-mode rust-mode-hook)
 
- (use-package toml-mode
-   :commands toml-mode)
+ (use-package cargo
+   :ensure t
+   :commands cargo cargo-minor-mode)
 
- (use-package racer
-   :commands racer-mode
+ (use-package flycheck-rust
+   :ensure t
+   :commands flycheck-mode-hook flycheck-rust-setup
    :config
+     (add-hook 'flycheck-mode-hook  #'flycheck-rust-setup))
+
+(use-package company-racer
+   :ensure t
+   :init
+     (with-eval-after-load 'company
+       (add-to-list 'company-backends 'company-racer))
      (add-hook 'rust-mode-hook  #'racer-mode)
      (add-hook 'racer-mode-hook #'eldoc-mode)
-     (add-hook 'racer-mode-hook #'company-mode)
-     (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
-     (setq company-tooltip-align-annotations t))
+     (add-hook 'racer-mode-hook #'company-mode))
+ #+END_SRC
 
- (use-package ensime
-   :ensure t
-   :pin melpa)
+*** Configure Lua
 
- (use-package sbt-mode
-   :pin melpa)
-
- (use-package scala-mode
-   :pin melpa)
-
- (use-package typescript-mode
-   :commands typescript-mode)
-
- (use-package web-mode
-   :commands web-mode)
-
+#+BEGIN_SRC emacs-lisp
  (use-package lua-mode
    :commands lua-mode)
+#+END_SRC
 
+*** Configure JSON, YAML, TOML, Markdown and Sphinx
+
+#+BEGIN_SRC emacs-lisp
  (use-package markdown-mode
-   :commands markdown-mode)
+   :commands markdown-mode
+   :config
+     (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode)))
+
+ (use-package json-mode
+   :commands json-mode
+   :config
+     (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode)))
 
  (use-package yaml-mode
    :commands yaml-mode
@@ -415,20 +424,29 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
      (add-hook 'yaml-mode-hook
                (lambda ()
                  (define-key yaml-mode-map (kbd "<return>") #'newline-and-indent))))
+
+ (use-package toml-mode
+   :commands toml-mode
+   :config
+     (add-hook 'rust-mode-hook  #'cargo-minor-mode))
  #+END_SRC
 
-** TODO [0/2] Configure IDE environment for Scala
-
- - [ ] borrow ideas from https://github.com/frgomes/emacs-for-scala
- - [ ] review the code below
+*** Configure Scala
 
 #+BEGIN_SRC emacs-lisp
-; (use-package ensime
-;   :ensure t
-;   :pin melpa)
+ (use-package sbt-mode
+   :pin melpa)
+
+ (use-package scala-mode
+   :pin melpa)
+
+ (use-package ensime
+   :ensure t
+   :pin melpa)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
+
  ;(require 'rainbow-delimiters)
  ;(add-hook 'scala-mode-hook #'rainbow-delimiters-mode)
  ;(add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
@@ -436,10 +454,18 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
  ;(add-hook 'scala-mode-hook #'smartparens-mode)
  ;(add-hook 'typescript-mode-hook #'smartparens-mode)
  ;(add-hook 'js-mode-hook #'smartparens-mode)
+
 #+END_SRC
 
-** TODO [0/2] Configure IDE environment for Typescript
+*** Configure TypeScript and JavaScript
+
 #+BEGIN_SRC emacs-lisp
+ (use-package typescript-mode
+   :commands typescript-mode)
+
+ (use-package web-mode
+   :commands web-mode)
+
  (use-package tide
    :commands tide-setup tide-mode setup-tide-mode
    :config
@@ -452,13 +478,14 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
        (setq-default tab-width 2)
        (setq flycheck-check-syntax-automatically '(save mode-enabled))
        (eldoc-mode +1)
-       (tide-hl-identifier-mode +1)
-       (company-mode +1))
+       (tide-hl-identifier-mode +1))
+       ;;XXX (company-mode +1))
      (require 'typescript-mode)
      (add-hook 'typescript-mode-hook #'setup-tide-mode)
 
      ;; aligns annotation to the right hand side
-     (setq company-tooltip-align-annotations t)
+     ;;XXX (setq company-tooltip-align-annotations t)
+
      ;; format options
      (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
      ;; support for JS files 
@@ -484,7 +511,7 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
 
 This is the default keybinds exposed by /tide-mode/ which should match similar functionality of exposed by Ensime.
 
-#+BEGIN_SRC 
+#+BEGIN_SRC
 setup-tide-mode
 tide-mode
 tide-setup
@@ -509,7 +536,6 @@ tide-next-error-function
 tide-documentation-at-point (C-c d)
 tide-next-reference-function
 tide-find-previous-reference
-company-tide
 #+END_SRC
 ** TODO [0/1] Configure IDE environment for Python
 

@@ -29,16 +29,18 @@ The file you are reading now is also a configuration file for Emacs which focus 
  | org-plus-contrib | Org Mode with contributions        | testing |
  | rust-mode        | Rust language                      | done    |
  | toml-mode        | Rust language (toml files)         | done    |
- | racer-mode       | Rust language (syntax completion)  | testing |
+ | racer-mode       | Rust language (syntax completion)  | done    |
+ | cargo-minor-mode | Rust build tool                    | done    |
  | scala-mode       | Scala language                     | done    |
+ | ensime           | IDE for Scala and Java development | done    |
+ | sbt-mode         | Scala build tool                   | done    |
  | typescript-mode  | Typescript language                | done    |
+ | tide             | IDE for Typescript development     | testing |
  | web-mode         | Javascript language                | done    |
- | python-mode      | Python language                    |         |
+ | python-mode      | Python language                    | pending |
  | lua-mode         | Lua language                       | done    |
  | markdown-mode    | Markdown support                   | done    |
  | yaml-mode        | YAML mode                          | done    |
- | ensime           | IDE for Scala and Java development | done    |
- | tide             | IDE for Typescript development     | testing |
 
 Additional usability extensions (or packages) employed in this configuration:
 

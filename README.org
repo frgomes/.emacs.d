@@ -378,7 +378,9 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
 
  (use-package cargo
    :ensure t
-   :commands cargo cargo-minor-mode)
+   :commands cargo cargo-minor-mode
+   :init
+     (add-hook 'rust-mode-hook  #'racer-mode))
 
  (use-package flycheck-rust
    :ensure t

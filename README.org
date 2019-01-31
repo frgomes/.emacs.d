@@ -37,7 +37,8 @@ The file you are reading now is also a configuration file for Emacs which focus 
  | typescript-mode  | Typescript language                | done    |
  | tide             | IDE for Typescript development     | testing |
  | web-mode         | Javascript language                | done    |
- | python-mode      | Python language                    | pending |
+ | python-mode      | Python language                    | testing |
+ | go-mode          | Go language                        | testing |
  | lua-mode         | Lua language                       | done    |
  | markdown-mode    | Markdown support                   | done    |
  | yaml-mode        | YAML mode                          | done    |
@@ -541,9 +542,29 @@ tide-documentation-at-point (C-c d)
 tide-next-reference-function
 tide-find-previous-reference
 #+END_SRC
-** TODO [0/1] Configure IDE environment for Python
+*** Configure Python
 
- - [ ] borrow ideas from [[http://rgomes-info.blogspot.co.uk/2013/11/ready-for-python-development-with-emacs.html][Ready for Python development with Emacs in just 60 seconds]]
+#+BEGIN_SRC emacs-lisp
+ ;; Emacs 24.3+ already ships with python.el
+ ;;(use-package python-mode
+ ;;  :pin melpa)
+
+ (use-package virtualenvwrapper
+   :pin melpa)
+   ;:config
+   ;  (venv-initialize-interactive-shells)
+   ;  (venv-initialize-eshell))
+#+END_SRC
+
+*** Configure Golang
+
+#+BEGIN_SRC emacs-lisp
+ (use-package go-mode
+   :commands json-mode
+   :config
+     (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode)))
+#+END_SRC
+
 ** Global keybindings and configurations
 *** Configure CUA mode
 

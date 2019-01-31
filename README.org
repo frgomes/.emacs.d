@@ -22,25 +22,25 @@ That's it!
 
 If everything goes according to plan, Emacs will download a lot of stuff from the Internet, compile everything, configure itself and present a dark window with a sidebar showing the current directory tree.
 
-* Features
 
+* Features
 ** Support for programming languages
 
  These are programming languages supported at the moment and the stability of the current configuration:
 
- | Package          | Purpose                            | Status  |
- |------------------+------------------------------------+---------|
- | rust-mode        | Rust language                      | done    |
- | toml-mode        | Rust language (toml files)         | done    |
- | racer-mode       | Rust language (syntax completion)  | done    |
- | cargo-minor-mode | Rust build tool                    | done    |
- | scala-mode       | Scala language                     | done    |
- | sbt-mode         | Scala build tool                   | done    |
- | web-mode         | Javascript language                | done    |
- | typescript-mode  | Typescript language                | testing |
- | python-mode      | Python language                    | testing |
- | go-mode          | Go language                        | testing |
- | lua-mode         | Lua language                       | done    |
+ | Package          | Purpose                           | Status  |
+ |------------------+-----------------------------------+---------|
+ | rust-mode        | Rust language                     | done    |
+ | toml-mode        | Rust language (toml files)        | done    |
+ | racer-mode       | Rust language (syntax completion) | done    |
+ | cargo-minor-mode | Rust build tool                   | done    |
+ | scala-mode       | Scala language                    | done    |
+ | sbt-mode         | Scala build tool                  | done    |
+ | web-mode         | Javascript language               | done    |
+ | typescript-mode  | Typescript language               | testing |
+ | python-mode      | Python language                   | testing |
+ | go-mode          | Go language                       | testing |
+ | lua-mode         | Lua language                      | done    |
 
 ** Support for IDEs
 
@@ -51,15 +51,16 @@ If everything goes according to plan, Emacs will download a lot of stuff from th
  | ensime           | Scala IDE                          | done    |
  | tide             | Typescript IDE                     | testing |
 
-*** Support for markup languages
+** Support for markup languages
 
  These are markup languages supported at the moment and the stability of the current configuration:
 
- | Package          | Purpose                            | Status  |
- |------------------+------------------------------------+---------|
- | markdown-mode    | Markdown support                   | done    |
- | json-mode        | JSON mode                          | done    |
- | yaml-mode        | YAML mode                          | done    |
+ | Package       | Purpose              | Status |
+ |---------------+----------------------+--------|
+ | markdown-mode | Markdown support     | done   |
+ | sphinx-mode   | Complements rst-mode | done   |
+ | json-mode     | JSON mode            | done   |
+ | yaml-mode     | YAML mode            | done   |
 
 ** Other extensions focusing on usability and productivity
 
@@ -522,13 +523,19 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
 *** Configure Markdown, JSON and YAML
 
 #+BEGIN_SRC emacs-lisp
-#+BEGIN_SRC emacs-lisp
 (use-package markdown-mode
   :commands markdown-mode
   :config
     (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode)))
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp
+(use-package sphinx-mode
+  :commands json-mode
+  :hook (rst-mode . sphinx-mode))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
 (use-package json-mode
   :commands json-mode
   :config

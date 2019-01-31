@@ -1,4 +1,3 @@
-* Emacs configuration
 #+OPTIONS: toc:nil
 
 Emacs is a programmable text editor.
@@ -7,165 +6,197 @@ Emacs is a programmable text editor.
 
 [[screenshot.png]]
 
+* Installation
+
 Just clone this repository onto your $HOME directory and start Emacs, like this:
 
 #+BEGIN_EXAMPLE bash
-$ cd $HOME
-$ if [ -d .emacs.d ] ;then mv .emacs.d .emacs.d.SAVE ;fi
-$ git clone http://github.com/frgomes/.emacs.d
-$ emacs &
+#!/bin/bash
+cd $HOME
+if [ -d .emacs.d ] ;then mv .emacs.d .emacs.d.SAVE ;fi
+git clone http://github.com/frgomes/.emacs.d
+emacs &
 #+END_EXAMPLE
 
-Fingers crossed...
+That's it!
 
 If everything goes according to plan, Emacs will download a lot of stuff from the Internet, compile everything, configure itself and present a dark window with a sidebar showing the current directory tree.
 
-** Overview
+* Features
 
-The file you are reading now is also a configuration file for Emacs which focus on usability provided by [[http://orgmode.org/][Org Mode]] and provides powerful editor capabilities which makes Emacs a very good choice as an IDE for several programming languages.
+** Support for programming languages
+
+ These are programming languages supported at the moment and the stability of the current configuration:
 
  | Package          | Purpose                            | Status  |
  |------------------+------------------------------------+---------|
- | org-plus-contrib | Org Mode with contributions        | testing |
  | rust-mode        | Rust language                      | done    |
  | toml-mode        | Rust language (toml files)         | done    |
  | racer-mode       | Rust language (syntax completion)  | done    |
  | cargo-minor-mode | Rust build tool                    | done    |
  | scala-mode       | Scala language                     | done    |
- | ensime           | IDE for Scala and Java development | done    |
  | sbt-mode         | Scala build tool                   | done    |
- | typescript-mode  | Typescript language                | done    |
- | tide             | IDE for Typescript development     | testing |
  | web-mode         | Javascript language                | done    |
+ | typescript-mode  | Typescript language                | testing |
  | python-mode      | Python language                    | testing |
  | go-mode          | Go language                        | testing |
  | lua-mode         | Lua language                       | done    |
+
+** Support for IDEs
+
+ These are IDEs supported at the moment and the stability of the current configuration:
+
+ | Package          | Purpose                            | Status  |
+ |------------------+------------------------------------+---------|
+ | ensime           | Scala IDE                          | done    |
+ | tide             | Typescript IDE                     | testing |
+
+*** Support for markup languages
+
+ These are markup languages supported at the moment and the stability of the current configuration:
+
+ | Package          | Purpose                            | Status  |
+ |------------------+------------------------------------+---------|
  | markdown-mode    | Markdown support                   | done    |
+ | json-mode        | JSON mode                          | done    |
  | yaml-mode        | YAML mode                          | done    |
 
-Additional usability extensions (or packages) employed in this configuration:
+** Other extensions focusing on usability and productivity
 
-| Package                 | Purpose                                        |
-|-------------------------+------------------------------------------------|
-| projectile              | project interaction library                    |
-| undo-tree               | recovers any past state of a buffer            |
-| move-dup                | Eclipse-like move and duplicate lines          |
-| highlight-symbol        | highlight and navigate between symbols         |
-| goto-chg                | goto last change in current buffer             |
-| company                 | "complete anything" in-buffer completion       |
-| yasnippet               | template system                                |
-| yatemplate              | expand abbreviations into function templates   |
-| smartparens             | deals with parens pairs in smart ways          |
-| helm                    | incremental completion and selection narrowing |
-| neotree                 | tree navigation sidebar                        |
-| magit                   | a powerful frontend for Git                    |
-| monky                   | a powerful frontend for Mercurial/Hg           |
-| gist                    | share snippets and pastes                      |
-| find-file-in-repository | find files in the source control               |
-| multiple-cursors        | edit multiple places of a buffer at once       |
-| window-numbering        | assign numbers to windows for quick access     |
-| expand-region           | increase selected region by semantic units     |
-| monokai-theme           | a dark colour theme                            |
+ These are additional packages supported at the moment and the stability of the current configuration:
 
-** A silent bootstrap
+ | Package                 | Purpose                                        |         |
+ |-------------------------+------------------------------------------------+---------|
+ | org-plus-contrib        | Org Mode with contributions                    | testing |
+ | projectile              | project interaction library                    | done    |
+ | undo-tree               | recovers any past state of a buffer            | done    |
+ | move-dup                | Eclipse-like move and duplicate lines          | done    |
+ | highlight-symbol        | highlight and navigate between symbols         | done    |
+ | goto-chg                | goto last change in current buffer             | done    |
+ | company                 | "complete anything" in-buffer completion       | done    |
+ | yasnippet               | template system                                | done    |
+ | yatemplate              | expand abbreviations into function templates   | done    |
+ | smartparens             | deals with parens pairs in smart ways          | done    |
+ | helm                    | incremental completion and selection narrowing | done    |
+ | neotree                 | tree navigation sidebar                        | done    |
+ | magit                   | a powerful frontend for Git                    | done    |
+ | monky                   | a powerful frontend for Mercurial/Hg           | done    |
+ | gist                    | share snippets and pastes                      | done    |
+ | find-file-in-repository | find files in the source control               | done    |
+ | multiple-cursors        | edit multiple places of a buffer at once       | done    |
+ | window-numbering        | assign numbers to windows for quick access     | done    |
+ | expand-region           | increase selected region by semantic units     | done    |
+ | monokai-theme           | a dark colour theme                            | done    |
 
- #+BEGIN_SRC emacs-lisp 
- ;; Turn off mouse interface early in startup to avoid momentary display
- (if (fboundp 'menu-bar-mode)   (menu-bar-mode -1))
- (if (fboundp 'tool-bar-mode)   (tool-bar-mode -1))
- (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
- (if (fboundp 'tooltip-mode)    (tooltip-mode -1))
 
- ;; No splash screen please ... jeez
- (setq inhibit-startup-message t)
- #+END_SRC
+----
+
+
+* This configuration file
+
+This file you are reading right now is also a Emacs configuration file.
+
+You can skip reading the remainder of this file.
+
+** Bootstrap
+
+#+BEGIN_SRC emacs-lisp 
+;; Turn off mouse interface early in startup to avoid momentary display
+(if (fboundp 'menu-bar-mode)   (menu-bar-mode -1))
+(if (fboundp 'tool-bar-mode)   (tool-bar-mode -1))
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(if (fboundp 'tooltip-mode)    (tooltip-mode -1))
+
+;; No splash screen please ... jeez
+(setq inhibit-startup-message t)
+#+END_SRC
 
 ** Define utility functions
 #+BEGIN_SRC emacs-lisp
- (defun load-packages (package-list)
-   (dolist (package package-list)
-     (unless (package-installed-p package)
-       (package-install package))))
+(defun load-packages (package-list)
+  (dolist (package package-list)
+    (unless (package-installed-p package)
+      (package-install package))))
 
- (defun list-file-contents (path)
-   "Lists files referenced from a configuration file."
-   (if (file-exists-p (expand-file-name path))
-     (with-temp-buffer
-       (insert-file-contents (expand-file-name path))
-       (split-string (buffer-string) "\n" t))
-     nil))
+(defun list-file-contents (path)
+  "Lists files referenced from a configuration file."
+  (if (file-exists-p (expand-file-name path))
+    (with-temp-buffer
+      (insert-file-contents (expand-file-name path))
+      (split-string (buffer-string) "\n" t))
+    nil))
 
- (defun eval-file (path)
-   "Evaluates a file file."
-   (if (file-exists-p (expand-file-name path))
-     (load-file (expand-file-name path))
-     nil))
+(defun eval-file (path)
+  "Evaluates a file file."
+  (if (file-exists-p (expand-file-name path))
+    (load-file (expand-file-name path))
+    nil))
 #+END_SRC
 
 ** Load packages
 
- #+BEGIN_SRC emacs-lisp 
- ;; Package repositories
- (require 'package)
- (add-to-list 'package-archives
-              '("melpa" . "http://melpa.org/packages/") t)
- #+END_SRC
+#+BEGIN_SRC emacs-lisp 
+;; Package repositories
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.org/packages/") t)
+#+END_SRC
 
  We are using packages from =org-plus-contrib= such as [[http://orgmode.org/worg/org-contrib/org-index.html][org-index]], which requires http://orgmode.org/elpa/ to be added to ``package-archives``.
 
- #+BEGIN_SRC emacs-lisp 
- (add-to-list 'package-archives 
-              '("org"   . "http://orgmode.org/elpa/") t)
- #+END_SRC
+#+BEGIN_SRC emacs-lisp 
+(add-to-list 'package-archives 
+             '("org"   . "http://orgmode.org/elpa/") t)
+#+END_SRC
 
  We account for backwards compatibility here... possibly... not really tested.
 
- #+BEGIN_SRC emacs-lisp 
- (when (< emacs-major-version 24)
-   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
- #+END_SRC
+#+BEGIN_SRC emacs-lisp 
+(when (< emacs-major-version 24)
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+#+END_SRC
 
  Install =use-package= and its dependencies. Nothing else at this point.
 
- #+BEGIN_SRC emacs-lisp 
- ;; Fetch list of available packages
- (package-initialize) 
- (unless package-archive-contents (package-refresh-contents))
+#+BEGIN_SRC emacs-lisp 
+;; Fetch list of available packages
+(package-initialize) 
+(unless package-archive-contents (package-refresh-contents))
 
- ;; Load packages needed for bootstrapping
- (load-packages '(use-package diminish bind-key))
- #+END_SRC
+;; Load packages needed for bootstrapping
+(load-packages '(use-package diminish bind-key))
+#+END_SRC
 
  Make sure that from now on =use-package= manages installation of packages, including downloading them.
 
- #+BEGIN_SRC emacs-lisp 
- ;; From now on, use-package is responsible for downloading packages
- (setq use-package-always-ensure t)
- #+END_SRC
+#+BEGIN_SRC emacs-lisp 
+;; From now on, use-package is responsible for downloading packages
+(setq use-package-always-ensure t)
+#+END_SRC
 
 ** Employ /use-package/ for package configuration
 
- #+BEGIN_SRC emacs-lisp 
- ;; Wire use-package https://github.com/jwiegley/use-package
- (eval-when-compile (require 'use-package))
- (require 'diminish)                ;; if you use :diminish
- (require 'bind-key)                ;; if you use any :bind variant
- #+END_SRC
+#+BEGIN_SRC emacs-lisp 
+;; Wire use-package https://github.com/jwiegley/use-package
+(eval-when-compile (require 'use-package))
+(require 'diminish)                ;; if you use :diminish
+(require 'bind-key)                ;; if you use any :bind variant
+#+END_SRC
 
 ** Employ /org-plus-contrib/ instead of /org/
 
 Make sure we are employing =org-plus-contrib= instead of =org=.
 
- #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
 ; (use-package org
 ;     :ensure   org-plus-contrib
 ;     :commands org-agenda org-capture org-index)
- #+END_SRC
+#+END_SRC
 
 In case of trouble caused by =use-package=, you can try to load =oreg-plus-contrib= like this:
 
 #+BEGIN_SRC emacs-lisp
- (load-packages '(org-plus-contrib))
+(load-packages '(org-plus-contrib))
 #+END_SRC
 
 ** /projectile/: project interaction library
@@ -372,197 +403,147 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
 #+END_SRC
 
 ** Configure programming language modes
+*** Install flycheck
+
+#+BEGIN_SRC emacs-lisp
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
+#+END_SRC
+
 *** Configure Rust
 
 #+BEGIN_SRC emacs-lisp
- (use-package rust-mode
-   :ensure t
-   :commands rust-mode rust-mode-hook)
-
- (use-package cargo
-   :ensure t
-   :commands cargo cargo-minor-mode
-   :init
-     (add-hook 'rust-mode-hook  #'racer-mode))
-
- (use-package flycheck-rust
-   :ensure t
-   :commands flycheck-mode-hook flycheck-rust-setup
-   :config
-     (add-hook 'flycheck-mode-hook  #'flycheck-rust-setup))
-
+(use-package rust-mode
+  :ensure t)
+ 
+(use-package cargo
+  :ensure t
+  :hook (rust-mode . racer-mode))
+ 
+(use-package toml-mode
+  :ensure t
+  :hook (rust-mode . cargo-minor-mode))
+ 
 (use-package company-racer
    :ensure t
+   :hook (rust-mode  . racer-mode)
+   :hook (racer-mode . eldoc-mode)
+   :hook (racer-mode . company-mode)
    :init
      (with-eval-after-load 'company
-       (add-to-list 'company-backends 'company-racer))
-     (add-hook 'rust-mode-hook  #'racer-mode)
-     (add-hook 'racer-mode-hook #'eldoc-mode)
-     (add-hook 'racer-mode-hook #'company-mode))
+       (add-to-list 'company-backends 'company-racer)))
  #+END_SRC
 
 *** Configure Lua
 
 #+BEGIN_SRC emacs-lisp
- (use-package lua-mode
-   :commands lua-mode)
+(use-package lua-mode
+  :ensure t)
 #+END_SRC
-
-*** Configure JSON, YAML, TOML, Markdown and Sphinx
-
-#+BEGIN_SRC emacs-lisp
- (use-package markdown-mode
-   :commands markdown-mode
-   :config
-     (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode)))
-
- (use-package json-mode
-   :commands json-mode
-   :config
-     (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode)))
-
- (use-package yaml-mode
-   :commands yaml-mode
-   :config
-     (add-to-list 'auto-mode-alist '("\\.yml\\'"  . yaml-mode))
-     (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
-     (add-hook 'yaml-mode-hook
-               (lambda ()
-                 (define-key yaml-mode-map (kbd "<return>") #'newline-and-indent))))
-
- (use-package toml-mode
-   :commands toml-mode
-   :config
-     (add-hook 'rust-mode-hook  #'cargo-minor-mode))
- #+END_SRC
 
 *** Configure Scala
 
 #+BEGIN_SRC emacs-lisp
- (use-package sbt-mode
-   :pin melpa)
+(use-package sbt-mode
+  :pin melpa)
 
- (use-package scala-mode
-   :pin melpa)
-
- (use-package ensime
-   :ensure t
-   :pin melpa)
+(use-package scala-mode
+  :pin melpa)
 #+END_SRC
+
+*** Configure Javascript, HTML, CSS and related
 
 #+BEGIN_SRC emacs-lisp
-
- ;(require 'rainbow-delimiters)
- ;(add-hook 'scala-mode-hook #'rainbow-delimiters-mode)
- ;(add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
-
- ;(add-hook 'scala-mode-hook #'smartparens-mode)
- ;(add-hook 'typescript-mode-hook #'smartparens-mode)
- ;(add-hook 'js-mode-hook #'smartparens-mode)
-
+(use-package web-mode
+  :commands web-mode)
 #+END_SRC
 
-*** Configure TypeScript and JavaScript
+*** Configure TypeScript
 
 #+BEGIN_SRC emacs-lisp
- (use-package typescript-mode
-   :commands typescript-mode)
-
- (use-package web-mode
-   :commands web-mode)
-
- (use-package tide
-   :commands tide-setup tide-mode setup-tide-mode
-   :config
-     (defun setup-tide-mode ()
-       (interactive)
-       ;;(require 'typescript-mode)
-       (tide-setup)
-       (tide-mode +1)
-       (flycheck-mode +1)
-       (setq-default tab-width 2)
-       (setq flycheck-check-syntax-automatically '(save mode-enabled))
-       (eldoc-mode +1)
-       (tide-hl-identifier-mode +1))
-       ;;XXX (company-mode +1))
-     (require 'typescript-mode)
-     (add-hook 'typescript-mode-hook #'setup-tide-mode)
-
-     ;; aligns annotation to the right hand side
-     ;;XXX (setq company-tooltip-align-annotations t)
-
-     ;; format options
-     (setq tide-format-options '(:insertSpaceAfterFunctionKeywordForAnonymousFunctions t :placeOpenBraceOnNewLineForFunctions nil))
-     ;; support for JS files 
-     (add-hook 'js2-mode-hook #'setup-tide-mode)
-     ;; from now on web-mode is required
-     (require 'web-mode)
-     ;; support for TSX files
-     (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-     (add-hook 'web-mode-hook
-               (lambda ()
-                 (when (string-equal "tsx" (file-name-extension buffer-file-name))
-                   (setup-tide-mode))))
-     ;; support for JSX files
-     (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-     (add-hook 'web-mode-hook
-               (lambda ()
-                 (when (string-equal "jsx" (file-name-extension buffer-file-name))
-                   (setup-tide-mode)))))
+(use-package typescript-mode
+  :commands typescript-mode)
 #+END_SRC
 
-*** TODO [ ] tide-mode should activate when editing a =.ts= buffer.
-*** TODO [ ] consolidate keybinds
-
-This is the default keybinds exposed by /tide-mode/ which should match similar functionality of exposed by Ensime.
-
-#+BEGIN_SRC
-setup-tide-mode
-tide-mode
-tide-setup
-tide-format
-tide-jump-back (M-,)
-tide-references
-tide-goto-error
-tide-compile-file
-tide-rename-symbol
-tide-hl-identifier
-tide-project-errors
-tide-goto-reference
-tide-restart-server
-tide-find-next-error
-tide-references-mode
-tide-auto-compile-file
-tide-format-before-save
-tide-jump-to-definition (M-.)
-tide-hl-identifier-mode
-tide-find-previous-error
-tide-next-error-function
-tide-documentation-at-point (C-c d)
-tide-next-reference-function
-tide-find-previous-reference
-#+END_SRC
 *** Configure Python
 
 #+BEGIN_SRC emacs-lisp
- ;; Emacs 24.3+ already ships with python.el
- ;;(use-package python-mode
- ;;  :pin melpa)
+;; Emacs 24.3+ already ships with python.el
+;;(use-package python-mode)
 
- (use-package virtualenvwrapper
-   :pin melpa)
-   ;:config
-   ;  (venv-initialize-interactive-shells)
-   ;  (venv-initialize-eshell))
+(use-package virtualenvwrapper
+  :ensure t
+  :hook (python-mode . ((venv-initialize-interactive-shells)(venv-initialize-eshell))))
 #+END_SRC
 
 *** Configure Golang
 
 #+BEGIN_SRC emacs-lisp
- (use-package go-mode
-   :commands json-mode
-   :config
-     (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode)))
+(use-package go-mode
+  :commands go-mode
+  :config
+    (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode)))
+#+END_SRC
+
+** Configure IDEs
+*** Configure Ensime, a Scala IDE
+
+#+BEGIN_SRC emacs-lisp
+(use-package ensime
+  :ensure t
+  :pin melpa)
+#+END_SRC
+
+*** Configure Tide, a Typescript IDE
+
+#+BEGIN_SRC emacs-lisp
+(defun setup-tide-mode()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  ;; company is an optional dependency. You have to
+  ;; install it separately via package-install
+  ;; `M-x package-install [ret] company`
+  (company-mode +1))
+
+;; aligns annotation to the right hand side
+;(setq company-tooltip-align-annotations t)
+
+ (use-package tide
+   :ensure t
+   :hook (typescript-mode . setup_tide_mode))
+#+END_SRC
+
+** Configure markup languages
+*** Configure Markdown, JSON and YAML
+
+#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
+(use-package markdown-mode
+  :commands markdown-mode
+  :config
+    (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode)))
+#+END_SRC
+
+(use-package json-mode
+  :commands json-mode
+  :config
+    (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode)))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(use-package yaml-mode
+  :commands yaml-mode
+  :config
+    (add-to-list 'auto-mode-alist '("\\.yml\\'"  . yaml-mode))
+    (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
+    (add-hook 'yaml-mode-hook
+              (lambda ()
+                (define-key yaml-mode-map (kbd "<return>") #'newline-and-indent))))
 #+END_SRC
 
 ** Global keybindings and configurations
@@ -570,23 +551,23 @@ tide-find-previous-reference
 
  CUA selection mode is handy for highlighting rectangular regions properly.
 
- #+BEGIN_SRC emacs-lisp
- (cua-selection-mode t)
+#+BEGIN_SRC emacs-lisp
+(cua-selection-mode t)
  #+END_SRC
 
 *** Configuring keybindings
  *Note:* see also /move-dup/ for more keybinds.
- #+BEGIN_SRC emacs-lisp
- ;; keybinding for multiple-cursors
- (require 'sgml-mode)
- (global-set-key (kbd "C-` <right>")  'mc/mark-next-like-this)
- (global-set-key (kbd "C-` <left>")   'mc/mark-previous-like-this)
- (global-set-key (kbd "C-` <return>") 'mc/mark-all-like-this)
- (global-set-key (kbd "C-` /")        'mc/mark-sgml-tag-pair)
- (global-set-key (kbd "C-` <SPC>")    'mc/vertical-align-with-spaces)
- ;; editing very long lines... 
- (global-set-key (kbd "C-|")  'toggle-truncate-lines)
- #+END_SRC
+#+BEGIN_SRC emacs-lisp
+;; keybinding for multiple-cursors
+(require 'sgml-mode)
+(global-set-key (kbd "C-` <right>")  'mc/mark-next-like-this)
+(global-set-key (kbd "C-` <left>")   'mc/mark-previous-like-this)
+(global-set-key (kbd "C-` <return>") 'mc/mark-all-like-this)
+(global-set-key (kbd "C-` /")        'mc/mark-sgml-tag-pair)
+(global-set-key (kbd "C-` <SPC>")    'mc/vertical-align-with-spaces)
+;; editing very long lines... 
+(global-set-key (kbd "C-|")  'toggle-truncate-lines)
+#+END_SRC
 
 *** 
 *** 
@@ -597,25 +578,25 @@ tide-find-previous-reference
 #+END_SRC
 ** TODO [0/2] Configure additional Org Mode modules
 *** Support for multiple agendas
- #+BEGIN_SRC emacs-lisp
- (require 'org-agenda)
- (global-set-key (kbd "C-c a") 'org-agenda)
- (setq org-agenda-files (list-file-contents "~/Documents/org-mode/agenda"))
- #+END_SRC
+#+BEGIN_SRC emacs-lisp
+(require 'org-agenda)
+(global-set-key (kbd "C-c a") 'org-agenda)
+(setq org-agenda-files (list-file-contents "~/Documents/org-mode/agenda"))
+#+END_SRC
 
 *** Support for /org-index/
 
 #+BEGIN_SRC emacs-lisp
- (require 'org-index)
- (global-set-key (kbd "C-c i") 'org-index)
+(require 'org-index)
+(global-set-key (kbd "C-c i") 'org-index)
 #+END_SRC
 *** TODO [0/1] Support for /org-capture/
 
 - [ ] See: https://www.gnu.org/software/emacs/manual/html_node/org/Capture.html
 
 #+BEGIN_SRC emacs-lisp
- ;(require 'org-capture)
- ;(global-set-key (kbd "C-c c") 'org-capture)
+;(require 'org-capture)
+;(global-set-key (kbd "C-c c") 'org-capture)
 #+END_SRC
 
 *** Support for multiple Trello boards
@@ -630,27 +611,27 @@ tide-find-previous-reference
 
 
 #+BEGIN_SRC emacs-lisp
- (load-packages '(org-trello))
- (require 'org-trello)
- ;(setq orgtrello-log-level orgtrello-log-trace)
- (setq org-trello-files
-   (directory-files "~/Documents/org-mode/trello" ".*\.org$"))
+(load-packages '(org-trello))
+(require 'org-trello)
+;(setq orgtrello-log-level orgtrello-log-trace)
+(setq org-trello-files
+  (directory-files "~/Documents/org-mode/trello" ".*\.org$"))
 #+END_SRC
 
 *** TODO [0/1] Integration with Google Calendar
 
  - [ ] See: https://www.youtube.com/watch?v=vO_RF2dK7M0
 
- #+BEGIN_SRC emacs-lisp
- ;; runs configuration for org files, if any.
- ;; see: http://cestlaz.github.io/posts/using-emacs-26-gcal
- ;; credits: Mike Zamansky
- ;(mapcar 'org-babel-load-file
- ;  (directory-files "~/Documents/orgfiles/config" t ".+\.org$"))
- #+END_SRC
+#+BEGIN_SRC emacs-lisp
+;; runs configuration for org files, if any.
+;; see: http://cestlaz.github.io/posts/using-emacs-26-gcal
+;; credits: Mike Zamansky
+;(mapcar 'org-babel-load-file
+;  (directory-files "~/Documents/orgfiles/config" t ".+\.org$"))
+#+END_SRC
 
 ** Prologue
 
- #+BEGIN_SRC emacs-lisp
- (message "Initialization complete.")
- #+END_SRC
+#+BEGIN_SRC emacs-lisp
+(message "Initialization complete.")
+#+END_SRC

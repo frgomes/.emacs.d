@@ -482,7 +482,11 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
 
 #+BEGIN_SRC emacs-lisp
 (use-package go-mode
-  :commands go-mode
+  :ensure t
+  :init (setq-default
+           tab-width 2
+           standard-indent 2
+           indent-tabs-mode nil)
   :config
     (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode)))
 #+END_SRC

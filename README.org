@@ -489,6 +489,12 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
            indent-tabs-mode nil)
   :config
     (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode)))
+
+(use-package go-autocomplete
+  :ensure t)
+
+(use-package company-go
+  :ensure t)
 #+END_SRC
 
 ** Configure IDEs
@@ -586,6 +592,7 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
 *** General defaults
 #+BEGIN_SRC emacs-lisp
 (setq-default indent-tabs-mode nil)
+(global-auto-complete-mode t)
 #+END_SRC
 ** TODO [0/2] Configure additional Org Mode modules
 *** Support for multiple agendas

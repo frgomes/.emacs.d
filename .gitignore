@@ -5,7 +5,11 @@ elpa25/
 snippets/
 var/
 request/
-elpa
+.cache/
+straight/
+transient/
+early-init-do-not-edit/
+
 
 *~
 \#*\#
@@ -20,8 +24,9 @@ projectile-bookmarks.eld
 ac-comphist.dat
 .mc-lists.el
 .org-id-locations
+.lsp-session-*
+forge-database.sqlite
 
 # symlinks
 .trello
 .trello/
-

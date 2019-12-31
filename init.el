@@ -1,15 +1,21 @@
-;; Make sure custom configurations NEVER pollute init.el
-;; note: custom.el is ignored in .gitignore
-(setq custom-file "~/.emacs.d/custom.el")
+;;; inite.el --- -*- lexical-binding: t -*-
 
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-(package-initialize)
+(cond ((version< emacs-version "26.1")
+       (warn "Emacs 26.1 or above is required!"))
+      ((let* ((early-init-f (expand-file-name "early-init.el" user-emacs-directory))
+              (early-init-do-not-edit-d (expand-file-name "early-init-do-not-edit/" user-emacs-directory))
+              (early-init-do-not-edit-f (expand-file-name "early-init.el" early-init-do-not-edit-d)))
+         (and (version< emacs-version "27")
+              (or (not (file-exists-p early-init-do-not-edit-f))
+                  (file-newer-than-file-p early-init-f early-init-do-not-edit-f)))
+         (make-directory early-init-do-not-edit-d t)
+         (copy-file early-init-f early-init-do-not-edit-f t t t t)
+         (add-to-list 'load-path early-init-do-not-edit-d)
+         (require 'early-init))))
 
 ;; Generate README.el and perform configurations from it
 (org-babel-load-file "~/.emacs.d/README.org")
 
 ;; Load custom settings
-(load-file "~/.emacs.d/custom.el")
+(setq custom-file "~/.emacs.d/custom.el")
+(if (file-exists-p custom-file) (load-file custom-file))

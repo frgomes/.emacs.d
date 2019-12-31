@@ -244,9 +244,6 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
       ("C-x t C-t" . treemacs-find-file)
       ("C-x t M-t" . treemacs-find-tag)))
 
-(use-package treemacs-evil
-  :after treemacs evil)
-
 (use-package treemacs-projectile
   :after treemacs projectile)
 
@@ -269,12 +266,12 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
 *** /move-dup/: Eclipse-like move and duplicate lines
 
 #+BEGIN_SRC emacs-lisp
-(use-package move-dup
+(use-package move-dup)
   :config (global-move-dup-mode)
   :bind (("S-M-<up>"     . md/move-lines-up)
          ("S-M-<down>"   . md/move-lines-down)
-         ("C-M-<up>"   . md/duplicate-up)
-         ("C-M-<down>" . md/duplicate-down)))
+         ("C-s-y"        . md/duplicate-up)
+         ("C-s-w"        . md/duplicate-down)))
 #+END_SRC
 
 *** /highlight-symbol/: highlight and navigate between symbols

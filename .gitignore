@@ -25,6 +25,7 @@ ac-comphist.dat
 .mc-lists.el
 .org-id-locations
 .lsp-session-*
+.dap-breakpoints
 forge-database.sqlite
 
 # symlinks

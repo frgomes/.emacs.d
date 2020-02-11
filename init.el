@@ -16,6 +16,10 @@
 ;; Generate README.el and perform configurations from it
 (org-babel-load-file "~/.emacs.d/README.org")
 
+;; Load macros
+(setq macros-file "~/.emacs.d/macros.el")
+(if (file-exists-p macros-file) (load-file macros-file))
+
 ;; Load custom settings
 (setq custom-file "~/.emacs.d/custom.el")
 (if (file-exists-p custom-file) (load-file custom-file))

@@ -28,32 +28,59 @@ If everything goes according to plan, Emacs will download a lot of stuff from th
 
  These are programming languages supported at the moment and the stability of the current configuration:
 
- | Package          | Purpose                           | Status  |
- |------------------+-----------------------------------+---------|
- | rust-mode        | Rust language                     | done    |
- | toml-mode        | Rust language (toml files)        | done    |
- | cargo-minor-mode | Rust build tool                   | done    |
- | lsp-java         | LSP for Java language             | testing |
- | dap-java         | DAP for Java language             | testing |
- | scala-mode       | Scala language                    | done    |
- | sbt-mode         | Scala build tool                  | done    |
- | haskell-mode     | Haskell language                  | done    |
- | web-mode         | Javascript language               | done    |
- | typescript-mode  | Typescript language               | done    |
- | python-mode      | Python language                   | testing |
- | go-mode          | Go language                       | testing |
- | lua-mode         | Lua language                      | done    |
-
-** Support for markup languages
-
- These are markup languages supported at the moment and the stability of the current configuration:
-
- | Package       | Purpose              | Status |
- |---------------+----------------------+--------|
- | markdown-mode | Markdown support     | done   |
- | sphinx-mode   | Complements rst-mode | done   |
- | json-mode     | JSON mode            | done   |
- | yaml-mode     | YAML mode            | done   |
+ | Language              | LSP client  | LSP server installer  |
+ |-----------------------+-------------+-----------------------|
+ | Ada                   | builtin     | missing               |
+ | Angular               | builtin     | missing               |
+ | Bash                  | builtin     | install-node.sh       |
+ | C++                   | builtin     | install-clang.sh      |
+ | C#                    | builtin     | missing               |
+ | Closure               | builtin     | missing               |
+ | Cmake                 | builtin     | bash_04virtualenv.sh  |
+ | Crystal               | builtin     | missing               |
+ | CSS/LessCSS/SASS/SCSS | builtin     | install_node.sh       |
+ | Dart                  | builtin     | missing               |
+ | Dhall                 | dhall-mode  | install-dhall.sh      |
+ | Dockerfile            | builtin     | install-node.sh       |
+ | Elixir                | builtin     | missing               |
+ | Elm                   | builtin     | install-node.sh       |
+ | Erlang                | builtin     | missing               |
+ | Eslint                | builtin     | missing               |
+ | F#                    | builtin     | missing               |
+ | Fortran               | builtin     | bash_04virtualenvs.sh |
+ | Go                    | missing     | missing               |
+ | Groovy                | builtin     | missing               |
+ | Hack                  | builtin     | missing               |
+ | HTML                  | builtin     | install-node.sh       |
+ | Haskell               | lsp-haskell | install_haskell.sh    |
+ | Lua                   | missing     | missing               |
+ | Markdown              | PENDING     | PENDING               |
+ | Java                  | missing     | missing               |
+ | Javascript            | builtin     | install_node.sh       |
+ | Javascript Flow       | builtin     | missing               |
+ | JSON                  | builtin     | install-node.sh       |
+ | Julia                 | missing     | missing               |
+ | Kotlin                | builtin     | missing               |
+ | Nim                   | builtin     | missing               |
+ | OCaml                 | builtin     | missing               |
+ | PHP                   | builtin     | install_node.sh       |
+ | Powershell            | builtin     | missing               |
+ | Python                | builtin     | bash_04virtualenvs.sh |
+ | R                     | builtin     | missing               |
+ | Ruby                  | builting    | missing               |
+ | Rust                  | rust-mode   | install_rust.sh       |
+ | Scala                 | scala-mode  | install_scala.sh      |
+ | Scala SBT             | sbt-mode    | install_scala.sh      |
+ | RST/Sphinx            | PENDING     | PENDING               |
+ | Swift                 | missing     | missing               |
+ | TeX/LaTeX             | builtin     | install-rust.sh       |
+ | Typescript            | builtin     | install_node.sh       |
+ | Verilog               | builtin     | bash_04virtualenvs.sh |
+ | VHDL                  | builtin     | missing               |
+ | VIMscript             | builtin     | install-node.sh       |
+ | Vue                   | builtin     | install-node.sh       |
+ | XML                   | builtin     | missing               |
+ | YAML                  | builtin     | install-node.sh       |
 
 ** Other extensions focusing on usability and productivity
 
@@ -528,7 +555,6 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 (use-package lsp-haskell
   :requires (lsp haskell-mode))
-
 #+END_SRC
 *** Scala
 #+BEGIN_SRC emacs-lisp
@@ -548,6 +574,23 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
    minibuffer-local-completion-map)
    ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
    (setq sbt:program-options '("-Dsbt.supershell=false")))
+#+END_SRC
+*** Dhall
+#+BEGIN_SRC emacs-lisp
+;; Enable scala-mode and sbt-mode
+(use-package dhall-mode
+  :requires (lsp)
+  :mode "\\.dhall$"
+  :config
+  (setq
+    ;; uncomment the next line to disable automatic format
+    ;; dhall-format-at-save nil
+
+    ;; comment the next line to use unicode syntax
+    dhall-format-arguments (\` ("--ascii"))
+
+    ;; header-line is obsoleted by lsp-mode
+    dhall-use-header-line nil))
 #+END_SRC
 ** Configure global settings and keybindings
 #+BEGIN_SRC emacs-lisp

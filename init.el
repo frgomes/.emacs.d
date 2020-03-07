@@ -16,6 +16,10 @@
 ;; Generate README.el and perform configurations from it
 (org-babel-load-file "~/.emacs.d/README.org")
 
+;; install hotfixes
+(setq hotfixes-file "~/.emacs.d/hotfix.el")
+(if (file-exists-p hotfixes-file) (load-file hotfixes-file))
+
 ;; Load macros
 (setq macros-file "~/.emacs.d/macros.el")
 (if (file-exists-p macros-file) (load-file macros-file))

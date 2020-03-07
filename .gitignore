@@ -20,6 +20,7 @@ README.el
 README.html
 README.pdf
 custom.el
+macros.el
 projectile-bookmarks.eld
 ac-comphist.dat
 .mc-lists.el

@@ -28,58 +28,79 @@ If everything goes according to plan, Emacs will download a lot of stuff from th
 
  These are programming languages supported at the moment and the stability of the current configuration:
 
- | Package          | Purpose                           | Status  |
- |------------------+-----------------------------------+---------|
- | rust-mode        | Rust language                     | done    |
- | toml-mode        | Rust language (toml files)        | done    |
- | racer-mode       | Rust language (syntax completion) | done    |
- | cargo-minor-mode | Rust build tool                   | done    |
- | scala-mode       | Scala language                    | done    |
- | sbt-mode         | Scala build tool                  | done    |
- | web-mode         | Javascript language               | done    |
- | typescript-mode  | Typescript language               | testing |
- | python-mode      | Python language                   | testing |
- | go-mode          | Go language                       | testing |
- | lua-mode         | Lua language                      | done    |
-
-** Support for IDEs
-
- These are IDEs supported at the moment and the stability of the current configuration:
-
- | Package          | Purpose                            | Status  |
- |------------------+------------------------------------+---------|
- | ensime           | Scala IDE                          | done    |
- | tide             | Typescript IDE                     | testing |
-
-** Support for markup languages
-
- These are markup languages supported at the moment and the stability of the current configuration:
-
- | Package       | Purpose              | Status |
- |---------------+----------------------+--------|
- | markdown-mode | Markdown support     | done   |
- | sphinx-mode   | Complements rst-mode | done   |
- | json-mode     | JSON mode            | done   |
- | yaml-mode     | YAML mode            | done   |
+ | Language              | LSP client  | LSP server installer  |
+ |-----------------------+-------------+-----------------------|
+ | Ada                   | builtin     | missing               |
+ | Angular               | builtin     | missing               |
+ | Bash                  | builtin     | install-node.sh       |
+ | C++                   | builtin     | install-clang.sh      |
+ | C#                    | builtin     | missing               |
+ | Closure               | builtin     | missing               |
+ | Cmake                 | builtin     | bash_04virtualenv.sh  |
+ | Crystal               | builtin     | missing               |
+ | CSS/LessCSS/SASS/SCSS | builtin     | install_node.sh       |
+ | Dart                  | builtin     | missing               |
+ | Dhall                 | dhall-mode  | install-dhall.sh      |
+ | Dockerfile            | builtin     | install-node.sh       |
+ | Elixir                | builtin     | missing               |
+ | Elm                   | builtin     | install-node.sh       |
+ | Erlang                | builtin     | missing               |
+ | Eslint                | builtin     | missing               |
+ | F#                    | builtin     | missing               |
+ | Fortran               | builtin     | bash_04virtualenvs.sh |
+ | Go                    | missing     | missing               |
+ | Groovy                | builtin     | missing               |
+ | Hack                  | builtin     | missing               |
+ | HTML                  | builtin     | install-node.sh       |
+ | Haskell               | lsp-haskell | install_haskell.sh    |
+ | Lua                   | missing     | missing               |
+ | Markdown              | PENDING     | PENDING               |
+ | Java                  | missing     | missing               |
+ | Javascript            | builtin     | install_node.sh       |
+ | Javascript Flow       | builtin     | missing               |
+ | JSON                  | builtin     | install-node.sh       |
+ | Julia                 | missing     | missing               |
+ | Kotlin                | builtin     | missing               |
+ | Nim                   | builtin     | missing               |
+ | OCaml                 | builtin     | missing               |
+ | PHP                   | builtin     | install_node.sh       |
+ | Powershell            | builtin     | missing               |
+ | Python                | builtin     | bash_04virtualenvs.sh |
+ | R                     | builtin     | missing               |
+ | Ruby                  | builting    | missing               |
+ | Rust                  | rust-mode   | install_rust.sh       |
+ | Scala                 | scala-mode  | install_scala.sh      |
+ | Scala SBT             | sbt-mode    | install_scala.sh      |
+ | RST/Sphinx            | PENDING     | PENDING               |
+ | Swift                 | missing     | missing               |
+ | TeX/LaTeX             | builtin     | install-rust.sh       |
+ | Typescript            | builtin     | install_node.sh       |
+ | Verilog               | builtin     | bash_04virtualenvs.sh |
+ | VHDL                  | builtin     | missing               |
+ | VIMscript             | builtin     | install-node.sh       |
+ | Vue                   | builtin     | install-node.sh       |
+ | XML                   | builtin     | missing               |
+ | YAML                  | builtin     | install-node.sh       |
 
 ** Other extensions focusing on usability and productivity
 
- These are additional packages supported at the moment and the stability of the current configuration:
-
- | Package                 | Purpose                                        |         |
+ | Package                 | Purpose                                        | Status  |
  |-------------------------+------------------------------------------------+---------|
  | org-plus-contrib        | Org Mode with contributions                    | testing |
  | projectile              | project interaction library                    | done    |
+ | ivy                     | Easy completion from a list                    | done    |
+ | swiper                  | Isearch with an overview. Oh, man!             | done    |
+ | counsel-jq              | Live preview of "jq" queries using counsel     | done    |
+ | counsel-etags           | Complete Ctags/Etags solution using ivy        | done    |
+ | counsel-projectile      | Ivy integration for Projectile                 | done    |
  | undo-tree               | recovers any past state of a buffer            | done    |
  | move-dup                | Eclipse-like move and duplicate lines          | done    |
  | highlight-symbol        | highlight and navigate between symbols         | done    |
  | goto-chg                | goto last change in current buffer             | done    |
- | company                 | "complete anything" in-buffer completion       | done    |
  | yasnippet               | template system                                | done    |
  | yatemplate              | expand abbreviations into function templates   | done    |
  | smartparens             | deals with parens pairs in smart ways          | done    |
- | helm                    | incremental completion and selection narrowing | done    |
- | neotree                 | tree navigation sidebar                        | done    |
+ | treemacs                | tree navigation sidebar                        | done    |
  | magit                   | a powerful frontend for Git                    | done    |
  | monky                   | a powerful frontend for Mercurial/Hg           | done    |
  | gist                    | share snippets and pastes                      | done    |
@@ -93,125 +114,174 @@ If everything goes according to plan, Emacs will download a lot of stuff from th
 ----
 
 
-* This configuration file
+* About this configuration file
 
 This file you are reading right now is also a Emacs configuration file.
 
-You can skip reading the remainder of this file.
+You can skip reading the remainder of this file, unless you'd like to learn how to configure Emacs or you'd like to learn a bit of ``org-mode``.
 
 ** Bootstrap
-
 #+BEGIN_SRC emacs-lisp 
 ;; Turn off mouse interface early in startup to avoid momentary display
 (if (fboundp 'menu-bar-mode)   (menu-bar-mode -1))
 (if (fboundp 'tool-bar-mode)   (tool-bar-mode -1))
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (if (fboundp 'tooltip-mode)    (tooltip-mode -1))
-
 ;; No splash screen please ... jeez
 (setq inhibit-startup-message t)
 #+END_SRC
-
-** Define utility functions
+** Bootstrap straight.el
+#+BEGIN_SRC emacs-lisp 
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+;;;;  Effectively replace use-package with straight-use-package
+;;; https://github.com/raxod502/straight.el/blob/develop/README.md#integration-with-use-package
+(straight-use-package 'use-package)
+(setq straight-use-package-by-default t)
+#+END_SRC
+** Install /ivy/, /swiper/ and /counsel/ for easy completion from a list
 #+BEGIN_SRC emacs-lisp
-(defun load-packages (package-list)
-  (dolist (package package-list)
-    (unless (package-installed-p package)
-      (package-install package))))
+(use-package counsel
+  :bind
+    (("M-y" . counsel-yank-pop)
+      :map ivy-minibuffer-map ("M-y" . ivy-next-line)))
 
-(defun list-file-contents (path)
-  "Lists files referenced from a configuration file."
-  (if (file-exists-p (expand-file-name path))
-    (with-temp-buffer
-      (insert-file-contents (expand-file-name path))
-      (split-string (buffer-string) "\n" t))
-    nil))
+(use-package ivy
+  :requires (counsel)
+  :diminish (ivy-mode)
+  :bind (("C-x b" . ivy-switch-buffer))
+  :config
+    (ivy-mode 1)
+    (setq ivy-use-virtual-buffers t)
+    (setq ivy-count-format "%d/%d ")
+    (setq ivy-display-style 'fancy))
 
-(defun eval-file (path)
-  "Evaluates a file file."
-  (if (file-exists-p (expand-file-name path))
-    (load-file (expand-file-name path))
-    nil))
-#+END_SRC
+(use-package swiper
+  :requires (ivy)
+  :bind
+    (("C-s"     . swiper-isearch)
+	   ("C-r"     . swiper-isearch)
+	   ("C-c C-r" . ivy-resume)
+	   ("M-x"     . counsel-M-x)
+	   ("C-x C-f" . counsel-find-file))
+  :config
+    (progn
+      (ivy-mode 1)
+      (setq ivy-use-virtual-buffers t)
+      (setq ivy-display-style 'fancy)
+      (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)))
 
-** Load packages
+(use-package counsel-jq)
+;;XXX (use-package counsel-etags)
 
-#+BEGIN_SRC emacs-lisp 
-;; Package repositories
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/") t)
-#+END_SRC
-
- We are using packages from =org-plus-contrib= such as [[http://orgmode.org/worg/org-contrib/org-index.html][org-index]], which requires http://orgmode.org/elpa/ to be added to ``package-archives``.
-
-#+BEGIN_SRC emacs-lisp 
-(add-to-list 'package-archives 
-             '("org"   . "http://orgmode.org/elpa/") t)
-#+END_SRC
-
- We account for backwards compatibility here... possibly... not really tested.
-
-#+BEGIN_SRC emacs-lisp 
-(when (< emacs-major-version 24)
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
-#+END_SRC
-
- Install =use-package= and its dependencies. Nothing else at this point.
-
-#+BEGIN_SRC emacs-lisp 
-;; Fetch list of available packages
-(package-initialize) 
-(unless package-archive-contents (package-refresh-contents))
-
-;; Load packages needed for bootstrapping
-(load-packages '(use-package diminish bind-key))
-#+END_SRC
-
- Make sure that from now on =use-package= manages installation of packages, including downloading them.
-
-#+BEGIN_SRC emacs-lisp 
-;; From now on, use-package is responsible for downloading packages
-(setq use-package-always-ensure t)
-#+END_SRC
-
-** Employ /use-package/ for package configuration
-
-#+BEGIN_SRC emacs-lisp 
-;; Wire use-package https://github.com/jwiegley/use-package
-(eval-when-compile (require 'use-package))
-(require 'diminish)                ;; if you use :diminish
-(require 'bind-key)                ;; if you use any :bind variant
-#+END_SRC
-
-** Employ /org-plus-contrib/ instead of /org/
-
-Make sure we are employing =org-plus-contrib= instead of =org=.
-
-#+BEGIN_SRC emacs-lisp
-; (use-package org
-;     :ensure   org-plus-contrib
-;     :commands org-agenda org-capture org-index)
-#+END_SRC
-
-In case of trouble caused by =use-package=, you can try to load =oreg-plus-contrib= like this:
-
-#+BEGIN_SRC emacs-lisp
-(load-packages '(org-plus-contrib))
-#+END_SRC
-
-** /projectile/: project interaction library
-
-#+BEGIN_SRC emacs-lisp 
 (use-package projectile
   :demand
   :init   (setq projectile-use-git-grep t)
   :config (projectile-global-mode t)
   :bind   (("s-f" . projectile-find-file)
            ("s-F" . projectile-grep)))
+(use-package counsel-projectile)
 #+END_SRC
 
-** /undo-tree/: recovers any past state of a buffer
+** Interface tweaks
+*** /monokai-theme/: a dark colour theme
+
+#+BEGIN_SRC emacs-lisp 
+(use-package monokai-theme
+  :config (load-theme 'monokai t)
+  :init (setq frame-background-mode 'dark))
+#+END_SRC
+
+*** /treemacs/: tree navigation sidebar
+#+BEGIN_SRC emacs-lisp 
+(use-package treemacs
+  :requires (ivy)
+  :defer t
+  :init
+  (with-eval-after-load 'winum
+    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  :config
+  (progn
+    (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
+          treemacs-deferred-git-apply-delay      0.5
+          treemacs-directory-name-transformer    #'identity
+          treemacs-display-in-side-window        t
+          treemacs-eldoc-display                 t
+          treemacs-file-event-delay              5000
+          treemacs-file-extension-regex          treemacs-last-period-regex-value
+          treemacs-file-follow-delay             0.2
+          treemacs-file-name-transformer         #'identity
+          treemacs-follow-after-init             t
+          treemacs-git-command-pipe              ""
+          treemacs-goto-tag-strategy             'refetch-index
+          treemacs-indentation                   2
+          treemacs-indentation-string            " "
+          treemacs-is-never-other-window         nil
+          treemacs-max-git-entries               5000
+          treemacs-missing-project-action        'ask
+          treemacs-no-png-images                 nil
+          treemacs-no-delete-other-windows       t
+          treemacs-project-follow-cleanup        nil
+          treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+          treemacs-position                      'left
+          treemacs-recenter-distance             0.1
+          treemacs-recenter-after-file-follow    nil
+          treemacs-recenter-after-tag-follow     nil
+          treemacs-recenter-after-project-jump   'always
+          treemacs-recenter-after-project-expand 'on-distance
+          treemacs-show-cursor                   nil
+          treemacs-show-hidden-files             t
+          treemacs-silent-filewatch              nil
+          treemacs-silent-refresh                nil
+          treemacs-sorting                       'alphabetic-asc
+          treemacs-space-between-root-nodes      t
+          treemacs-tag-follow-cleanup            t
+          treemacs-tag-follow-delay              1.5
+          treemacs-width                         35)
+
+    ;; The default width and height of the icons is 22 pixels. If you are
+    ;; using a Hi-DPI display, uncomment this to double the icon size.
+    ;;(treemacs-resize-icons 44)
+
+    (treemacs-follow-mode t)
+    (treemacs-filewatch-mode t)
+    (treemacs-fringe-indicator-mode t)
+    (pcase (cons (not (null (executable-find "git")))
+                 (not (null treemacs-python-executable)))
+      (`(t . t)
+       (treemacs-git-mode 'deferred))
+      (`(t . _)
+       (treemacs-git-mode 'simple))))
+  :bind
+    (:map global-map
+      ("M-0"       . treemacs-select-window)
+      ("C-x t 1"   . treemacs-delete-other-windows)
+      ("C-x t t"   . treemacs)
+      ("C-x t B"   . treemacs-bookmark)
+      ("C-x t C-t" . treemacs-find-file)
+      ("C-x t M-t" . treemacs-find-tag)))
+
+(use-package treemacs-projectile
+  :after treemacs projectile)
+
+(use-package treemacs-icons-dired
+  :after treemacs dired
+  :config (treemacs-icons-dired-mode))
+
+(use-package treemacs-magit
+  :after treemacs magit)
+#+END_SRC
+*** /undo-tree/: recovers any past state of a buffer
 
 #+BEGIN_SRC emacs-lisp 
 (use-package undo-tree
@@ -220,18 +290,18 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
   :bind ("s-/" . undo-tree-visualize))
 #+END_SRC
 
-** /move-dup/: Eclipse-like move and duplicate lines
+*** /move-dup/: Eclipse-like move and duplicate lines
 
 #+BEGIN_SRC emacs-lisp
 (use-package move-dup
   :config (global-move-dup-mode)
   :bind (("S-M-<up>"     . md/move-lines-up)
          ("S-M-<down>"   . md/move-lines-down)
-         ("C-M-<up>"   . md/duplicate-up)
-         ("C-M-<down>" . md/duplicate-down)))
+         ("C-s-y"        . md/duplicate-up)
+         ("C-s-w"        . md/duplicate-down)))
 #+END_SRC
 
-** /highlight-symbol/: highlight and navigate between symbols
+*** /highlight-symbol/: highlight and navigate between symbols
 
 #+BEGIN_SRC emacs-lisp 
 (use-package highlight-symbol
@@ -240,7 +310,7 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
   :bind ("s-h" . highlight-symbol))
 #+END_SRC
 
-** /goto-chg/: goto last change in current buffer
+*** /goto-chg/: goto last change in current buffer
 
 #+BEGIN_SRC emacs-lisp 
 (use-package goto-chg
@@ -252,46 +322,7 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
          ("C-," . goto-last-change-reverse)))
 #+END_SRC
    
-** /company/: "complete anything" in-buffer completion
-
-#+BEGIN_SRC emacs-lisp 
-(use-package company
-  :diminish company-mode
-  :commands company-mode
-  :init
-    (setq
-     company-dabbrev-ignore-case nil
-     company-dabbrev-code-ignore-case nil
-     company-dabbrev-downcase nil
-     company-idle-delay 0
-     company-minimum-prefix-length 4)
-  :config
-    ;; disables TAB in company-mode, freeing it for yasnippet
-    (define-key company-active-map [tab] nil)
-    (define-key company-active-map (kbd "TAB") nil))
-#+END_SRC
-
-** /yasnippet/: template system
-
-#+BEGIN_SRC emacs-lisp 
-(use-package yasnippet
-  :diminish yas-minor-mode
-  :commands yas-minor-mode
-  :config (yas-reload-all))
-#+END_SRC
-
-** /yatemplate/: expands abbreviations into function templates
-
-#+BEGIN_SRC emacs-lisp 
-(use-package yatemplate
-  :defer 2 ;; WORKAROUND https://github.com/mineo/yatemplate/issues/3
-  :config
-    (auto-insert-mode)
-    (setq auto-insert-alist nil)
-    (yatemplate-fill-alist))
-#+END_SRC
-
-** /smartparens/: deals with parens pairs in smart ways
+*** /smartparens/: deals with parens pairs in smart ways
 
 #+BEGIN_SRC emacs-lisp 
 (use-package smartparens
@@ -315,48 +346,27 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
     (bind-key "s-<backspace>" 'sp-backward-kill-sexp smartparens-mode-map))
 #+END_SRC
 
-** /helm/: incremental completion and selection narrowing
+*** /multiple-cursors/: edit multiple places of a buffer at once
 
 #+BEGIN_SRC emacs-lisp 
-(use-package helm
-  :diminish helm-mode
-  :commands (helm-mode helm-M-x helm-find-files)
-  :bind (("M-x"     . helm-M-x)
-         ("C-x C-f" . helm-find-files)))
+(use-package multiple-cursors)
 #+END_SRC
 
-** /neotree/: tree natigation sidebar
+*** /window-numbering/: assign numbers to windows for quick access
 
 #+BEGIN_SRC emacs-lisp 
-(use-package neotree
-  :defer 2
-  :diminish neotree
-  :commands neotree
-  :config (neotree)
-  :bind ("<f8>" . neotree-toggle))
+(use-package window-numbering
+  :init (window-numbering-mode 1))
 #+END_SRC
 
-** /magit/: a powerful frontend for Git
+*** /expand-region/: increase selected region by semantic units
 
 #+BEGIN_SRC emacs-lisp 
-(use-package magit
-  :diminish magit-status
-  :commands magit-status
-  :config (setq magit-last-seen-setup-instructions "1.4.0")
-  :bind ("M-s M-g" . magit-status))
+(use-package expand-region
+  :bind ("C-=" . er/expand-region))
 #+END_SRC
-
-** /monky/: a powerful frontend for Mercurial/Hg
-
-#+BEGIN_SRC emacs-lisp 
-(use-package monky
-  :diminish monky-status
-  :commands monky-status
-  :init (setq monky-process-type 'cmdserver)
-  :bind ("M-s M-m" . monky-status))
-#+END_SRC
-
-** /gist/ shares snippets and pastes
+  
+*** /gist/ shares snippets and pastes
 
 #+BEGIN_SRC emacs-lisp 
 (use-package gist
@@ -366,215 +376,231 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
 	 ("M-s M-s" . gist-region-or-buffer)))
 #+END_SRC
   
-** /find-file-in-repository/ find files in the source control
+** Source code management
+*** /magit/: a powerful frontend for Git
+#+BEGIN_SRC emacs-lisp 
+(use-package magit
+  :init
+    (progn
+      (bind-key "C-x g" 'magit-status)))
 
+(setq magit-status-margin '(t "%Y-%m-%d %H:%M " magit-log-margin-width t 18))
+
+(use-package git-timemachine
+  :requires (magit))
+
+(use-package git-gutter
+  :requires (magit)
+  :init
+    (global-git-gutter-mode +1))
+
+(use-package smerge-mode
+  :after hydra
+  :config
+  (defhydra unpackaged/smerge-hydra
+    (:color pink :hint nil :post (smerge-auto-leave))
+    "
+^Move^       ^Keep^               ^Diff^                 ^Other^
+^^-----------^^-------------------^^---------------------^^-------
+_n_ext       _b_ase               _<_: upper/base        _C_ombine
+_p_rev       _u_pper              _=_: upper/lower       _r_esolve
+^^           _l_ower              _>_: base/lower        _k_ill current
+^^           _a_ll                _R_efine
+^^           _RET_: current       _E_diff
+"
+    ("n" smerge-next)
+    ("p" smerge-prev)
+    ("b" smerge-keep-base)
+    ("u" smerge-keep-upper)
+    ("l" smerge-keep-lower)
+    ("a" smerge-keep-all)
+    ("RET" smerge-keep-current)
+    ("\C-m" smerge-keep-current)
+    ("<" smerge-diff-base-upper)
+    ("=" smerge-diff-upper-lower)
+    (">" smerge-diff-base-lower)
+    ("R" smerge-refine)
+    ("E" smerge-ediff)
+    ("C" smerge-combine-with-next)
+    ("r" smerge-resolve)
+    ("k" smerge-kill-current)
+    ("ZZ" (lambda ()
+            (interactive)
+            (save-buffer)
+            (bury-buffer))
+     "Save and bury buffer" :color blue)
+    ("q" nil "cancel" :color blue))
+  :hook (magit-diff-visit-file . (lambda ()
+                                   (when smerge-mode
+                                     (unpackaged/smerge-hydra/body)))))
+
+(use-package forge)
+#+END_SRC
+*** /monky/: a powerful frontend for Mercurial/Hg
+#+BEGIN_SRC emacs-lisp 
+(use-package monky
+  :diminish monky-status
+  :commands monky-status
+  :init (setq monky-process-type 'cmdserver)
+  :bind ("M-s M-m" . monky-status))
+#+END_SRC
+*** /find-file-in-repository/ find files in the source control
 #+BEGIN_SRC emacs-lisp 
 (use-package find-file-in-repository
   :diminish find-file-in-repository
   :commands find-file-in-repository
   :bind ("M-s M-f" . find-file-in-repository))
 #+END_SRC
+** Configure programming languages and markup languages
+*** Install Language Server Protocol
 
-** /multiple-cursors/: edit multiple places of a buffer at once
-
-#+BEGIN_SRC emacs-lisp 
-(use-package multiple-cursors)
-#+END_SRC
-
-** /window-numbering/: assign numbers to windows for quick access
-
-#+BEGIN_SRC emacs-lisp 
-(use-package window-numbering
-  :init (window-numbering-mode 1))
-#+END_SRC
-
-** /expand-region/: increase selected region by semantic units
-
-#+BEGIN_SRC emacs-lisp 
-(use-package expand-region
-  :bind ("C-=" . er/expand-region))
-#+END_SRC
-  
-** /monokai-theme/: a dark colour theme
-
-#+BEGIN_SRC emacs-lisp 
-(use-package monokai-theme
-  :config (load-theme 'monokai t)
-  :init (setq frame-background-mode 'dark))
-#+END_SRC
-
-** Configure programming language modes
-*** Install flycheck
+LSP provides builtin support for a vast range of programming languages.
+See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 #+BEGIN_SRC emacs-lisp
-(use-package flycheck
-  :ensure t
-  :init (global-flycheck-mode))
+(use-package yasnippet
+  :diminish yas-minor-mode
+  :commands yas-minor-mode
+  :config (yas-reload-all))
+
+(use-package yatemplate
+;  :defer 2 ;; WORKAROUND https://github.com/mineo/yatemplate/issues/3
+  :config
+    (auto-insert-mode)
+    (setq auto-insert-alist nil)
+    (yatemplate-fill-alist))
+
+(use-package ivy-yasnippet)
+
+;; see: https://emacs-lsp.github.io/lsp-mode/lsp-mode.html
+(use-package lsp-mode
+  :commands lsp
+  :bind (:map lsp-mode-map ("C-c C-f" . lsp-format-buffer))
+  :custom
+    (lsp-auto-guess-root nil)
+    (lsp-prefer-flymake 1)
+  :hook
+    (prog-mode   . lsp))
+
+(use-package company
+  :config
+    (setq company-idle-delay 0)
+    (setq company-minimum-prefix-length 3)
+    (global-company-mode t))
+
+(use-package company-lsp
+  :requires (lsp-mode)
+  :config
+    (setq company-lsp-enable-snippet t)
+    (push 'company-lsp company-backends))
+
+(use-package projectile)
+
+(use-package lsp-treemacs
+  :requires (lsp-mode treemacs)
+  :config
+    (lsp-treemacs-sync-mode 1))
+
+(use-package lsp-ui
+  :after lsp-mode
+  :diminish
+  :commands lsp-ui-mode
+  :custom-face
+    (lsp-ui-doc-background ((t (:background nil))))
+    (lsp-ui-doc-header ((t (:inherit (font-lock-string-face italic)))))
+  :bind (:map lsp-ui-mode-map
+              ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+              ([remap xref-find-references] . lsp-ui-peek-find-references)
+              ("C-c u" . lsp-ui-imenu))
+  :custom
+    (lsp-ui-doc-enable t)
+    (lsp-ui-doc-header t)
+    (lsp-ui-doc-include-signature t)
+    (lsp-ui-doc-position 'top)
+    (lsp-ui-doc-border (face-foreground 'default))
+    (lsp-ui-sideline-enable nil)
+    (lsp-ui-sideline-ignore-duplicate t)
+    (lsp-ui-sideline-show-code-actions nil)
+    :config
+      ;; Use lsp-ui-doc-webkit only in GUI
+      (setq lsp-ui-doc-use-webkit t)
+      ;; WORKAROUND Hide mode-line of the lsp-ui-imenu buffer
+      ;; https://github.com/emacs-lsp/lsp-ui/issues/243
+      (defadvice lsp-ui-imenu (after hide-lsp-ui-imenu-mode-line activate)
+        (setq mode-line-format nil)))
+
+(use-package hydra
+  :requires (ivy))
+
+(use-package lsp-ivy 
+  :requires (ivy))
+
+(use-package lsp-ui
+  :requires (lsp-mode))
+
+(use-package dap-mode
+  :requires (lsp-mode)
+  :config
+  (dap-mode t)
+  (dap-ui-mode t))
 #+END_SRC
-
-*** Configure Rust
-
+*** Rust
 #+BEGIN_SRC emacs-lisp
 (use-package rust-mode
-  :ensure t)
- 
-(use-package cargo
-  :ensure t
-  :hook (rust-mode . racer-mode))
- 
-(use-package toml-mode
-  :ensure t
-  :hook (rust-mode . cargo-minor-mode))
- 
-(use-package company-racer
-   :ensure t
-   :hook (rust-mode  . racer-mode)
-   :hook (racer-mode . eldoc-mode)
-   :hook (racer-mode . company-mode)
-   :init
-     (with-eval-after-load 'company
-       (add-to-list 'company-backends 'company-racer)))
- #+END_SRC
-
-*** Configure Lua
-
-#+BEGIN_SRC emacs-lisp
-(use-package lua-mode
-  :ensure t)
+  :requires (lsp))
 #+END_SRC
-
-*** Configure Scala
-
+*** Haskell
 #+BEGIN_SRC emacs-lisp
-(use-package sbt-mode
-  :pin melpa)
+(use-package haskell-mode)
 
+(use-package lsp-haskell
+  :requires (lsp haskell-mode))
+#+END_SRC
+*** Scala
+#+BEGIN_SRC emacs-lisp
+;; Enable scala-mode and sbt-mode
 (use-package scala-mode
-  :pin melpa)
-#+END_SRC
+  :requires (lsp)
+  :mode "\\.s\\(cala\\|bt\\)$")
 
-*** Configure Javascript, HTML, CSS and related
-
-#+BEGIN_SRC emacs-lisp
-(use-package web-mode
-  :commands web-mode)
-#+END_SRC
-
-*** Configure TypeScript
-
-#+BEGIN_SRC emacs-lisp
-(use-package typescript-mode
-  :commands typescript-mode)
-#+END_SRC
-
-*** Configure Python
-
-#+BEGIN_SRC emacs-lisp
-;; Emacs 24.3+ already ships with python.el
-;;(use-package python-mode)
-
-(use-package virtualenvwrapper
-  :ensure t
-  :hook (python-mode . ((venv-initialize-interactive-shells)(venv-initialize-eshell))))
-#+END_SRC
-
-*** Configure Golang
-
-#+BEGIN_SRC emacs-lisp
-(use-package go-mode
-  :ensure t
-  :init (setq-default
-           tab-width 2
-           standard-indent 2
-           indent-tabs-mode nil)
+(use-package sbt-mode
+  :commands sbt-start sbt-command
   :config
-    (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode)))
-
-(use-package go-autocomplete
-  :ensure t)
-
-(use-package company-go
-  :ensure t)
+  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+  ;; allows using SPACE when in the minibuffer
+  (substitute-key-definition
+   'minibuffer-complete-word
+   'self-insert-command
+   minibuffer-local-completion-map)
+   ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+   (setq sbt:program-options '("-Dsbt.supershell=false")))
 #+END_SRC
-
-** Configure IDEs
-*** Configure Ensime, a Scala IDE
-
+*** Dhall
 #+BEGIN_SRC emacs-lisp
-(use-package ensime
-  :ensure t
-  :pin melpa)
-#+END_SRC
-
-*** Configure Tide, a Typescript IDE
-
-#+BEGIN_SRC emacs-lisp
-(defun setup-tide-mode()
-  (interactive)
-  (tide-setup)
-  (flycheck-mode +1)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled))
-  (eldoc-mode +1)
-  (tide-hl-identifier-mode +1)
-  ;; company is an optional dependency. You have to
-  ;; install it separately via package-install
-  ;; `M-x package-install [ret] company`
-  (company-mode +1))
-
-;; aligns annotation to the right hand side
-;(setq company-tooltip-align-annotations t)
-
- (use-package tide
-   :ensure t
-   :hook (typescript-mode . setup_tide_mode))
-#+END_SRC
-
-** Configure markup languages
-*** Configure Markdown, JSON and YAML
-
-#+BEGIN_SRC emacs-lisp
-(use-package markdown-mode
-  :commands markdown-mode
+;; Enable scala-mode and sbt-mode
+(use-package dhall-mode
+  :requires (lsp)
+  :mode "\\.dhall$"
   :config
-    (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode)))
+  (setq
+    ;; uncomment the next line to disable automatic format
+    ;; dhall-format-at-save nil
+
+    ;; comment the next line to use unicode syntax
+    dhall-format-arguments (\` ("--ascii"))
+
+    ;; header-line is obsoleted by lsp-mode
+    dhall-use-header-line nil))
 #+END_SRC
-
+** Configure global settings and keybindings
 #+BEGIN_SRC emacs-lisp
-(use-package sphinx-mode
-  :commands json-mode
-  :hook (rst-mode . sphinx-mode))
-#+END_SRC
+; general defaults
+(setq-default indent-tabs-mode nil)
+;;(global-auto-complete-mode t)
 
-#+BEGIN_SRC emacs-lisp
-(use-package json-mode
-  :commands json-mode
-  :config
-    (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode)))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-(use-package yaml-mode
-  :commands yaml-mode
-  :config
-    (add-to-list 'auto-mode-alist '("\\.yml\\'"  . yaml-mode))
-    (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
-    (add-hook 'yaml-mode-hook
-              (lambda ()
-                (define-key yaml-mode-map (kbd "<return>") #'newline-and-indent))))
-#+END_SRC
-
-** Global keybindings and configurations
-*** Configure CUA mode
-
- CUA selection mode is handy for highlighting rectangular regions properly.
-
-#+BEGIN_SRC emacs-lisp
+;; CUA selection mode is handy for highlighting rectangular regions properly.
 (cua-selection-mode t)
- #+END_SRC
 
-*** Configuring keybindings
- *Note:* see also /move-dup/ for more keybinds.
-#+BEGIN_SRC emacs-lisp
 ;; keybinding for multiple-cursors
 (require 'sgml-mode)
 (global-set-key (kbd "C-` <right>")  'mc/mark-next-like-this)
@@ -582,39 +608,76 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
 (global-set-key (kbd "C-` <return>") 'mc/mark-all-like-this)
 (global-set-key (kbd "C-` /")        'mc/mark-sgml-tag-pair)
 (global-set-key (kbd "C-` <SPC>")    'mc/vertical-align-with-spaces)
+
 ;; editing very long lines... 
 (global-set-key (kbd "C-|")  'toggle-truncate-lines)
+
+;; reassign negative-argument
+(global-set-key (kbd "C-_") 'negative-argument)
+
+;; make sure we can increase and decrease font size
+(global-set-key (kbd "C--") 'text-scale-decrease)
+(global-set-key (kbd "C-+") 'text-scale-increase)
+
+;; ivy, swiper and counsel integration with standard commands
+(ivy-mode 1)
+(counsel-projectile-mode 1)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+(global-set-key (kbd "C-s") 'swiper-isearch)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "M-y") 'counsel-yank-pop)
+(global-set-key (kbd "C-x b") 'ivy-switch-buffer)
+(global-set-key (kbd "C-c v") 'ivy-push-view)
+(global-set-key (kbd "C-c V") 'ivy-pop-view)
+;(global-set-key (kbd "<f1> f") 'counsel-describe-function)
+;(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+;(global-set-key (kbd "<f1> l") 'counsel-find-library)
+;(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+;(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+;(global-set-key (kbd "<f2> j") 'counsel-set-variable)
 #+END_SRC
 
-*** 
-*** 
-*** 
-*** General defaults
-#+BEGIN_SRC emacs-lisp
-(setq-default indent-tabs-mode nil)
-(global-auto-complete-mode t)
+** TODO [0/4] Configure additional Org Mode modules
+*** TODO [0/1] org-mode
+ We are using packages from =org-plus-contrib= such as [[http://orgmode.org/worg/org-contrib/org-index.html][org-index]], which requires http://orgmode.org/elpa/ to be added to ``package-archives``.
+
+#+BEGIN_SRC emacs-lisp 
+;; (add-to-list 'package-archives 
+;;              '("org"   . "http://orgmode.org/elpa/") t)
 #+END_SRC
-** TODO [0/2] Configure additional Org Mode modules
+*** TODO [0/1] Employ /org-plus-contrib/ instead of /org/
+Make sure we are employing =org-plus-contrib= instead of =org=.
+
+#+BEGIN_SRC emacs-lisp
+;; (use-package org
+;;     :requires (org-plus-contrib)
+;;     :commands org-agenda org-capture org-index)
+#+END_SRC
+
+In case of trouble caused by =use-package=, you can try to load =oreg-plus-contrib= like this:
+
+#+BEGIN_SRC emacs-lisp
+;; (load-packages '(org-plus-contrib))
+#+END_SRC
 *** Support for multiple agendas
 #+BEGIN_SRC emacs-lisp
-(require 'org-agenda)
-(global-set-key (kbd "C-c a") 'org-agenda)
-(setq org-agenda-files (list-file-contents "~/Documents/org-mode/agenda"))
+;;;(require 'org-agenda)
+;;;(global-set-key (kbd "C-c a") 'org-agenda)
+;;;(setq org-agenda-files (list-file-contents "~/Documents/org-mode/agenda"))
 #+END_SRC
-
 *** Support for /org-index/
-
 #+BEGIN_SRC emacs-lisp
-(require 'org-index)
-(global-set-key (kbd "C-c i") 'org-index)
+;; (require 'org-index)
+;; (global-set-key (kbd "C-c i") 'org-index)
 #+END_SRC
 *** TODO [0/1] Support for /org-capture/
 
 - [ ] See: https://www.gnu.org/software/emacs/manual/html_node/org/Capture.html
 
 #+BEGIN_SRC emacs-lisp
-;(require 'org-capture)
-;(global-set-key (kbd "C-c c") 'org-capture)
+;;;(require 'org-capture)
+;;;(global-set-key (kbd "C-c c") 'org-capture)
 #+END_SRC
 
 *** Support for multiple Trello boards
@@ -627,29 +690,25 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
  $ ln -s ~/Documents/org-mode/.emacs.d/.trello ~/.emacs.d
 #+END_EXAMPLE
 
-
 #+BEGIN_SRC emacs-lisp
-(load-packages '(org-trello))
-(require 'org-trello)
-;(setq orgtrello-log-level orgtrello-log-trace)
-(setq org-trello-files
-  (directory-files "~/Documents/org-mode/trello" ".*\.org$"))
+;; (load-packages '(org-trello))
+;; (require 'org-trello)
+;; ;(setq orgtrello-log-level orgtrello-log-trace)
+;; (setq org-trello-files
+;;   (directory-files "~/Documents/org-mode/trello" ".*\.org$"))
 #+END_SRC
-
 *** TODO [0/1] Integration with Google Calendar
 
  - [ ] See: https://www.youtube.com/watch?v=vO_RF2dK7M0
 
 #+BEGIN_SRC emacs-lisp
-;; runs configuration for org files, if any.
-;; see: http://cestlaz.github.io/posts/using-emacs-26-gcal
-;; credits: Mike Zamansky
-;(mapcar 'org-babel-load-file
-;  (directory-files "~/Documents/orgfiles/config" t ".+\.org$"))
+;; ; runs configuration for org files, if any.
+;; ; see: http://cestlaz.github.io/posts/using-emacs-26-gcal
+;; ; credits: Mike Zamansky
+;; (mapcar 'org-babel-load-file
+;;   (directory-files "~/Documents/orgfiles/config" t ".+\.org$"))
 #+END_SRC
-
-** Prologue
-
+** Epilogue
 #+BEGIN_SRC emacs-lisp
 (message "Initialization complete.")
 #+END_SRC

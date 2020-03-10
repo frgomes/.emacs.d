@@ -24,63 +24,72 @@ If everything goes according to plan, Emacs will download a lot of stuff from th
 
 
 * Features
-** Support for programming languages
+** Support for programming languages and data languages
 
- These are programming languages supported at the moment and the stability of the current configuration:
+Emacs has builtin support for Language Server Protocol. However, the range of languages which work out of the box.
 
- | Language              | LSP client  | LSP server installer |
- |-----------------------+-------------+----------------------|
- | Ada                   | builtin     | missing              |
- | Angular               | builtin     | missing              |
- | Bash                  | builtin     | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]      |
- | C++                   | builtin     | [[http://github.com/frgomes/bash-scripts/user-install/install-clang.sh][install-clang.sh]]     |
- | C#                    | builtin     | missing              |
- | Closure               | builtin     | missing              |
- | Cmake                 | builtin     | [[http://github.com/frgomes/bash-scripts/user-install/install-python.sh][install-python.sh]]    |
- | Crystal               | builtin     | missing              |
- | CSS/LessCSS/SASS/SCSS | builtin     | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]      |
- | Dart                  | builtin     | missing              |
- | Dhall                 | dhall-mode  | [[http://github.com/frgomes/bash-scripts/user-install/install-dhall.sh][install-dhall.sh]]     |
- | Dockerfile            | builtin     | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]      |
- | Elixir                | builtin     | missing              |
- | Elm                   | builtin     | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]      |
- | Erlang                | builtin     | missing              |
- | Eslint                | builtin     | missing              |
- | F#                    | builtin     | missing              |
- | Fortran               | builtin     | [[http://github.com/frgomes/bash-scripts/user-install/install-python.sh][install-python.sh]]    |
- | Go                    | missing     | missing              |
- | Groovy                | builtin     | missing              |
- | Hack                  | builtin     | missing              |
- | HTML                  | builtin     | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]      |
- | Haskell               | lsp-haskell | [[http://github.com/frgomes/bash-scripts/user-install/install-haskell.sh][install-haskell.sh]]   |
- | Lua                   | missing     | missing              |
- | Markdown              | PENDING     | PENDING              |
- | Java                  | missing     | missing              |
- | Javascript            | builtin     | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]      |
- | Javascript Flow       | builtin     | missing              |
- | JSON                  | builtin     | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]      |
- | Julia                 | missing     | missing              |
- | Kotlin                | builtin     | missing              |
- | Nim                   | builtin     | missing              |
- | OCaml                 | builtin     | missing              |
- | PHP                   | builtin     | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]      |
- | Powershell            | builtin     | missing              |
- | Python                | builtin     | [[http://github.com/frgomes/bash-scripts/user-install/install-python.sh][install-python.sh]]    |
- | R                     | builtin     | missing              |
- | Ruby                  | builting    | missing              |
- | Rust                  | rust-mode   | [[http://github.com/frgomes/bash-scripts/user-install/install-rust.sh][install-rust.sh]]      |
- | Scala                 | scala-mode  | [[http://github.com/frgomes/bash-scripts/user-install/install-scala.sh][install-scala.sh]]     |
- | Scala SBT             | sbt-mode    | [[http://github.com/frgomes/bash-scripts/user-install/install-scala.sh][install-scala.sh]]     |
- | RST/Sphinx            | PENDING     | PENDING              |
- | Swift                 | missing     | missing              |
- | TeX/LaTeX             | builtin     | [[http://github.com/frgomes/bash-scripts/user-install/install-rust.sh][install-rust.sh]]      |
- | Typescript            | builtin     | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]      |
- | Verilog               | builtin     | [[http://github.com/frgomes/bash-scripts/user-install/install-python.sh][install-python.sh]]    |
- | VHDL                  | builtin     | missing              |
- | VIMscript             | builtin     | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]      |
- | Vue                   | builtin     | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]      |
- | XML                   | builtin     | missing              |
- | YAML                  | builtin     | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]      |
+| We provide shell scripts in a [[http://github.com/frgomes/bash-scripts][separate project]] which helps installing language servers.
+
+More information about Language Server Protocol:
+
+ * https://github.com/emacs-lsp/lsp-mode#supported-languages
+ * http://langserver.org
+
+ The current support matrix is shown below:
+
+ | Language              | status    | LSP client  | LSP server         |
+ |-----------------------+-----------+-------------+--------------------|
+ | Ada                   | builtin   |             |                    |
+ | Angular               | builtin   |             |                    |
+ | Bash                  | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
+ | C++                   | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-clang.sh][install-clang.sh]]   |
+ | C#                    | builtin   |             |                    |
+ | Closure               | builtin   |             |                    |
+ | Cmake                 | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-python.sh][install-python.sh]]  |
+ | Crystal               | builtin   |             |                    |
+ | CSS/LessCSS/SASS/SCSS | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
+ | Dart                  | builtin   |             |                    |
+ | Dhall                 | supported | dhall-mode  | [[http://github.com/frgomes/bash-scripts/user-install/install-dhall.sh][install-dhall.sh]]   |
+ | Dockerfile            | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
+ | Elixir                | builtin   |             |                    |
+ | Elm                   | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
+ | Erlang                | builtin   |             |                    |
+ | Eslint                | builtin   |             |                    |
+ | F#                    | builtin   |             |                    |
+ | Fortran               | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-python.sh][install-python.sh]]  |
+ | Go                    | missing   |             |                    |
+ | Groovy                | builtin   |             |                    |
+ | Hack                  | builtin   |             |                    |
+ | HTML                  | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
+ | Haskell               | supported | lsp-haskell | [[http://github.com/frgomes/bash-scripts/sysadmin-install/install-haskell.sh][install-haskell.sh]] |
+ | Lua                   | missing   |             |                    |
+ | Markdown              | supported | PENDING     |                    |
+ | Java                  | missing   |             |                    |
+ | Javascript            | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
+ | Javascript Flow       | builtin   |             |                    |
+ | JSON                  | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
+ | Julia                 | missing   |             |                    |
+ | Kotlin                | builtin   |             |                    |
+ | Nim                   | builtin   |             |                    |
+ | OCaml                 | builtin   |             |                    |
+ | PHP                   | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
+ | Powershell            | builtin   |             | automatic          |
+ | Python                | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-python.sh][install-python.sh]]  |
+ | R                     | builtin   |             |                    |
+ | Ruby                  | builting  |             |                    |
+ | Rust                  | supported | rust-mode   | [[http://github.com/frgomes/bash-scripts/user-install/install-rust.sh][install-rust.sh]]    |
+ | Scala                 | supported | scala-mode  | [[http://github.com/frgomes/bash-scripts/user-install/install-scala.sh][install-scala.sh]]   |
+ | Scala SBT             | supported | sbt-mode    | [[http://github.com/frgomes/bash-scripts/user-install/install-scala.sh][install-scala.sh]]   |
+ | RST/Sphinx            | supported | PENDING     |                    |
+ | Swift                 | missing   |             |                    |
+ | TeX/LaTeX             | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-rust.sh][install-rust.sh]]    |
+ | Typescript            | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
+ | Verilog               | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-python.sh][install-python.sh]]  |
+ | VHDL                  | builtin   |             |                    |
+ | VIMscript             | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
+ | Vue                   | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
+ | XML                   | builtin   |             |                    |
+ | YAML                  | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
 
 ** Other extensions focusing on usability and productivity
 

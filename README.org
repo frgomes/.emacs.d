@@ -262,8 +262,8 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
     ;; using a Hi-DPI display, uncomment this to double the icon size.
     ;;(treemacs-resize-icons 44)
 
-    (treemacs-follow-mode t)
-    (treemacs-filewatch-mode t)
+    (treemacs-follow-mode nil)
+    (treemacs-filewatch-mode nil)
     (treemacs-fringe-indicator-mode t)
     (pcase (cons (not (null (executable-find "git")))
                  (not (null treemacs-python-executable)))
@@ -290,6 +290,7 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
 (use-package treemacs-magit
   :after treemacs magit)
 #+END_SRC
+
 *** /undo-tree/: recovers any past state of a buffer
 
 #+BEGIN_SRC emacs-lisp 

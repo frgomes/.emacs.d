@@ -523,20 +523,28 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
               ("C-c u" . lsp-ui-imenu))
   :custom
     (lsp-ui-doc-enable t)
+    (lsp-ui-doc-delay 4)
     (lsp-ui-doc-header t)
     (lsp-ui-doc-include-signature t)
-    (lsp-ui-doc-position 'top)
+    (lsp-ui-doc-position 'at-point)
     (lsp-ui-doc-border (face-foreground 'default))
-    (lsp-ui-sideline-enable nil)
+    (lsp-ui-doc-use-childframe t)
+    (lsp-ui-doc-use-webkit nil)
+    (lsp-ui-doc-use-webkit nil)
+    (lsp-ui-doc-max-height 25)
+    (lsp-ui-doc-max-width 180)
+    (lsp-ui-peek-enable t)
+    (lsp-ui-sideline-enable t)
+    (lsp-ui-sideline-delay 4)
     (lsp-ui-sideline-ignore-duplicate t)
-    (lsp-ui-sideline-show-code-actions nil)
-    :config
-      ;; Use lsp-ui-doc-webkit only in GUI
-      (setq lsp-ui-doc-use-webkit t)
-      ;; WORKAROUND Hide mode-line of the lsp-ui-imenu buffer
-      ;; https://github.com/emacs-lsp/lsp-ui/issues/243
-      (defadvice lsp-ui-imenu (after hide-lsp-ui-imenu-mode-line activate)
-        (setq mode-line-format nil)))
+    (lsp-ui-sideline-show-code-actions t))
+    ;;XXX :config
+    ;;XXX   ;; Use lsp-ui-doc-webkit only in GUI
+    ;;XXX   (setq lsp-ui-doc-use-webkit t)
+    ;;XXX   ;; WORKAROUND Hide mode-line of the lsp-ui-imenu buffer
+    ;;XXX   ;; https://github.com/emacs-lsp/lsp-ui/issues/243
+    ;;XXX   (defadvice lsp-ui-imenu (after hide-lsp-ui-imenu-mode-line activate)
+    ;;XXX     (setq mode-line-format nil)))
 
 (use-package hydra
   :requires (ivy))

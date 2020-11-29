@@ -489,6 +489,8 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
     (lsp-auto-guess-root nil)
     (lsp-prefer-flymake 1)
   :hook
+    (scala-mode . lsp)
+    (lsp-mode . lsp-lens-mode)
     (prog-mode   . lsp))
 
 (use-package company
@@ -591,6 +593,21 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
    minibuffer-local-completion-map)
    ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
    (setq sbt:program-options '("-Dsbt.supershell=false")))
+
+;; Add metals backend for lsp-mode
+(use-package lsp-metals
+  :config (setq lsp-metals-treeview-show-when-views-received t))
+
+;; Use the Debug Adapter Protocol for running tests and debugging
+(use-package posframe
+  ;; Posframe is a pop-up tool that must be manually installed for dap-mode
+  )
+
+(use-package dap-mode
+  :hook
+  (lsp-mode . dap-mode)
+  (lsp-mode . dap-ui-mode)
+  )
 #+END_SRC
 *** Dhall
 #+BEGIN_SRC emacs-lisp

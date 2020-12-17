@@ -63,7 +63,7 @@ More information about Language Server Protocol:
  | HTML                  | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
  | Haskell               | supported | lsp-haskell | [[http://github.com/frgomes/bash-scripts/sysadmin-install/install-haskell.sh][install-haskell.sh]] |
  | Lua                   | missing   |             |                    |
- | Markdown              | supported | PENDING     |                    |
+ | Markdown              | builtin   | pandoc      |                    |
  | Java                  | missing   |             |                    |
  | Javascript            | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
  | Javascript Flow       | builtin   |             |                    |
@@ -625,6 +625,11 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
     ;; header-line is obsoleted by lsp-mode
     dhall-use-header-line nil))
+#+END_SRC
+*** Markdown
+#+BEGIN_SRC emacs-lisp
+(custom-set-variables
+ '(markdown-command "pandoc"))
 #+END_SRC
 ** Configure global settings and keybindings
 #+BEGIN_SRC emacs-lisp

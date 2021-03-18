@@ -78,6 +78,7 @@ More information about Language Server Protocol:
  | R                     | builtin   |             |                    |
  | Ruby                  | builting  |             |                    |
  | Rust                  | supported | rust-mode   | [[http://github.com/frgomes/bash-scripts/user-install/install-rust.sh][install-rust.sh]]    |
+ | Salt                  | supported | salt-mode   |                    |
  | Scala                 | supported | scala-mode  | [[http://github.com/frgomes/bash-scripts/user-install/install-scala.sh][install-scala.sh]]   |
  | Scala SBT             | supported | sbt-mode    | [[http://github.com/frgomes/bash-scripts/user-install/install-scala.sh][install-scala.sh]]   |
  | RST/Sphinx            | supported | PENDING     |                    |
@@ -623,6 +624,16 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 (use-package lsp-haskell
   :straight t
   :requires (lsp haskell-mode))
+#+END_SRC
+*** Salt
+#+BEGIN_SRC emacs-lisp
+(use-package salt-mode
+  :straight t
+  :ensure t
+  :config
+  (add-hook 'salt-mode-hook
+            (lambda ()
+              (flyspell-mode 1))))
 #+END_SRC
 *** Scala
 #+BEGIN_SRC emacs-lisp

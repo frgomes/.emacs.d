@@ -114,6 +114,7 @@ More information about Language Server Protocol:
  | magit                   | a powerful frontend for Git                    | done    |
  | monky                   | a powerful frontend for Mercurial/Hg           | done    |
  | gist                    | share snippets and pastes                      | done    |
+ | restclient              | REST REPL                                      |         |
  | find-file-in-repository | find files in the source control               | done    |
  | multiple-cursors        | edit multiple places of a buffer at once       | done    |
  | window-numbering        | assign numbers to windows for quick access     | done    |
@@ -408,6 +409,14 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
 	 ("M-s M-s" . gist-region-or-buffer)))
 #+END_SRC
   
+*** /restclient/: provides a REST REPL
+
+#+BEGIN_SRC emacs-lisp
+(use-package restclient
+  :straight t
+)
+#+END_SRC
+
 ** Source code management
 *** /magit/: a powerful frontend for Git
 #+BEGIN_SRC emacs-lisp 

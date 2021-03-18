@@ -161,11 +161,13 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
 ** Install /ivy/, /swiper/ and /counsel/ for easy completion from a list
 #+BEGIN_SRC emacs-lisp
 (use-package counsel
+  :straight t
   :bind
     (("M-y" . counsel-yank-pop)
       :map ivy-minibuffer-map ("M-y" . ivy-next-line)))
 
 (use-package ivy
+  :straight t
   :requires (counsel)
   :diminish (ivy-mode)
   :bind (("C-x b" . ivy-switch-buffer))
@@ -176,6 +178,7 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
     (setq ivy-display-style 'fancy))
 
 (use-package swiper
+  :straight t
   :requires (ivy)
   :bind
     (("C-s"     . swiper-isearch)
@@ -190,16 +193,21 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
       (setq ivy-display-style 'fancy)
       (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)))
 
-(use-package counsel-jq)
+(use-package counsel-jq
+  :straight t
+)
 ;;XXX (use-package counsel-etags)
 
 (use-package projectile
+  :straight t
   :demand
   :init   (setq projectile-use-git-grep t)
   :config (projectile-global-mode t)
   :bind   (("s-f" . projectile-find-file)
            ("s-F" . projectile-grep)))
-(use-package counsel-projectile)
+(use-package counsel-projectile
+  :straight t
+)
 #+END_SRC
 
 ** Interface tweaks
@@ -207,6 +215,7 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
 
 #+BEGIN_SRC emacs-lisp 
 (use-package monokai-theme
+  :straight t
   :config (load-theme 'monokai t)
   :init (setq frame-background-mode 'dark))
 #+END_SRC
@@ -281,19 +290,23 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
       ("C-x t M-t" . treemacs-find-tag)))
 
 (use-package treemacs-projectile
+  :straight t
   :after treemacs projectile)
 
 (use-package treemacs-icons-dired
+  :straight t
   :after treemacs dired
   :config (treemacs-icons-dired-mode))
 
 (use-package treemacs-magit
+  :straight t
   :after treemacs magit)
 #+END_SRC
 *** /undo-tree/: recovers any past state of a buffer
 
 #+BEGIN_SRC emacs-lisp 
 (use-package undo-tree
+  :straight t
   :diminish undo-tree-mode
   :config (global-undo-tree-mode)
   :bind ("s-/" . undo-tree-visualize))
@@ -303,6 +316,7 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
 
 #+BEGIN_SRC emacs-lisp
 (use-package move-dup
+  :straight t
   :config (global-move-dup-mode)
   :bind (("S-M-<up>"     . md-move-lines-up)
          ("S-M-<down>"   . md-move-lines-down)
@@ -314,6 +328,7 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
 
 #+BEGIN_SRC emacs-lisp 
 (use-package highlight-symbol
+  :straight t
   :diminish highlight-symbol-mode
   :commands highlight-symbol
   :bind ("s-h" . highlight-symbol))
@@ -323,6 +338,7 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
 
 #+BEGIN_SRC emacs-lisp 
 (use-package goto-chg
+  :straight t
   :commands goto-last-change
   ;; complementary to
   ;; C-x r m / C-x r l
@@ -335,6 +351,7 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
 
 #+BEGIN_SRC emacs-lisp 
 (use-package smartparens
+  :straight t
   :diminish smartparens-mode
   :commands
     smartparens-strict-mode
@@ -358,13 +375,16 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
 *** /multiple-cursors/: edit multiple places of a buffer at once
 
 #+BEGIN_SRC emacs-lisp 
-(use-package multiple-cursors)
+(use-package multiple-cursors
+  :straight t
+)
 #+END_SRC
 
 *** /window-numbering/: assign numbers to windows for quick access
 
 #+BEGIN_SRC emacs-lisp 
 (use-package window-numbering
+  :straight t
   :init (window-numbering-mode 1))
 #+END_SRC
 
@@ -372,6 +392,7 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
 
 #+BEGIN_SRC emacs-lisp 
 (use-package expand-region
+  :straight t
   :bind ("C-=" . er/expand-region))
 #+END_SRC
   
@@ -379,6 +400,7 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
 
 #+BEGIN_SRC emacs-lisp 
 (use-package gist
+  :straight t
   :diminish gist-list
   :commands (gist-list gist-region-or-buffer)
   :bind (("M-s M-o" . gist-list)
@@ -389,6 +411,7 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
 *** /magit/: a powerful frontend for Git
 #+BEGIN_SRC emacs-lisp 
 (use-package magit
+  :straight t
   :init
     (progn
       (bind-key "C-x g" 'magit-status)))
@@ -396,14 +419,17 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
 (setq magit-status-margin '(t "%Y-%m-%d %H:%M " magit-log-margin-width t 18))
 
 (use-package git-timemachine
+  :straight t
   :requires (magit))
 
 (use-package git-gutter
+  :straight t
   :requires (magit)
   :init
     (global-git-gutter-mode +1))
 
 (use-package smerge-mode
+  :straight t
   :after hydra
   :config
   (defhydra unpackaged/smerge-hydra
@@ -443,11 +469,14 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
                                    (when smerge-mode
                                      (unpackaged/smerge-hydra/body)))))
 
-(use-package forge)
+(use-package forge
+  :straight t
+)
 #+END_SRC
 *** /monky/: a powerful frontend for Mercurial/Hg
 #+BEGIN_SRC emacs-lisp 
 (use-package monky
+  :straight t
   :diminish monky-status
   :commands monky-status
   :init (setq monky-process-type 'cmdserver)
@@ -456,6 +485,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 *** /find-file-in-repository/ find files in the source control
 #+BEGIN_SRC emacs-lisp 
 (use-package find-file-in-repository
+  :straight t
   :diminish find-file-in-repository
   :commands find-file-in-repository
   :bind ("M-s M-f" . find-file-in-repository))
@@ -468,21 +498,26 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet
+  :straight t
   :diminish yas-minor-mode
   :commands yas-minor-mode
   :config (yas-reload-all))
 
 (use-package yatemplate
+  :straight t
 ;  :defer 2 ;; WORKAROUND https://github.com/mineo/yatemplate/issues/3
   :config
     (auto-insert-mode)
     (setq auto-insert-alist nil)
     (yatemplate-fill-alist))
 
-(use-package ivy-yasnippet)
+(use-package ivy-yasnippet
+  :straight t
+)
 
 ;; see: https://emacs-lsp.github.io/lsp-mode/lsp-mode.html
 (use-package lsp-mode
+  :straight t
   :commands lsp
   :bind (:map lsp-mode-map ("C-c C-f" . lsp-format-buffer))
   :custom
@@ -494,25 +529,31 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
     (prog-mode   . lsp))
 
 (use-package company
+  :straight t
   :config
     (setq company-idle-delay 0)
     (setq company-minimum-prefix-length 3)
     (global-company-mode t))
 
 (use-package company-lsp
+  :straight t
   :requires (lsp-mode)
   :config
     (setq company-lsp-enable-snippet t)
     (push 'company-lsp company-backends))
 
-(use-package projectile)
+(use-package projectile
+  :straight t
+)
 
 (use-package lsp-treemacs
+  :straight t
   :requires (lsp-mode treemacs)
   :config
     (lsp-treemacs-sync-mode 1))
 
 (use-package lsp-ui
+  :straight t
   :after lsp-mode
   :diminish
   :commands lsp-ui-mode
@@ -549,15 +590,19 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
     ;;XXX     (setq mode-line-format nil)))
 
 (use-package hydra
+  :straight t
   :requires (ivy))
 
 (use-package lsp-ivy 
+  :straight t
   :requires (ivy))
 
 (use-package lsp-ui
+  :straight t
   :requires (lsp-mode))
 
 (use-package dap-mode
+  :straight t
   :requires (lsp-mode)
   :config
   (dap-mode t)
@@ -566,23 +611,29 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 *** Rust
 #+BEGIN_SRC emacs-lisp
 (use-package rust-mode
+  :straight t
   :requires (lsp))
 #+END_SRC
 *** Haskell
 #+BEGIN_SRC emacs-lisp
-(use-package haskell-mode)
+(use-package haskell-mode
+  :straight t
+)
 
 (use-package lsp-haskell
+  :straight t
   :requires (lsp haskell-mode))
 #+END_SRC
 *** Scala
 #+BEGIN_SRC emacs-lisp
 ;; Enable scala-mode and sbt-mode
 (use-package scala-mode
+  :straight t
   :requires (lsp)
   :mode "\\.s\\(cala\\|bt\\)$")
 
 (use-package sbt-mode
+  :straight t
   :commands sbt-start sbt-command
   :config
   ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
@@ -596,14 +647,17 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 ;; Add metals backend for lsp-mode
 (use-package lsp-metals
+  :straight t
   :config (setq lsp-metals-treeview-show-when-views-received t))
 
 ;; Use the Debug Adapter Protocol for running tests and debugging
+;; Posframe is a pop-up tool that must be manually installed for dap-mode
 (use-package posframe
-  ;; Posframe is a pop-up tool that must be manually installed for dap-mode
+  :straight t
   )
 
 (use-package dap-mode
+  :straight t
   :hook
   (lsp-mode . dap-mode)
   (lsp-mode . dap-ui-mode)
@@ -613,6 +667,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 #+BEGIN_SRC emacs-lisp
 ;; Enable scala-mode and sbt-mode
 (use-package dhall-mode
+  :straight t
   :requires (lsp)
   :mode "\\.dhall$"
   :config
@@ -690,6 +745,7 @@ Make sure we are employing =org-plus-contrib= instead of =org=.
 
 #+BEGIN_SRC emacs-lisp
 ;; (use-package org
+;;     :straight t
 ;;     :requires (org-plus-contrib)
 ;;     :commands org-agenda org-capture org-index)
 #+END_SRC

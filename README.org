@@ -92,17 +92,30 @@ More information about Language Server Protocol:
  | XML                   | builtin   |             |                    |
  | YAML                  | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
 
-** Other extensions focusing on usability and productivity
+** Install /ivy/, /swiper/ and /counsel/ for easy completion from a list
 
  | Package                 | Purpose                                        | Status  |
  |-------------------------+------------------------------------------------+---------|
- | org-plus-contrib        | Org Mode with contributions                    | testing |
  | projectile              | project interaction library                    | done    |
  | ivy                     | Easy completion from a list                    | done    |
  | swiper                  | Isearch with an overview. Oh, man!             | done    |
  | counsel-jq              | Live preview of "jq" queries using counsel     | done    |
  | counsel-etags           | Complete Ctags/Etags solution using ivy        | done    |
  | counsel-projectile      | Ivy integration for Projectile                 | done    |
+
+** Source code management
+
+ | Package                 | Purpose                                        | Status  |
+ |-------------------------+------------------------------------------------+---------|
+ | magit                   | a powerful frontend for Git                    | done    |
+ | monky                   | a powerful frontend for Mercurial/Hg           | done    |
+ | find-file-in-repository | find files in the source control               | done    |
+
+** Other extensions focusing on usability and productivity
+
+ | Package                 | Purpose                                        | Status  |
+ |-------------------------+------------------------------------------------+---------|
+ | org-plus-contrib        | Org Mode with contributions                    | testing |
  | undo-tree               | recovers any past state of a buffer            | done    |
  | move-dup                | Eclipse-like move and duplicate lines          | done    |
  | highlight-symbol        | highlight and navigate between symbols         | done    |
@@ -111,11 +124,8 @@ More information about Language Server Protocol:
  | yatemplate              | expand abbreviations into function templates   | done    |
  | smartparens             | deals with parens pairs in smart ways          | done    |
  | treemacs                | tree navigation sidebar                        | done    |
- | magit                   | a powerful frontend for Git                    | done    |
- | monky                   | a powerful frontend for Mercurial/Hg           | done    |
  | gist                    | share snippets and pastes                      | done    |
  | restclient              | REST REPL                                      |         |
- | find-file-in-repository | find files in the source control               | done    |
  | multiple-cursors        | edit multiple places of a buffer at once       | done    |
  | window-numbering        | assign numbers to windows for quick access     | done    |
  | expand-region           | increase selected region by semantic units     | done    |
@@ -212,7 +222,90 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
 )
 #+END_SRC
 
-** Interface tweaks
+** Source code management
+*** /magit/: a powerful frontend for Git
+#+BEGIN_SRC emacs-lisp 
+(use-package magit
+  :straight t
+  :init
+    (progn
+      (bind-key "C-x g" 'magit-status)))
+
+(setq magit-status-margin '(t "%Y-%m-%d %H:%M " magit-log-margin-width t 18))
+
+(use-package git-timemachine
+  :straight t
+  :requires (magit))
+
+(use-package git-gutter
+  :straight t
+  :requires (magit)
+  :init
+    (global-git-gutter-mode +1))
+
+(use-package smerge-mode
+  :straight t
+  :after hydra
+  :config
+  (defhydra unpackaged/smerge-hydra
+    (:color pink :hint nil :post (smerge-auto-leave))
+    "
+^Move^       ^Keep^               ^Diff^                 ^Other^
+^^-----------^^-------------------^^---------------------^^-------
+_n_ext       _b_ase               _<_: upper/base        _C_ombine
+_p_rev       _u_pper              _=_: upper/lower       _r_esolve
+^^           _l_ower              _>_: base/lower        _k_ill current
+^^           _a_ll                _R_efine
+^^           _RET_: current       _E_diff
+"
+    ("n" smerge-next)
+    ("p" smerge-prev)
+    ("b" smerge-keep-base)
+    ("u" smerge-keep-upper)
+    ("l" smerge-keep-lower)
+    ("a" smerge-keep-all)
+    ("RET" smerge-keep-current)
+    ("\C-m" smerge-keep-current)
+    ("<" smerge-diff-base-upper)
+    ("=" smerge-diff-upper-lower)
+    (">" smerge-diff-base-lower)
+    ("R" smerge-refine)
+    ("E" smerge-ediff)
+    ("C" smerge-combine-with-next)
+    ("r" smerge-resolve)
+    ("k" smerge-kill-current)
+    ("ZZ" (lambda ()
+            (interactive)
+            (save-buffer)
+            (bury-buffer))
+     "Save and bury buffer" :color blue)
+    ("q" nil "cancel" :color blue))
+  :hook (magit-diff-visit-file . (lambda ()
+                                   (when smerge-mode
+                                     (unpackaged/smerge-hydra/body)))))
+
+(use-package forge
+  :straight t
+)
+#+END_SRC
+*** /monky/: a powerful frontend for Mercurial/Hg
+#+BEGIN_SRC emacs-lisp 
+(use-package monky
+  :straight t
+  :diminish monky-status
+  :commands monky-status
+  :init (setq monky-process-type 'cmdserver)
+  :bind ("M-s M-m" . monky-status))
+#+END_SRC
+*** /find-file-in-repository/ find files in the source control
+#+BEGIN_SRC emacs-lisp 
+(use-package find-file-in-repository
+  :straight t
+  :diminish find-file-in-repository
+  :commands find-file-in-repository
+  :bind ("M-s M-f" . find-file-in-repository))
+#+END_SRC
+** Other extensions focusing on usability and productivity
 *** /monokai-theme/: a dark colour theme
 
 #+BEGIN_SRC emacs-lisp 
@@ -415,91 +508,6 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
 (use-package restclient
   :straight t
 )
-#+END_SRC
-
-** Source code management
-*** /magit/: a powerful frontend for Git
-#+BEGIN_SRC emacs-lisp 
-(use-package magit
-  :straight t
-  :init
-    (progn
-      (bind-key "C-x g" 'magit-status)))
-
-(setq magit-status-margin '(t "%Y-%m-%d %H:%M " magit-log-margin-width t 18))
-
-(use-package git-timemachine
-  :straight t
-  :requires (magit))
-
-(use-package git-gutter
-  :straight t
-  :requires (magit)
-  :init
-    (global-git-gutter-mode +1))
-
-(use-package smerge-mode
-  :straight t
-  :after hydra
-  :config
-  (defhydra unpackaged/smerge-hydra
-    (:color pink :hint nil :post (smerge-auto-leave))
-    "
-^Move^       ^Keep^               ^Diff^                 ^Other^
-^^-----------^^-------------------^^---------------------^^-------
-_n_ext       _b_ase               _<_: upper/base        _C_ombine
-_p_rev       _u_pper              _=_: upper/lower       _r_esolve
-^^           _l_ower              _>_: base/lower        _k_ill current
-^^           _a_ll                _R_efine
-^^           _RET_: current       _E_diff
-"
-    ("n" smerge-next)
-    ("p" smerge-prev)
-    ("b" smerge-keep-base)
-    ("u" smerge-keep-upper)
-    ("l" smerge-keep-lower)
-    ("a" smerge-keep-all)
-    ("RET" smerge-keep-current)
-    ("\C-m" smerge-keep-current)
-    ("<" smerge-diff-base-upper)
-    ("=" smerge-diff-upper-lower)
-    (">" smerge-diff-base-lower)
-    ("R" smerge-refine)
-    ("E" smerge-ediff)
-    ("C" smerge-combine-with-next)
-    ("r" smerge-resolve)
-    ("k" smerge-kill-current)
-    ("ZZ" (lambda ()
-            (interactive)
-            (save-buffer)
-            (bury-buffer))
-     "Save and bury buffer" :color blue)
-    ("q" nil "cancel" :color blue))
-  :hook (magit-diff-visit-file . (lambda ()
-                                   (when smerge-mode
-                                     (unpackaged/smerge-hydra/body)))))
-
-(use-package forge
-  :straight t
-)
-#+END_SRC
-*** /monky/: a powerful frontend for Mercurial/Hg
-#+BEGIN_SRC emacs-lisp 
-(use-package monky
-  :straight t
-  :diminish monky-status
-  :commands monky-status
-  :init (setq monky-process-type 'cmdserver)
-  :bind ("M-s M-m" . monky-status))
-#+END_SRC
-*** /find-file-in-repository/ find files in the source control
-#+BEGIN_SRC emacs-lisp 
-(use-package find-file-in-repository
-  :straight t
-  :diminish find-file-in-repository
-  :commands find-file-in-repository
-  :bind ("M-s M-f" . find-file-in-repository))
-#+END_SRC
 ** Configure programming languages and markup languages
 *** Install Language Server Protocol
 

@@ -5,6 +5,7 @@ elpa25/
 snippets/
 var/
 request/
+url/
 .cache/
 straight/
 transient/

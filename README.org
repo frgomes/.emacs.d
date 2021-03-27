@@ -125,7 +125,8 @@ More information about Language Server Protocol:
  | smartparens             | deals with parens pairs in smart ways          | done    |
  | treemacs                | tree navigation sidebar                        | done    |
  | gist                    | share snippets and pastes                      | done    |
- | restclient              | REST REPL                                      |         |
+ | restclient              | REST REPL                                      | done    |
+ | rg                      | ripgrep                                        | done    |
  | multiple-cursors        | edit multiple places of a buffer at once       | done    |
  | window-numbering        | assign numbers to windows for quick access     | done    |
  | expand-region           | increase selected region by semantic units     | done    |
@@ -501,13 +502,24 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :bind (("M-s M-o" . gist-list)
 	 ("M-s M-s" . gist-region-or-buffer)))
 #+END_SRC
-  
+
 *** /restclient/: provides a REST REPL
 
 #+BEGIN_SRC emacs-lisp
 (use-package restclient
   :straight t
-)
+  :ensure t
+  :mode (("\\.http\\'" . restclient-mode)))
+#+END_SRC
+
+*** /rg/: ripgrep
+
+#+BEGIN_SRC emacs-lisp
+(use-package rg
+  :straight t
+  :init (rg-enable-default-bindings))
+#+END_SRC
+
 ** Configure programming languages and markup languages
 *** Install Language Server Protocol
 

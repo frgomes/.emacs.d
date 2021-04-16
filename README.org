@@ -20,13 +20,13 @@ emacs &
 
 That's it!
 
-If everything goes according to plan, Emacs will download a lot of stuff from the Internet, compile everything, configure itself and present a dark window with a sidebar showing the current directory tree.
+If everything goes according to plan, Emacs will download a lot of stuff from the Internet, compile everything and configure itself without presenting any error. Then you type ~C-x t t~ (Ctrl-X t t) and a sidebar will be presented on the left side, which allows you to manage projects.
 
 
 * Features
 ** Support for programming languages and data languages
 
-Emacs has builtin support for Language Server Protocol. However, the range of languages which work out of the box.
+Emacs has builtin support for Language Server Protocol. However, the range of languages which work out of the box is limited and, for this reason ...
 
 | We provide shell scripts in a [[http://github.com/frgomes/bash-scripts][separate project]] which helps installing language servers.
 
@@ -37,60 +37,61 @@ More information about Language Server Protocol:
 
  The current support matrix is shown below:
 
- | Language              | status    | LSP client  | LSP server         |
- |-----------------------+-----------+-------------+--------------------|
- | Ada                   | builtin   |             |                    |
- | Angular               | builtin   |             |                    |
- | Bash                  | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
- | C++                   | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-clang.sh][install-clang.sh]]   |
- | C#                    | builtin   |             |                    |
- | Closure               | builtin   |             |                    |
- | Cmake                 | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-python.sh][install-python.sh]]  |
- | Crystal               | builtin   |             |                    |
- | CSS/LessCSS/SASS/SCSS | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
- | Dart                  | builtin   |             |                    |
- | Dhall                 | supported | dhall-mode  | [[http://github.com/frgomes/bash-scripts/user-install/install-dhall.sh][install-dhall.sh]]   |
- | Dockerfile            | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
- | Elixir                | builtin   |             |                    |
- | Elm                   | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
- | Erlang                | builtin   |             |                    |
- | Eslint                | builtin   |             |                    |
- | F#                    | builtin   |             |                    |
- | Fortran               | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-python.sh][install-python.sh]]  |
- | Go                    | missing   |             |                    |
- | Groovy                | builtin   |             |                    |
- | Hack                  | builtin   |             |                    |
- | HTML                  | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
- | Haskell               | supported | lsp-haskell | [[http://github.com/frgomes/bash-scripts/sysadmin-install/install-haskell.sh][install-haskell.sh]] |
- | Lua                   | missing   |             |                    |
- | Markdown              | builtin   | pandoc      |                    |
- | Java                  | missing   |             |                    |
- | Javascript            | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
- | Javascript Flow       | builtin   |             |                    |
- | JSON                  | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
- | Julia                 | missing   |             |                    |
- | Kotlin                | builtin   |             |                    |
- | Nim                   | builtin   |             |                    |
- | OCaml                 | builtin   |             |                    |
- | PHP                   | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
- | Powershell            | builtin   |             | automatic          |
- | Python                | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-python.sh][install-python.sh]]  |
- | R                     | builtin   |             |                    |
- | Ruby                  | builting  |             |                    |
- | Rust                  | supported | rust-mode   | [[http://github.com/frgomes/bash-scripts/user-install/install-rust.sh][install-rust.sh]]    |
- | Salt                  | supported | salt-mode   |                    |
- | Scala                 | supported | scala-mode  | [[http://github.com/frgomes/bash-scripts/user-install/install-scala.sh][install-scala.sh]]   |
- | Scala SBT             | supported | sbt-mode    | [[http://github.com/frgomes/bash-scripts/user-install/install-scala.sh][install-scala.sh]]   |
- | RST/Sphinx            | supported | PENDING     |                    |
- | Swift                 | missing   |             |                    |
- | TeX/LaTeX             | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-rust.sh][install-rust.sh]]    |
- | Typescript            | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
- | Verilog               | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-python.sh][install-python.sh]]  |
- | VHDL                  | builtin   |             |                    |
- | VIMscript             | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
- | Vue                   | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
- | XML                   | builtin   |             |                    |
- | YAML                  | builtin   |             | [[http://github.com/frgomes/bash-scripts/user-install/install-node.sh][install-node.sh]]    |
+ | Language              | status    | LSP client  | LSP server      |
+ |-----------------------+-----------+-------------+-----------------|
+ | Ada                   | builtin   |             |                 |
+ | Angular               | builtin   |             |                 |
+ | Bash                  | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node.sh][install_node]]    |
+ | C++                   | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_clang][install_clang]]   |
+ | C#                    | builtin   |             |                 |
+ | Closure               | builtin   |             |                 |
+ | Cmake                 | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_python][install_python]]  |
+ | Crystal               | builtin   |             |                 |
+ | CSS/LessCSS/SASS/SCSS | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
+ | Dart                  | builtin   |             |                 |
+ | Dhall                 | supported | dhall-mode  | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_dhall][install_dhall]]   |
+ | Dockerfile            | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
+ | Elixir                | builtin   |             |                 |
+ | Elm                   | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
+ | Erlang                | builtin   |             |                 |
+ | Eslint                | builtin   |             |                 |
+ | F#                    | builtin   |             |                 |
+ | Fortran               | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_python][install_python]]  |
+ | Go                    | MISSING   | MISSING     |                 |
+ | Groovy                | builtin   |             |                 |
+ | Hack                  | builtin   |             |                 |
+ | HTML                  | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
+ | Haskell               | supported | lsp-haskell | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_haskell][install_haskell]] |
+ | Lua                   | MISSING   | MISSING     |                 |
+ | Markdown              | builtin   | pandoc      |                 |
+ | Java                  | MISSING   | MISSING     |                 |
+ | Javascript            | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
+ | Javascript Flow       | builtin   |             |                 |
+ | JSON                  | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
+ | Julia                 | MISSING   | MISSING     |                 |
+ | Kotlin                | builtin   |             |                 |
+ | Nim                   | builtin   |             |                 |
+ | OCaml                 | builtin   |             |                 |
+ | PHP                   | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
+ | Powershell            | builtin   |             |                 |
+ | Python                | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_python][install_python]]  |
+ | R                     | builtin   |             |                 |
+ | RST(ReStructuredText) | builtin   |             |                 |
+ | Ruby                  | builtin   |             |                 |
+ | Rust                  | supported | rust-mode   | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_rust][install_rust]]    |
+ | Salt                  | supported | salt-mode   |                 |
+ | Scala                 | supported | scala-mode  | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_scala][install_scala]]   |
+ | Scala SBT             | supported | sbt-mode    | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_sbt][install_sbt]]     |
+ | Sphinx                | MISSING   | MISSING     |                 |
+ | Swift                 | MISSING   | MISSING     |                 |
+ | TeX/LaTeX             | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_rust][install_rust]]    |
+ | Typescript            | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
+ | Verilog               | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_python][install_python]]  |
+ | VHDL                  | builtin   |             |                 |
+ | VIMscript             | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
+ | Vue                   | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
+ | XML                   | builtin   |             |                 |
+ | YAML                  | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
 
 ** Install /ivy/, /swiper/ and /counsel/ for easy completion from a list
 
@@ -111,7 +112,7 @@ More information about Language Server Protocol:
  | monky                   | a powerful frontend for Mercurial/Hg           | done    |
  | find-file-in-repository | find files in the source control               | done    |
 
-** Other extensions focusing on usability and productivity
+** Additional extensions
 
  | Package                 | Purpose                                        | Status  |
  |-------------------------+------------------------------------------------+---------|
@@ -131,6 +132,10 @@ More information about Language Server Protocol:
  | window-numbering        | assign numbers to windows for quick access     | done    |
  | expand-region           | increase selected region by semantic units     | done    |
  | monokai-theme           | a dark colour theme                            | done    |
+
+** Additional custom functions
+
+ * move-region-to-file
 
 
 ----
@@ -306,7 +311,213 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :commands find-file-in-repository
   :bind ("M-s M-f" . find-file-in-repository))
 #+END_SRC
-** Other extensions focusing on usability and productivity
+** Configure programming languages and markup languages
+*** Install Language Server Protocol
+
+LSP provides builtin support for a vast range of programming languages.
+See: https://github.com/emacs-lsp/lsp-mode#supported-languages
+
+#+BEGIN_SRC emacs-lisp
+(use-package yasnippet
+  :straight t
+  :diminish yas-minor-mode
+  :commands yas-minor-mode
+  :config (yas-reload-all))
+
+(use-package yatemplate
+  :straight t
+;  :defer 2 ;; WORKAROUND https://github.com/mineo/yatemplate/issues/3
+  :config
+    (auto-insert-mode)
+    (setq auto-insert-alist nil)
+    (yatemplate-fill-alist))
+
+(use-package ivy-yasnippet
+  :straight t
+)
+
+;; see: https://emacs-lsp.github.io/lsp-mode/lsp-mode.html
+(use-package lsp-mode
+  :straight t
+  :commands lsp
+  :bind (:map lsp-mode-map ("C-c C-f" . lsp-format-buffer))
+  :custom
+    (lsp-auto-guess-root nil)
+    (lsp-prefer-flymake 1)
+  :hook
+    (scala-mode . lsp)
+    (lsp-mode . lsp-lens-mode)
+    (prog-mode   . lsp))
+
+(use-package company
+  :straight t
+  :config
+    (setq company-idle-delay 0)
+    (setq company-minimum-prefix-length 3)
+    (global-company-mode t))
+
+(use-package company-lsp
+  :straight t
+  :requires (lsp-mode)
+  :config
+    (setq company-lsp-enable-snippet t)
+    (push 'company-lsp company-backends))
+
+(use-package projectile
+  :straight t
+)
+
+(use-package lsp-treemacs
+  :straight t
+  :requires (lsp-mode treemacs)
+  :config
+    (lsp-treemacs-sync-mode 1))
+
+(use-package lsp-ui
+  :straight t
+  :after lsp-mode
+  :diminish
+  :commands lsp-ui-mode
+  :custom-face
+    (lsp-ui-doc-background ((t (:background nil))))
+    (lsp-ui-doc-header ((t (:inherit (font-lock-string-face italic)))))
+  :bind (:map lsp-ui-mode-map
+              ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+              ([remap xref-find-references] . lsp-ui-peek-find-references)
+              ("C-c u" . lsp-ui-imenu))
+  :custom
+    (lsp-ui-doc-enable t)
+    (lsp-ui-doc-delay 4)
+    (lsp-ui-doc-header t)
+    (lsp-ui-doc-include-signature t)
+    (lsp-ui-doc-position 'at-point)
+    (lsp-ui-doc-border (face-foreground 'default))
+    (lsp-ui-doc-use-childframe t)
+    (lsp-ui-doc-use-webkit nil)
+    (lsp-ui-doc-use-webkit nil)
+    (lsp-ui-doc-max-height 25)
+    (lsp-ui-doc-max-width 180)
+    (lsp-ui-peek-enable t)
+    (lsp-ui-sideline-enable t)
+    (lsp-ui-sideline-delay 4)
+    (lsp-ui-sideline-ignore-duplicate t)
+    (lsp-ui-sideline-show-code-actions t))
+    ;;XXX :config
+    ;;XXX   ;; Use lsp-ui-doc-webkit only in GUI
+    ;;XXX   (setq lsp-ui-doc-use-webkit t)
+    ;;XXX   ;; WORKAROUND Hide mode-line of the lsp-ui-imenu buffer
+    ;;XXX   ;; https://github.com/emacs-lsp/lsp-ui/issues/243
+    ;;XXX   (defadvice lsp-ui-imenu (after hide-lsp-ui-imenu-mode-line activate)
+    ;;XXX     (setq mode-line-format nil)))
+
+(use-package hydra
+  :straight t
+  :requires (ivy))
+
+(use-package lsp-ivy 
+  :straight t
+  :requires (ivy))
+
+(use-package lsp-ui
+  :straight t
+  :requires (lsp-mode))
+
+(use-package dap-mode
+  :straight t
+  :requires (lsp-mode)
+  :config
+  (dap-mode t)
+  (dap-ui-mode t))
+#+END_SRC
+*** Rust
+#+BEGIN_SRC emacs-lisp
+(use-package rust-mode
+  :straight t
+  :requires (lsp))
+#+END_SRC
+*** Haskell
+#+BEGIN_SRC emacs-lisp
+(use-package haskell-mode
+  :straight t
+)
+
+(use-package lsp-haskell
+  :straight t
+  :requires (lsp haskell-mode))
+#+END_SRC
+*** Salt
+#+BEGIN_SRC emacs-lisp
+(use-package salt-mode
+  :straight t
+  :ensure t
+  :config
+  (add-hook 'salt-mode-hook
+            (lambda ()
+              (flyspell-mode 1))))
+#+END_SRC
+*** Scala
+#+BEGIN_SRC emacs-lisp
+;; Enable scala-mode and sbt-mode
+(use-package scala-mode
+  :straight t
+  :requires (lsp)
+  :mode "\\.s\\(cala\\|bt\\)$")
+
+(use-package sbt-mode
+  :straight t
+  :commands sbt-start sbt-command
+  :config
+  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+  ;; allows using SPACE when in the minibuffer
+  (substitute-key-definition
+   'minibuffer-complete-word
+   'self-insert-command
+   minibuffer-local-completion-map)
+   ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+   (setq sbt:program-options '("-Dsbt.supershell=false")))
+
+;; Add metals backend for lsp-mode
+(use-package lsp-metals
+  :straight t
+  :config (setq lsp-metals-treeview-show-when-views-received t))
+
+;; Use the Debug Adapter Protocol for running tests and debugging
+;; Posframe is a pop-up tool that must be manually installed for dap-mode
+(use-package posframe
+  :straight t
+  )
+
+(use-package dap-mode
+  :straight t
+  :hook
+  (lsp-mode . dap-mode)
+  (lsp-mode . dap-ui-mode)
+  )
+#+END_SRC
+*** Dhall
+#+BEGIN_SRC emacs-lisp
+;; Enable scala-mode and sbt-mode
+(use-package dhall-mode
+  :straight t
+  :requires (lsp)
+  :mode "\\.dhall$"
+  :config
+  (setq
+    ;; uncomment the next line to disable automatic format
+    ;; dhall-format-at-save nil
+
+    ;; comment the next line to use unicode syntax
+    dhall-format-arguments (\` ("--ascii"))
+
+    ;; header-line is obsoleted by lsp-mode
+    dhall-use-header-line nil))
+#+END_SRC
+*** Markdown
+#+BEGIN_SRC emacs-lisp
+(custom-set-variables
+ '(markdown-command "pandoc"))
+#+END_SRC
+** Additional extensions
 *** /monokai-theme/: a dark colour theme
 
 #+BEGIN_SRC emacs-lisp 
@@ -520,212 +731,16 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :init (rg-enable-default-bindings))
 #+END_SRC
 
-** Configure programming languages and markup languages
-*** Install Language Server Protocol
-
-LSP provides builtin support for a vast range of programming languages.
-See: https://github.com/emacs-lsp/lsp-mode#supported-languages
+** Additional custom functions
 
 #+BEGIN_SRC emacs-lisp
-(use-package yasnippet
-  :straight t
-  :diminish yas-minor-mode
-  :commands yas-minor-mode
-  :config (yas-reload-all))
-
-(use-package yatemplate
-  :straight t
-;  :defer 2 ;; WORKAROUND https://github.com/mineo/yatemplate/issues/3
-  :config
-    (auto-insert-mode)
-    (setq auto-insert-alist nil)
-    (yatemplate-fill-alist))
-
-(use-package ivy-yasnippet
-  :straight t
-)
-
-;; see: https://emacs-lsp.github.io/lsp-mode/lsp-mode.html
-(use-package lsp-mode
-  :straight t
-  :commands lsp
-  :bind (:map lsp-mode-map ("C-c C-f" . lsp-format-buffer))
-  :custom
-    (lsp-auto-guess-root nil)
-    (lsp-prefer-flymake 1)
-  :hook
-    (scala-mode . lsp)
-    (lsp-mode . lsp-lens-mode)
-    (prog-mode   . lsp))
-
-(use-package company
-  :straight t
-  :config
-    (setq company-idle-delay 0)
-    (setq company-minimum-prefix-length 3)
-    (global-company-mode t))
-
-(use-package company-lsp
-  :straight t
-  :requires (lsp-mode)
-  :config
-    (setq company-lsp-enable-snippet t)
-    (push 'company-lsp company-backends))
-
-(use-package projectile
-  :straight t
-)
-
-(use-package lsp-treemacs
-  :straight t
-  :requires (lsp-mode treemacs)
-  :config
-    (lsp-treemacs-sync-mode 1))
-
-(use-package lsp-ui
-  :straight t
-  :after lsp-mode
-  :diminish
-  :commands lsp-ui-mode
-  :custom-face
-    (lsp-ui-doc-background ((t (:background nil))))
-    (lsp-ui-doc-header ((t (:inherit (font-lock-string-face italic)))))
-  :bind (:map lsp-ui-mode-map
-              ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-              ([remap xref-find-references] . lsp-ui-peek-find-references)
-              ("C-c u" . lsp-ui-imenu))
-  :custom
-    (lsp-ui-doc-enable t)
-    (lsp-ui-doc-delay 4)
-    (lsp-ui-doc-header t)
-    (lsp-ui-doc-include-signature t)
-    (lsp-ui-doc-position 'at-point)
-    (lsp-ui-doc-border (face-foreground 'default))
-    (lsp-ui-doc-use-childframe t)
-    (lsp-ui-doc-use-webkit nil)
-    (lsp-ui-doc-use-webkit nil)
-    (lsp-ui-doc-max-height 25)
-    (lsp-ui-doc-max-width 180)
-    (lsp-ui-peek-enable t)
-    (lsp-ui-sideline-enable t)
-    (lsp-ui-sideline-delay 4)
-    (lsp-ui-sideline-ignore-duplicate t)
-    (lsp-ui-sideline-show-code-actions t))
-    ;;XXX :config
-    ;;XXX   ;; Use lsp-ui-doc-webkit only in GUI
-    ;;XXX   (setq lsp-ui-doc-use-webkit t)
-    ;;XXX   ;; WORKAROUND Hide mode-line of the lsp-ui-imenu buffer
-    ;;XXX   ;; https://github.com/emacs-lsp/lsp-ui/issues/243
-    ;;XXX   (defadvice lsp-ui-imenu (after hide-lsp-ui-imenu-mode-line activate)
-    ;;XXX     (setq mode-line-format nil)))
-
-(use-package hydra
-  :straight t
-  :requires (ivy))
-
-(use-package lsp-ivy 
-  :straight t
-  :requires (ivy))
-
-(use-package lsp-ui
-  :straight t
-  :requires (lsp-mode))
-
-(use-package dap-mode
-  :straight t
-  :requires (lsp-mode)
-  :config
-  (dap-mode t)
-  (dap-ui-mode t))
+(defun move-region-to-file(start end filename)
+  "function takes current region, and writes it to specified file"
+  (interactive "r\nsFilename: ")
+  (write-region start end filename t)
+  (kill-region start end))
 #+END_SRC
-*** Rust
-#+BEGIN_SRC emacs-lisp
-(use-package rust-mode
-  :straight t
-  :requires (lsp))
-#+END_SRC
-*** Haskell
-#+BEGIN_SRC emacs-lisp
-(use-package haskell-mode
-  :straight t
-)
 
-(use-package lsp-haskell
-  :straight t
-  :requires (lsp haskell-mode))
-#+END_SRC
-*** Salt
-#+BEGIN_SRC emacs-lisp
-(use-package salt-mode
-  :straight t
-  :ensure t
-  :config
-  (add-hook 'salt-mode-hook
-            (lambda ()
-              (flyspell-mode 1))))
-#+END_SRC
-*** Scala
-#+BEGIN_SRC emacs-lisp
-;; Enable scala-mode and sbt-mode
-(use-package scala-mode
-  :straight t
-  :requires (lsp)
-  :mode "\\.s\\(cala\\|bt\\)$")
-
-(use-package sbt-mode
-  :straight t
-  :commands sbt-start sbt-command
-  :config
-  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-  ;; allows using SPACE when in the minibuffer
-  (substitute-key-definition
-   'minibuffer-complete-word
-   'self-insert-command
-   minibuffer-local-completion-map)
-   ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
-   (setq sbt:program-options '("-Dsbt.supershell=false")))
-
-;; Add metals backend for lsp-mode
-(use-package lsp-metals
-  :straight t
-  :config (setq lsp-metals-treeview-show-when-views-received t))
-
-;; Use the Debug Adapter Protocol for running tests and debugging
-;; Posframe is a pop-up tool that must be manually installed for dap-mode
-(use-package posframe
-  :straight t
-  )
-
-(use-package dap-mode
-  :straight t
-  :hook
-  (lsp-mode . dap-mode)
-  (lsp-mode . dap-ui-mode)
-  )
-#+END_SRC
-*** Dhall
-#+BEGIN_SRC emacs-lisp
-;; Enable scala-mode and sbt-mode
-(use-package dhall-mode
-  :straight t
-  :requires (lsp)
-  :mode "\\.dhall$"
-  :config
-  (setq
-    ;; uncomment the next line to disable automatic format
-    ;; dhall-format-at-save nil
-
-    ;; comment the next line to use unicode syntax
-    dhall-format-arguments (\` ("--ascii"))
-
-    ;; header-line is obsoleted by lsp-mode
-    dhall-use-header-line nil))
-#+END_SRC
-*** Markdown
-#+BEGIN_SRC emacs-lisp
-(custom-set-variables
- '(markdown-command "pandoc"))
-#+END_SRC
 ** Configure global settings and keybindings
 #+BEGIN_SRC emacs-lisp
 ; general defaults

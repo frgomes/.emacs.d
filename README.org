@@ -625,10 +625,10 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 (use-package move-dup
   :straight t
   :config (global-move-dup-mode)
-  :bind (("S-M-<up>"     . md-move-lines-up)
-         ("S-M-<down>"   . md-move-lines-down)
-         ("C-M-<up>"     . md-duplicate-up)
-         ("C-M-<down>"   . md-duplicate-down)))
+  :bind (("S-M-<up>"     . move-dup-move-lines-up)
+         ("S-M-<down>"   . move-dup-move-lines-down)
+         ("C-M-<up>"     . move-dup-duplicate-up)
+         ("C-M-<down>"   . move-dup-duplicate-down)))
 #+END_SRC
 
 *** /highlight-symbol/: highlight and navigate between symbols

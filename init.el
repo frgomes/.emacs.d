@@ -1,4 +1,4 @@
-;;; inite.el --- -*- lexical-binding: t -*-
+;;; init.el --- -*- lexical-binding: t -*-
 
 (cond ((version< emacs-version "26.1")
        (warn "Emacs 26.1 or above is required!"))

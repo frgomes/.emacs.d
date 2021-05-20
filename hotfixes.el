@@ -1,3 +1,5 @@
+;;; hotfixes.el --- -*- lexical-binding: t -*-
+
 (defun hotfix-kmacro-hack (&rest _)
   (interactive
    (list (intern (completing-read

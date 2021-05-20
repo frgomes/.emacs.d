@@ -9,7 +9,9 @@ url/
 .cache/
 straight/
 transient/
+workspace/
 early-init-do-not-edit/
+eclipse.jdt.ls/
 
 
 *~
@@ -29,6 +31,8 @@ ac-comphist.dat
 .lsp-session-*
 .dap-breakpoints
 forge-database.sqlite
+recentf
+tramp
 
 # symlinks
 .trello

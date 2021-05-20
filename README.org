@@ -178,61 +178,753 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
 #+END_SRC
 ** Install /ivy/, /swiper/ and /counsel/ for easy completion from a list
 #+BEGIN_SRC emacs-lisp
+;; ivy and friends
+
+(use-package posframe)
+(use-package flx)
+(use-package wgrep)
+(use-package wgrep-ag)
+
 (use-package counsel
-  :straight t
-  :bind
-    (("M-y" . counsel-yank-pop)
-      :map ivy-minibuffer-map ("M-y" . ivy-next-line)))
+  :after ivy
+  :config (counsel-mode)
+  :bind (("M-x"     . counsel-M-x)
+         ("C-c s c" . counsel-compile)
+         ("C-c s g" . counsel-git)
+         ("C-c s j" . counsel-git-grep)
+         ("C-c s L" . counsel-git-log)
+         ("C-c s k" . counsel-rg)
+         ("C-c s m" . counsel-linux-app)
+         ("C-c s n" . counsel-fzf)
+         ("C-c s l" . counsel-locate)
+         ("C-c s J" . counsel-file-jump)
+         ("C-c s b" . counsel-bookmark)
+         ("C-c s D" . counsel-descbinds)
+         ("C-c s o" . counsel-outline)
+         ("C-c s t" . counsel-load-theme)
+         ("C-c s f" . counsel-org-file)
+         ("C-c s u" . counsel-unicode-char)
+         ("C-c s v" . counsel-set-variable)
+         ("C-c s p" . counsel-package)
+         ("C-c i"   . counsel-info-lookup-symbol)
+         ("M-y"     . counsel-yank-pop)
+         ("C-h f"   . counsel-describe-function)
+         ("C-h v"   . counsel-describe-variable)
+         ("C-h l"   . counsel-find-library)
+         ("C-x C-f" . counsel-find-file))
+)
 
 (use-package ivy
-  :straight t
-  :requires (counsel)
-  :diminish (ivy-mode)
-  :bind (("C-x b" . ivy-switch-buffer))
+  :diminish
+  :demand
+  :bind (("C-c C-r" . ivy-resume)
+         ("C-x b"   . ivy-switch-buffer)
+         ("C-x B"   . ivy-switch-buffer-other-window))
+         ("C-c v"   . ivy-push-view)
+         ("C-c V"   . ivy-pop-view)
+         (:map ivy-minibuffer-map ("C-c C-c" . hydra-ivy/body))
+  :custom
+    (ivy-count-format "(%d/%d) ")
+    (ivy-use-virtual-buffers t)
   :config
-    (ivy-mode 1)
-    (setq ivy-use-virtual-buffers t)
-    (setq ivy-count-format "%d/%d ")
-    (setq ivy-display-style 'fancy))
+  (ivy-mode)
+  (setq ivy-re-builders-alist
+        '(
+          (ivy-switch-buffer . ivy--regex-fuzzy)
+          (counsel-ag        . ivy--regex-plus)
+          (counsel-git-grep  . ivy--regex-plus)
+          (swiper            . ivy--regex-plus) 
+          (t                 . ivy--regex-fuzzy))))
+
+(use-package ivy-rich
+  :demand
+  :after counsel
+  :custom
+    (ivy-virtual-abbreviate 'full
+                            ivy-rich-switch-buffer-align-virtual-buffer t
+                            ivy-rich-path-style 'abbrev)
+  :config
+    (ivy-rich-mode)
+)
+
+(use-package ag
+  :custom
+    (ag-highlight-search t)
+    (ag-reuse-buffers t)
+  :config
+    (add-to-list 'ag-arguments "--word-regexp"))
+
+;; using ivy rich for now
+(use-package all-the-icons-ivy
+  :demand
+  :after ivy-rich
+  :config
+    (setq all-the-icons-ivy-file-commands
+          '(counsel-find-file counsel-file-jump counsel-recentf counsel-projectile-find-file counsel-projectile-find-dir))
+  ;;(all-the-icons-ivy-setup)
+)
 
 (use-package swiper
-  :straight t
-  :requires (ivy)
+  :after ivy
   :bind
     (("C-s"     . swiper-isearch)
-	   ("C-r"     . swiper-isearch)
-	   ("C-c C-r" . ivy-resume)
-	   ("M-x"     . counsel-M-x)
-	   ("C-x C-f" . counsel-find-file))
-  :config
-    (progn
-      (ivy-mode 1)
-      (setq ivy-use-virtual-buffers t)
-      (setq ivy-display-style 'fancy)
-      (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)))
-
-(use-package counsel-jq
-  :straight t
+     ("C-S-s"   . swiper-thing-at-point)
+     ("C-c C-r" . ivy-resume)
+     ("M-x"     . counsel-M-x)
+     ("C-x C-f" . counsel-find-file))
 )
+
+;;XXX (use-package counsel
+;;XXX   :bind
+;;XXX     (("M-y" . counsel-yank-pop)
+;;XXX       :map ivy-minibuffer-map ("M-y" . ivy-next-line)))
+;;XXX  
+;;XXX (use-package ivy
+;;XXX   :requires (counsel)
+;;XXX   :diminish (ivy-mode)
+;;XXX   :bind (("C-x b" . ivy-switch-buffer))
+;;XXX   :config
+;;XXX     (ivy-mode 1)
+;;XXX     (setq ivy-use-virtual-buffers t)
+;;XXX     (setq ivy-count-format "%d/%d ")
+;;XXX     (setq ivy-display-style 'fancy))
+;;XXX  
+;;XXX (use-package swiper
+;;XXX   :requires (ivy)
+;;XXX   :bind
+;;XXX     (("C-s"     . swiper-isearch)
+;;XXX      ("C-r"     . swiper-isearch)
+;;XXX      ("C-c C-r" . ivy-resume)
+;;XXX      ("M-x"     . counsel-M-x)
+;;XXX      ("C-x C-f" . counsel-find-file))
+;;XXX   :config
+;;XXX     (progn
+;;XXX       (ivy-mode 1)
+;;XXX       (setq ivy-use-virtual-buffers t)
+;;XXX       (setq ivy-display-style 'fancy)
+;;XXX       (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)))
+
+(use-package counsel-jq)
 ;;XXX (use-package counsel-etags)
 
 (use-package projectile
-  :straight t
   :demand
   :init   (setq projectile-use-git-grep t)
   :config (projectile-global-mode t)
   :bind   (("s-f" . projectile-find-file)
            ("s-F" . projectile-grep)))
-(use-package counsel-projectile
-  :straight t
-)
+(use-package counsel-projectile)
 #+END_SRC
+*** Hydra has several arms
+#+BEGIN_SRC emacs-lisp 
+(use-package ivy-hydra
+  :after ivy)
 
+(use-package hydra-posframe
+  :after hydra posframe
+  :straight (:host github :repo "Ladicle/hydra-posframe")
+  :hook (after-init . hydra-posframe-enable)
+  :init
+  (setq hydra-posframe-poshandler 'posframe-poshandler-frame-bottom-center)
+  (setq hydra-posframe-border-width 1)
+  (setq hydra-posframe-parameters '((left-fringe . 5)(right-fringe . 5)))
+  :custom-face (hydra-posframe-border-face ((t (:background "#bf616a"))))
+  :custom-face (hydra-posframe-face ((t (:background "#3b4252")))))
+
+(use-package major-mode-hydra
+  :after hydra
+  :preface
+  (defun with-alltheicon (icon str &optional height v-adjust)
+    "Displays an icon from all-the-icon."
+    (s-concat (all-the-icons-alltheicon icon :v-adjust (or v-adjust 0) :height (or height 1)) " " str))
+
+  (defun with-faicon (icon str &optional height v-adjust)
+    "Displays an icon from Font Awesome icon."
+    (s-concat (all-the-icons-faicon icon :v-adjust (or v-adjust 0) :height (or height 1)) " " str))
+
+  (defun with-fileicon (icon str &optional height v-adjust)
+    "Displays an icon from the Atom File Icons package."
+    (s-concat (all-the-icons-fileicon icon :v-adjust (or v-adjust 0) :height (or height 1)) " " str))
+
+  (defun with-octicon (icon str &optional height v-adjust)
+    "Displays an icon from the GitHub Octicons."
+    (s-concat (all-the-icons-octicon icon :v-adjust (or v-adjust 0) :height (or height 1)) " " str)))
+
+(major-mode-hydra-define emacs-lisp-mode nil
+  ("Eval"
+   (("b" eval-buffer "buffer")
+    ("e" eval-defun "defun")
+    ("r" eval-region "region"))
+   "REPL"
+   (("I" ielm "ielm"))
+   "Test"
+   (("t" ert "prompt")
+    ("T" (ert t) "all")
+    ("F" (ert :failed) "failed"))
+   "Doc"
+   (("d" describe-foo-at-point "thing-at-pt")
+    ("f" describe-function "function")
+    ("v" describe-variable "variable")
+    ("i" info-lookup-symbol "info lookup"))))
+
+;;Hydra / BToggle
+;;Group a lot of commands.
+(pretty-hydra-define hydra-btoggle
+  (:hint nil :color amaranth :quit-key "q" :title (with-faicon "toggle-on" "Toggle" 1 -0.05))
+  ("Basic"
+   (("a" abbrev-mode "abbrev" :toggle t)
+    ("n" auto-insert-mode "auto-insert" :toggle t)
+    ("h" global-hungry-delete-mode "hungry delete" :toggle t))
+   "Coding"
+   (("e" electric-operator-mode "electric operator" :toggle t)
+    ("f" flycheck-mode "flycheck" :toggle t)
+    ("l" lsp-mode "lsp" :toggle t)
+    ("H" hl-todo-mode "hl-todo" :toggle t)
+    ("o" origami-mode "origami" :toggle t)
+    ("s" smartparens-mode "smartparens" :toggle t))
+   "Debug"
+   (("de" toggle-debug-on-error "debug on error" :toggle debug-on-error)
+    ("dq" toggle-debug-on-quit "debug on C-g" :toggle debug-on-quit))
+   "UI"
+   (("i" ivy-rich-mode "ivy-rich" :toggle t))))
+
+(pretty-hydra-define hydra-flycheck
+  (:hint nil :color teal :quit-key "q" :title (with-faicon "plane" "Flycheck" 1 -0.05))
+  ("Checker"
+   (("?" flycheck-describe-checker "describe")
+    ("d" flycheck-disable-checker "disable")
+    ("m" flycheck-mode "mode")
+    ("s" flycheck-select-checker "select"))
+   "Errors"
+   (("k" flycheck-previous-error "previous" :color pink)
+    ("j" flycheck-next-error "next" :color pink)
+    ("f" flycheck-buffer "check")
+    ("l" flycheck-list-errors "list"))
+   "Other"
+   (("M" flycheck-manual "manual")
+    ("v" flycheck-verify-setup "verify setup"))))
+
+(defhydra hydra-yasnippet (:color blue :hint nil)
+  "
+              ^YASnippets^
+--------------------------------------------
+  Modes:    Load/Visit:    Actions:
+ _g_lobal  _d_irectory    _i_nsert
+ _m_inor   _f_ile         _t_ryout
+ _e_xtra   _l_ist         _n_ew
+         _a_ll
+"
+  ("d" yas-load-directory)
+  ("e" yas-activate-extra-mode)
+  ("i" yas-insert-snippet)
+  ("f" yas-visit-snippet-file :color blue)
+  ("n" yas-new-snippet)
+  ("t" yas-tryout-snippet)
+  ("l" yas-describe-tables)
+  ("g" yas/global-mode)
+  ("m" yas/minor-mode)
+  ("a" yas-reload-all))
+
+(defhydra hydra-smartparens (:hint nil)
+  "
+ Moving^^^^                       Slurp & Barf^^   Wrapping^^            Sexp juggling^^^^               Destructive
+------------------------------------------------------------------------------------------------------------------------
+ [_a_] beginning  [_n_] down      [_h_] bw slurp   [_R_]   rewrap        [_S_] split   [_t_] transpose   [_c_] change inner  [_w_] copy
+ [_e_] end        [_N_] bw down   [_H_] bw barf    [_u_]   unwrap        [_s_] splice  [_A_] absorb      [_C_] change outer
+ [_f_] forward    [_p_] up        [_l_] slurp      [_U_]   bw unwrap     [_r_] raise   [_E_] emit        [_k_] kill          [_g_] quit
+ [_b_] backward   [_P_] bw up     [_L_] barf       [_(__{__[_] wrap (){}[]   [_j_] join    [_o_] convolute   [_K_] bw kill       [_q_] quit"
+  ;; Moving
+  ("a" sp-beginning-of-sexp)
+  ("e" sp-end-of-sexp)
+  ("f" sp-forward-sexp)
+  ("b" sp-backward-sexp)
+  ("n" sp-down-sexp)
+  ("N" sp-backward-down-sexp)
+  ("p" sp-up-sexp)
+  ("P" sp-backward-up-sexp)
+
+  ;; Slurping & barfing
+  ("h" sp-backward-slurp-sexp)
+  ("H" sp-backward-barf-sexp)
+  ("l" sp-forward-slurp-sexp)
+  ("L" sp-forward-barf-sexp)
+
+  ;; Wrapping
+  ("R" sp-rewrap-sexp)
+  ("u" sp-unwrap-sexp)
+  ("U" sp-backward-unwrap-sexp)
+  ("(" sp-wrap-round)
+  ("{" sp-wrap-curly)
+  ("[" sp-wrap-square)
+
+  ;; Sexp juggling
+  ("S" sp-split-sexp)
+  ("s" sp-splice-sexp)
+  ("r" sp-raise-sexp)
+  ("j" sp-join-sexp)
+  ("t" sp-transpose-sexp)
+  ("A" sp-absorb-sexp)
+  ("E" sp-emit-sexp)
+  ("o" sp-convolute-sexp)
+
+  ;; Destructive editing
+  ("c" sp-change-inner :exit t)
+  ("C" sp-change-enclosing :exit t)
+  ("k" sp-kill-sexp)
+  ("K" sp-backward-kill-sexp)
+  ("w" sp-copy-sexp)
+
+  ("q" nil)
+  ("g" nil))
+
+;; TODO this doesn't work
+(pretty-hydra-define hydra-s
+  (:hint t :color teal :quit-key "RET" :title "String manipulation")
+  ("Pertaining to words"
+   (("w" (lambda()(interactive)(s-split-words (buffer-substring-no-properties (region-beginning) (region-end)))) "split words")
+    ("c" (lambda()(interactive)(s-lower-camel-case (buffer-substring-no-properties (region-beginning) (region-end)))) "lower camel")
+    ("C" (lambda()(interactive)(s-upper-camel-case (buffer-substring-no-properties (region-beginning) (region-end)))) "upper camel")
+    ("s" (lambda()(interactive)(s-snake-case (buffer-substring-no-properties (region-beginning) (region-end)))) "snake")
+    ("d" (lambda()(interactive)(s-dashed-words (buffer-substring-no-properties (region-beginning) (region-end)))) "dashed")
+    ("W" (lambda()(interactive)(s-capitalized-words (buffer-substring-no-properties (region-beginning) (region-end)))) "capital")
+    ("t" (lambda()(interactive)(s-titleized-words (buffer-substring-no-properties (region-beginning) (region-end)))) "titleize")
+    ("i" (lambda()(interactive)(s-word-initials (buffer-substring-no-properties (region-beginning) (region-end)))) "initials"))))
+
+(defhydra hydra-avy (:exit t :hint nil)
+  "
+ Line^^       Region^^        Goto
+----------------------------------------------------------
+ [_y_] yank   [_Y_] yank      [_j_] timed char  [_c_] char          [_C_] char-2
+ [_m_] move   [_M_] move      [_w_] word        [_W_] any word
+ [_k_] kill   [_K_] kill      [_l_] line        [_L_] end of line"
+  ("j" avy-goto-char-timer)
+  ("c" avy-goto-char)
+  ("C" avy-goto-char-2)
+  ("w" avy-goto-word-1)
+  ("W" avy-goto-word-0)
+  ("l" avy-goto-line)
+  ("L" avy-goto-end-of-line)
+  ("m" avy-move-line)
+  ("M" avy-move-region)
+  ("k" avy-kill-whole-line)
+  ("K" avy-kill-region)
+  ("y" avy-copy-line)
+  ("Y" avy-copy-region))
+
+(defhydra hydra-smerge
+  (:color red :hint nil
+          :pre (smerge-mode 1))
+  "
+^Move^ ^Keep^ ^Diff^ ^Pair^
+------------------------------------------------------
+_n_ext _b_ase  _R_efine _<_: base-upper
+_p_rev _u_pper _E_diff _=_: upper-lower
+^ ^ _l_ower _C_ombine _>_: base-lower
+^ ^ _a_ll _r_esolve
+_q_uit _RET_: current
+"
+  ("RET" smerge-keep-current)
+  ("C" smerge-combine-with-next)
+  ("E" smerge-ediff)
+  ("R" smerge-refine)
+  ("a" smerge-keep-all)
+  ("b" smerge-keep-base)
+  ("u" smerge-keep-upper)
+  ("n" smerge-next)
+  ("l" smerge-keep-lower)
+  ("p" smerge-prev)
+  ("r" smerge-resolve)
+  ("<" smerge-diff-base-upper)
+  ("=" smerge-diff-upper-lower)
+  (">" smerge-diff-base-lower)
+  ("q" nil :color blue))
+
+(pretty-hydra-define hydra-projectile
+  (:hint nil :color teal :quit-key "q" :title (with-faicon "rocket" "Projectile" 1 -0.05))
+  ("Buffers"
+   (("b" counsel-projectile-switch-to-buffer "list")
+    ("k" projectile-kill-buffers "kill all")
+    ("S" projectile-save-project-buffers "save all"))
+   "Find"
+   (("d" counsel-projectile-find-dir "directory")
+    ("F" projectile-recentf "recent files")
+    ("D" projectile-dired "dired")
+    ("g" counsel-projectile-find-file-dwim "file dwim")
+    ("f" counsel-projectile-find-file "file")
+    ("p" counsel-projectile-switch-project "project"))
+   "Other"
+   (("i" projectile-invalidate-cache "reset cache")
+    ("x" projectile-remove-known-project "remove known project")
+    ("z" projectile-cache-current-file "cache current file")
+    ("X" projectile-cleanup-known-projects "cleanup known projects"))
+   "Search"
+   (("r" projectile-replace "replace")
+    ("o" projectile-multi-occur "occur")
+    ("R" projectile-replace-regexp "regexp replace")
+    ("sg" counsel-projectile-grep "grep")
+    ("ss" counsel-projectile-ag "ag")
+    ("sr" counsel-projectile-rg "rg")
+    ("ss" counsel-rg "search")
+    )))
+
+(defhydra hydra-next-error (:hint nil)
+    "
+Compilation errors:
+_k_: next error        _j_: first error    _q_uit
+_i_: previous error    _l_: last error
+"
+    ("`" next-error     nil)
+    ("k" next-error     nil :bind nil)
+    ("i" previous-error nil :bind nil)
+    ("j" first-error    nil :bind nil)
+    ("l" (condition-case err
+             (while t
+               (next-error))
+           (user-error nil))
+     nil :bind nil)
+    ("q" nil            nil :color blue))
+
+(pretty-hydra-define hydra-lsp
+  (:hint nil :color teal :quit-key "q" :exit t :title (with-faicon "rocket" "Lsp"))
+ ("Find"
+  (("D" lsp-find-declaration "declaration")
+   ("d" lsp-find-definition "definition")
+   ("R" lsp-find-references "references")
+   ("i" lsp-find-implementation "implementation")
+   ("gt" lsp-find-type-definition "type")
+   ("f" lsp-ivy-workspace-symbol "symbol")
+   ("F" lsp-ivy-global-workspace-symbol "global symbol")
+   ("uf" lsp-ui-find-workspace-symbol "ui symbol")
+   ("pd" lsp-ui-peek-find-definitions "peek def")
+   ("pr" lsp-ui-peek-find-references "peek refs")
+   ("pf" lsp-ui-peek-find-workspace-symbol "peek symb")
+   ("pi" lsp-ui-peek-find-implementation "peek impl"))
+  "Toggle"
+  (("Td" lsp-ui-doc-mode "doc" :toggle t)
+   ("TS" lsp-ui-sideline-mode "sideline" :toggle t)
+   ("Ts" lsp-ui-sideline-toggle-symbols-info "side symb" :toggle t)
+   ("Tl" lsp-lens-mode "lens" :toggle t)
+   ("Ti" lsp-toggle-trace-io "trace-io" :toggle t)
+   ("Th" lsp-toggle-symbol-highlight "symb highlight")
+   ("Tf" lsp-toggle-on-type-formatting "format" :toggle t)
+   ("TF" lsp-ui-flycheck-list "flycheck")
+   ("TT" lsp-treemacs-sync-mode "treemacs sync" :toggle t)
+   ("TD" lsp-diagnostics-modeline-mode "diag line" :toggle t)
+   ("Tnf" lsp-signature-toggle-full-docs "sign docs full")
+   ("Tna" lsp-signature-activate "sign activate help")
+   ("Tns" lsp-toggle-signature-auto-activate "sign auto activate"))
+  "Help"
+  (("hd" lsp-ui-doc-glance "doc glance")
+   ("hh" lsp-describe-thing-at-point "describe"))
+  "Code"
+  (("=f" lsp-format-buffer "format")
+   ("=r" lsp-format-region "region")
+   ("r" lsp-rename "rename")
+   ("o" lsp-organize-imports "org imports")
+   ("m" lsp-ui-imenu "imenu")
+   ("x" lsp-execute-code-action "action"))
+  "Other"
+  (("l" lsp-avy-lens "avy lens")
+   ("ge" lsp-treemacs-errors-list "errors")
+   ("gh" lsp-treemacs-call-hierarchy "hierarchy")
+   ("gf" lsp-ui-flycheck-list "flycheck")
+   ("ga" xref-find-apropos "xref-apropos"))
+  "Metals"
+  (("Mb" lsp-metals-build-import "build import")
+   ("Ms" lsp-metals-sources-scan "sources rescan")
+   ("Mr" lsp-metals-build-connect "bloop reconnect"))
+  "Session"
+  (("s?" lsp-describe-session "describe")
+   ("ss" lsp "start")
+   ("sd" lsp-disconnect "disconnect")
+   ("sr" lsp-workspace-restart "restart")
+   ("sq" lsp-workspace-shutdown "shutdown")
+   ("sl" lsp-workspace-show-log "log")
+   ("sfa" lsp-workspace-folders-add "folders +")
+   ("sfo" lsp-workspace-folders-open "folder")
+   ("sfr" lsp-workspace-folders-remove "folders -")
+   ("sfb" lsp-workspace-blacklist-remove "blacklist -"))))
+
+(pretty-hydra-define hydra-magit
+  (:hint nil :color teal :quit-key "q" :title (with-alltheicon "git" "Magit" 1 -0.05))
+  ("Action"
+   (("b" magit-blame-addition "blame")
+    ("c" magit-clone "clone")
+    ("i" magit-init "init")
+    ("f" magit-file-popup "file popup")
+    ("t" git-timemachine "time machine")
+    ("l" magit-log-buffer-file "commit log (current file)")
+    ("L" magit-log-current "commit log (project)")
+    ("g" magit-status "status"))))
+
+(pretty-hydra-define hydra-windows
+  (:hint nil :forein-keys warn :quit-key "q" :title (with-faicon "windows" "Windows" 1 -0.05))
+  ("Window"
+   (("d" delete-window "delete window")
+    ("o" delete-other-windows "delete others" :exit t)
+    ("s" split-window-below "split below")
+    ("h" split-window-horizontally "split horizontally")
+    ("v" split-window-vertically "split vertically")
+    ("w" other-window "other window" :exit t)
+    ("r" rename-buffer "rename buffer" :exit t)
+    ("a" ace-window "ace" :exit t)
+    ("k" kill-buffer-and-window "kill buffer and window" :exit t))
+   "Frame"
+   (("fk" delete-frame "delete frame")
+    ("fo" delete-other-frames "delete others")
+    ("fn" make-frame-command "make frame"))
+   "Size"
+   (("b" balance-windows "balance")
+    ("L" shrink-window-horizontally "narrow")
+    ("H" enlarge-window-horizontally "widen")
+    ("J" shrink-window "lower")
+    ("K" enlarge-window "heighten")
+    ("S" switch-window-then-swap-buffer "swap" :color teal))
+   "Zoom"
+   (("-" zoom-out "out");text-scale-decrease "out")
+    ("+" zoom-in "in");text-scale-increase "in")
+    ("=" zoom-frm-unzoom "reset"))));(text-scale-increase 0) "reset"))))
+
+(defhydra hydra-buffer-menu (:color pink
+                             :hint nil)
+  "
+^Mark^             ^Unmark^           ^Actions^          ^Search
+^^^^^^^^-----------------------------------------------------------------
+_m_: mark          _u_: unmark        _x_: execute       _R_: re-isearch
+_s_: save          _U_: unmark up     _b_: bury          _I_: isearch
+_d_: delete        ^ ^                _g_: refresh       _O_: multi-occur
+_D_: delete up     ^ ^                _T_: files only: % -28`Buffer-menu-files-only
+_~_: modified
+"
+  ("m" Buffer-menu-mark)
+  ("u" Buffer-menu-unmark)
+  ("U" Buffer-menu-backup-unmark)
+  ("d" Buffer-menu-delete)
+  ("D" Buffer-menu-delete-backwards)
+  ("s" Buffer-menu-save)
+  ("~" Buffer-menu-not-modified)
+  ("x" Buffer-menu-execute)
+  ("b" Buffer-menu-bury)
+  ("g" revert-buffer)
+  ("T" Buffer-menu-toggle-files-only)
+  ("O" Buffer-menu-multi-occur :color blue)
+  ("I" Buffer-menu-isearch-buffers :color blue)
+  ("R" Buffer-menu-isearch-buffers-regexp :color blue)
+  ("c" nil "cancel")
+  ("v" Buffer-menu-select "select" :color blue)
+  ("o" Buffer-menu-other-window "other-window" :color blue)
+  ("q" quit-window "quit" :color blue))
+
+(defhydra hydra-folding (:color red)
+   "
+  _o_pen node    _n_ext fold       toggle _f_orward  _s_how current only
+  _c_lose node   _p_revious fold   toggle _a_ll
+  "
+   ("o" origami-open-node)
+   ("c" origami-close-node)
+   ("n" origami-next-fold)
+   ("p" origami-previous-fold)
+   ("f" origami-forward-toggle-node)
+   ("a" origami-toggle-all-nodes)
+   ("s" origami-show-only-node))
+
+(pretty-hydra-define hydra-accessibility
+  (:hint nil :color teal :quit-key "q" :title (with-faicon "universal-access" "Accessibility" 1 -0.05))
+  ("TTS" (
+    ("b" festival-say-buffer "festival bufer")
+    ("r" festival-say-region "festival region")
+    ("k" festival-kill-process "festival kill"))))
+
+(pretty-hydra-define hydra-org
+  (:hint nil :color teal :quit-key "q" :title (with-fileicon "org" "Org" 1 -0.05))
+  ("Action"
+   (
+    ("a" org-agenda "agenda")
+    ("j" hydra-org-clock/body "clock")
+    ("O" hydra-org-agenda/body "agenda hydra")
+    ("C" cfw:open-org-calendar "calfw-org")
+    ("s" my/org-ql-goals "goals")
+    ("c" org-capture "capture")
+    ("g" org-gcal-fetch "gcal fetch")
+    ("G" org-gcal-sync "gcal sync")
+    ("L" org-store-link "store-link")
+    ("l" org-insert-link-global "insert-link")
+    ("A" org-archive-done-in-file "archive done in file")
+    ("d" org-decrypt-entry "decrypt")
+    ("I" org-info-find-node "org info find")
+    ("k" org-cut-subtree "cut-subtree")
+    ("o" org-open-at-point-global "open-link")
+    ("r" org-refile "refile")
+    ("t" org-show-todo-tree "todo-tree"))))
+
+
+(pretty-hydra-define hydra-org-clock
+  (:hint nil :color blue :quit-key "q" :exit t :title (with-faicon "clock-o" "Clock"))
+  ("Clock"
+   (("i" org-mru-clock-in "pick in")
+    ("I" org-clock-in "in")
+    ("o" org-clock-out "out")
+    ("c" org-clock-in-last "in last")
+    ("j" org-mru-clock-select-recent-task "select recent")
+    ("J" org-clock-goto "goto")
+    ("e" org-clock-modify-effort-estimate "edit")
+    ("q" org-clock-cancel "quit")
+    ("?" (org-info "Clocking commands") "info"))
+   "Clock report"
+   (("d" org-clock-display "display")
+    ("r" org-clock-report "report"))
+   "Pomodoro"
+   (("pp" (org-pomodoro '(16)) "start") ;; (4) - will ask for task interactively
+    ("pr" (org-pomodoro-reset) "reset"))
+   "Timer"
+   (("ts" org-timer-start "start")
+    ("tt" org-timer-set-timer "set")
+    ("tp" org-timer-pause-or-continue "pause")
+    ("tq" org-timer-stop "stop")
+    ("t?" (org-info "Timers") "info"))
+   "Timer insert"
+   (("tm" org-timer "time")
+    ("ti" org-timer-item "item"))))
+
+(defhydra hydra-org-agenda (:pre (setq which-key-inhibit t)
+                                 :post (setq which-key-inhibit nil)
+                                 :hint none)
+  "
+Org agenda (_q_uit)
+^Clock^      ^Visit entry^              ^Date^             ^Other^
+^-----^----  ^-----------^------------  ^----^-----------  ^-----^---------
+_ci_ in      _SPC_ in other window      _ds_ schedule      _gr_ reload
+_co_ out     _TAB_ & go to location     _dd_ set deadline  _._  go to today
+_cq_ cancel  _RET_ & del other windows  _dt_ timestamp     _gd_ go to date
+_cj_ jump    _o_   link                 _+_  do later      ^^
+^^           ^^                         _-_  do earlier    ^^
+^^           ^^                         ^^                 ^^
+^View^          ^Filter^                 ^Headline^         ^Toggle mode^
+^----^--------  ^------^---------------  ^--------^-------  ^-----------^----
+_vd_ day        _ft_ by tag              _ht_ set status    _tf_ follow
+_vw_ week       _fr_ refine by tag       _hk_ kill          _tl_ log
+_vt_ fortnight  _fc_ by category         _hr_ refile        _ta_ archive trees
+_vm_ month      _fh_ by top headline     _hA_ archive       _tA_ archive files
+_vy_ year       _fx_ by regexp           _h:_ set tags      _tr_ clock report
+_vn_ next span  _fd_ delete all filters  _hp_ set priority  _td_ diaries
+_vp_ prev span  ^^                       ^^                 ^^
+_vr_ reset      ^^                       ^^                 ^^
+^^              ^^                       ^^                 ^^
+"
+  ;; Entry
+  ("hA" org-agenda-archive-default)
+  ("hk" org-agenda-kill)
+  ("hp" org-agenda-priority)
+  ("hr" org-agenda-refile)
+  ("h:" org-agenda-set-tags)
+  ("ht" org-agenda-todo)
+  ;; Visit entry
+  ("o"   link-hint-open-link :exit t)
+  ("<tab>" org-agenda-goto :exit t)
+  ("TAB" org-agenda-goto :exit t)
+  ("SPC" org-agenda-show-and-scroll-up)
+  ("RET" org-agenda-switch-to :exit t)
+  ;; Date
+  ("dt" org-agenda-date-prompt)
+  ("dd" org-agenda-deadline)
+  ("+" org-agenda-do-date-later)
+  ("-" org-agenda-do-date-earlier)
+  ("ds" org-agenda-schedule)
+  ;; View
+  ("vd" org-agenda-day-view)
+  ("vw" org-agenda-week-view)
+  ("vt" org-agenda-fortnight-view)
+  ("vm" org-agenda-month-view)
+  ("vy" org-agenda-year-view)
+  ("vn" org-agenda-later)
+  ("vp" org-agenda-earlier)
+  ("vr" org-agenda-reset-view)
+  ;; Toggle mode
+  ("ta" org-agenda-archives-mode)
+  ("tA" (org-agenda-archives-mode 'files))
+  ("tr" org-agenda-clockreport-mode)
+  ("tf" org-agenda-follow-mode)
+  ("tl" org-agenda-log-mode)
+  ("td" org-agenda-toggle-diary)
+  ;; Filter
+  ("fc" org-agenda-filter-by-category)
+  ("fx" org-agenda-filter-by-regexp)
+  ("ft" org-agenda-filter-by-tag)
+  ("fr" org-agenda-filter-by-tag-refine)
+  ("fh" org-agenda-filter-by-top-headline)
+  ("fd" org-agenda-filter-remove-all)
+  ;; Clock
+  ("cq" org-agenda-clock-cancel)
+  ("cj" org-agenda-clock-goto :exit t)
+  ("ci" org-agenda-clock-in :exit t)
+  ("co" org-agenda-clock-out)
+  ;; Other
+  ("q" nil :exit t)
+  ("gd" org-agenda-goto-date)
+  ("." org-agenda-goto-today)
+  ("gr" org-agenda-redo))
+
+;; came from here - https://github.com/kaushalmodi/.emacs.d/blob/master/setup-files/setup-elisp.el
+(defhydra hydra-edebug (:color amaranth
+                        :hint  none)
+  "
+    EDEBUG MODE
+^^_<SPC>_ step             ^^_f_ forward sexp         _b_reakpoint set                previous _r_esult      _w_here                    ^^_d_ebug backtrace
+^^_n_ext                   ^^goto _h_ere              _u_nset breakpoint              _e_val expression      bounce _p_oint             _q_ top level (_Q_ nonstop)
+_g_o (_G_ nonstop)         ^^_I_nstrument callee      next _B_reakpoint               _E_val list            _v_iew outside             ^^_a_bort recursive edit
+_t_race (_T_ fast)         step _i_n/_o_ut            _x_ conditional breakpoint      eval _l_ast sexp       toggle save _W_indows      ^^_S_top
+_c_ontinue (_C_ fast)      ^^^^                       _X_ global breakpoint
+"
+  ("<SPC>" edebug-step-mode)
+  ("n"     edebug-next-mode)
+  ("g"     edebug-go-mode)
+  ("G"     edebug-Go-nonstop-mode)
+  ("t"     edebug-trace-mode)
+  ("T"     edebug-Trace-fast-mode)
+  ("c"     edebug-continue-mode)
+  ("C"     edebug-Continue-fast-mode)
+
+  ("f"     edebug-forward-sexp)
+  ("h"     edebug-goto-here)
+  ("I"     edebug-instrument-callee)
+  ("i"     edebug-step-in)
+  ("o"     edebug-step-out)
+
+  ;; breakpoints
+  ("b"     edebug-set-breakpoint)
+  ("u"     edebug-unset-breakpoint)
+  ("B"     edebug-next-breakpoint)
+  ("x"     edebug-set-conditional-breakpoint)
+  ("X"     edebug-set-global-break-condition)
+
+  ;; evaluation
+  ("r"     edebug-previous-result)
+  ("e"     edebug-eval-expression)
+  ("l"     edebug-eval-last-sexp)
+  ("E"     edebug-visit-eval-list)
+
+  ;; views
+  ("w"     edebug-where)
+  ("p"     edebug-bounce-point)
+  ("v"     edebug-view-outside) ; maybe obsolete??
+  ("P"     edebug-view-outside) ; same as v
+  ("W"     edebug-toggle-save-windows)
+
+  ("d"     edebug-backtrace)
+
+  ;; quitting and stopping
+  ("q"     top-level :color blue)
+  ("Q"     edebug-top-level-nonstop :color blue)
+  ("a"     abort-recursive-edit :color blue)
+  ("S"     edebug-stop :color blue))
+
+(with-eval-after-load 'edebug
+  (bind-key "?" #'hydra-edebug/body edebug-mode-map))
+#+END_SRC
 ** Source code management
 *** /magit/: a powerful frontend for Git
 #+BEGIN_SRC emacs-lisp 
 (use-package magit
-  :straight t
   :init
     (progn
       (bind-key "C-x g" 'magit-status)))
@@ -240,29 +932,26 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
 (setq magit-status-margin '(t "%Y-%m-%d %H:%M " magit-log-margin-width t 18))
 
 (use-package git-timemachine
-  :straight t
   :requires (magit))
 
 (use-package git-gutter
-  :straight t
   :requires (magit)
   :init
     (global-git-gutter-mode +1))
 
 (use-package smerge-mode
-  :straight t
   :after hydra
   :config
-  (defhydra unpackaged/smerge-hydra
-    (:color pink :hint nil :post (smerge-auto-leave))
-    "
+    (defhydra unpackaged/smerge-hydra
+      (:color pink :hint nil :post (smerge-auto-leave))
+"
 ^Move^       ^Keep^               ^Diff^                 ^Other^
 ^^-----------^^-------------------^^---------------------^^-------
 _n_ext       _b_ase               _<_: upper/base        _C_ombine
 _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ^^           _l_ower              _>_: base/lower        _k_ill current
-^^           _a_ll                _R_efine
-^^           _RET_: current       _E_diff
+^^           _a_ll                _R_efine               _s_ave
+^^           _RET_: current       _E_diff                _q_uit
 "
     ("n" smerge-next)
     ("p" smerge-prev)
@@ -271,7 +960,6 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     ("l" smerge-keep-lower)
     ("a" smerge-keep-all)
     ("RET" smerge-keep-current)
-    ("\C-m" smerge-keep-current)
     ("<" smerge-diff-base-upper)
     ("=" smerge-diff-upper-lower)
     (">" smerge-diff-base-lower)
@@ -280,7 +968,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     ("C" smerge-combine-with-next)
     ("r" smerge-resolve)
     ("k" smerge-kill-current)
-    ("ZZ" (lambda ()
+    ("s" (lambda ()
             (interactive)
             (save-buffer)
             (bury-buffer))
@@ -290,14 +978,11 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
                                    (when smerge-mode
                                      (unpackaged/smerge-hydra/body)))))
 
-(use-package forge
-  :straight t
-)
+(use-package forge)
 #+END_SRC
 *** /monky/: a powerful frontend for Mercurial/Hg
 #+BEGIN_SRC emacs-lisp 
 (use-package monky
-  :straight t
   :diminish monky-status
   :commands monky-status
   :init (setq monky-process-type 'cmdserver)
@@ -306,150 +991,245 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 *** /find-file-in-repository/ find files in the source control
 #+BEGIN_SRC emacs-lisp 
 (use-package find-file-in-repository
-  :straight t
   :diminish find-file-in-repository
   :commands find-file-in-repository
   :bind ("M-s M-f" . find-file-in-repository))
 #+END_SRC
 ** Configure programming languages and markup languages
-*** Install Language Server Protocol
-
-LSP provides builtin support for a vast range of programming languages.
-See: https://github.com/emacs-lsp/lsp-mode#supported-languages
-
+*** Support for code snippets
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet
-  :straight t
   :diminish yas-minor-mode
   :commands yas-minor-mode
   :config (yas-reload-all))
 
 (use-package yatemplate
-  :straight t
 ;  :defer 2 ;; WORKAROUND https://github.com/mineo/yatemplate/issues/3
   :config
     (auto-insert-mode)
     (setq auto-insert-alist nil)
     (yatemplate-fill-alist))
 
-(use-package ivy-yasnippet
-  :straight t
-)
+(use-package ivy-yasnippet)
+#+END_SRC
+*** Install Language Server Protocol
+
+LSP provides builtin support for a vast range of programming languages.
+See: https://github.com/emacs-lsp/lsp-mode#supported-languages
+
+#+BEGIN_SRC emacs-lisp
+(use-package flycheck
+  :init (global-flycheck-mode))
 
 ;; see: https://emacs-lsp.github.io/lsp-mode/lsp-mode.html
 (use-package lsp-mode
-  :straight t
-  :commands lsp
-  :bind (:map lsp-mode-map ("C-c C-f" . lsp-format-buffer))
-  :custom
-    (lsp-auto-guess-root nil)
-    (lsp-prefer-flymake 1)
+  :commands (lsp lsp-deferred)
   :hook
-    (scala-mode . lsp)
-    (lsp-mode . lsp-lens-mode)
-    (prog-mode   . lsp))
+    (java-mode    . lsp)
+    (scala-mode   . lsp)
+    (rust-mode    . lsp)
+    (python-mode  . lsp)
+    (js-mode      . lsp)
+    (xml-mode     . lsp)
+    (json-mode    . lsp)
+    (yaml-mode    . lsp)
+    (php-mode     . lsp)
+    (html-mode    . lsp)
+    (css-mode     . lsp)
+    (sh-mode      . lsp)
+    (salt-mode    . lsp)
+    (haskell-mode . lsp)
+    (prog-mode    . lsp)
+    (lsp-mode     . (lsp-lens-mode
+                     lsp-enable-which-key-integration
+                     lsp-headerline-breadcrumb-mode
+                     lsp-modeline-code-actions-mode))
+    (lsp-managed-mode . lsp-modeline-diagnostics-mode)
+  :init
+    (setq gc-cons-threshold (* 100 1024 1024)     ;; 100Mb
+          read-process-output-max (* 8 1024 1024) ;;   8Mb
+          max-lisp-eval-depth (* 50 1024) ;; 50Kb
+          max-specpdl-size    (* 20 1024) ;; 20Kb
+          lsp-idle-delay 0.500
+          lsp-log-io nil
+          lsp-prefer-flymake nil
+          lsp-keymap-prefix "s-l"
+          lsp-completion-show-detail t
+          lsp-completion-show-kind t
+          lsp-eldoc-enable-hover t
+          lsp-lens-enable t
+          lsp-enable-imenu t
+          lsp-enable-symbol-highlighting t
+          ;; lsp-enable-indentation nil         ;; uncomment to use cider indentation instead of lsp
+          ;; lsp-enable-completion-at-point nil ;; uncomment to use cider completion instead of lsp
+          lsp-modeline-code-actions-enable t
+          lsp-modeline-diagnostics-enable t
+          lsp-signature-auto-activate t
+          lsp-signature-render-documentation t))
 
 (use-package company
-  :straight t
+  :hook
+    (scala-mode . company-mode)
   :config
     (setq company-idle-delay 0)
-    (setq company-minimum-prefix-length 3)
+    (setq company-minimum-prefix-length 1)
+    (setq lsp-completion-provider :capf)
     (global-company-mode t))
 
-(use-package company-lsp
-  :straight t
-  :requires (lsp-mode)
+(use-package which-key
   :config
-    (setq company-lsp-enable-snippet t)
-    (push 'company-lsp company-backends))
+    (which-key-mode))
 
-(use-package projectile
-  :straight t
-)
+(use-package projectile)
+
+(use-package treemacs
+  :requires (ivy)
+  :defer t
+  :init
+    (with-eval-after-load 'winum
+      (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  :bind (:map global-map ("C-x t t" . treemacs))
+  :commands treemacs-modify-theme
+  :config
+    (require 'treemacs-themes)
+    (require 'treemacs-icons)
+    (require 'treemacs-icons-dired)
+    (require 'treemacs-projectile)
+    (require 'treemacs-magit)
+    (progn
+      (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
+            treemacs-deferred-git-apply-delay      0.5
+            treemacs-directory-name-transformer    #'identity
+            treemacs-display-in-side-window        t
+            treemacs-eldoc-display                 t
+            treemacs-file-event-delay              5000
+            treemacs-file-extension-regex          treemacs-last-period-regex-value
+            treemacs-file-follow-delay             0.2
+            treemacs-file-name-transformer         #'identity
+            treemacs-follow-after-init             t
+            treemacs-git-command-pipe              ""
+            treemacs-goto-tag-strategy             'refetch-index
+            treemacs-indentation                   2
+            treemacs-indentation-string            " "
+            treemacs-is-never-other-window         nil
+            treemacs-max-git-entries               5000
+            treemacs-missing-project-action        'ask
+            treemacs-no-png-images                 nil
+            treemacs-no-delete-other-windows       t
+            treemacs-project-follow-cleanup        nil
+            treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+            treemacs-position                      'left
+            treemacs-recenter-distance             0.1
+            treemacs-recenter-after-file-follow    nil
+            treemacs-recenter-after-tag-follow     nil
+            treemacs-recenter-after-project-jump   'always
+            treemacs-recenter-after-project-expand 'on-distance
+            treemacs-show-cursor                   nil
+            treemacs-show-hidden-files             t
+            treemacs-silent-filewatch              nil
+            treemacs-silent-refresh                nil
+            treemacs-sorting                       'alphabetic-asc
+            treemacs-space-between-root-nodes      nil
+            treemacs-tag-follow-cleanup            t
+            treemacs-tag-follow-delay              1.5
+            treemacs-width                         35)))
+
+(use-package treemacs-projectile
+  :after treemacs projectile)
+
+(use-package treemacs-icons-dired
+  :after treemacs dired
+  :config (treemacs-icons-dired-mode))
+
+(use-package treemacs-magit
+  :after treemacs magit)
 
 (use-package lsp-treemacs
-  :straight t
+  :after lsp
   :requires (lsp-mode treemacs)
+  :commands lsp-treemacs-errors-list
   :config
-    (lsp-treemacs-sync-mode 1))
-
-(use-package lsp-ui
-  :straight t
-  :after lsp-mode
-  :diminish
-  :commands lsp-ui-mode
-  :custom-face
-    (lsp-ui-doc-background ((t (:background nil))))
-    (lsp-ui-doc-header ((t (:inherit (font-lock-string-face italic)))))
-  :bind (:map lsp-ui-mode-map
-              ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-              ([remap xref-find-references] . lsp-ui-peek-find-references)
-              ("C-c u" . lsp-ui-imenu))
-  :custom
-    (lsp-ui-doc-enable t)
-    (lsp-ui-doc-delay 4)
-    (lsp-ui-doc-header t)
-    (lsp-ui-doc-include-signature t)
-    (lsp-ui-doc-position 'at-point)
-    (lsp-ui-doc-border (face-foreground 'default))
-    (lsp-ui-doc-use-childframe t)
-    (lsp-ui-doc-use-webkit nil)
-    (lsp-ui-doc-use-webkit nil)
-    (lsp-ui-doc-max-height 25)
-    (lsp-ui-doc-max-width 180)
-    (lsp-ui-peek-enable t)
-    (lsp-ui-sideline-enable t)
-    (lsp-ui-sideline-delay 4)
-    (lsp-ui-sideline-ignore-duplicate t)
-    (lsp-ui-sideline-show-code-actions t))
-    ;;XXX :config
-    ;;XXX   ;; Use lsp-ui-doc-webkit only in GUI
-    ;;XXX   (setq lsp-ui-doc-use-webkit t)
-    ;;XXX   ;; WORKAROUND Hide mode-line of the lsp-ui-imenu buffer
-    ;;XXX   ;; https://github.com/emacs-lsp/lsp-ui/issues/243
-    ;;XXX   (defadvice lsp-ui-imenu (after hide-lsp-ui-imenu-mode-line activate)
-    ;;XXX     (setq mode-line-format nil)))
+    (lsp-treemacs-symbols t)
+    (lsp-treemacs-references t)
+    (lsp-treemacs-error-list t)
+    (lsp-treemacs-sync-mode t))
 
 (use-package hydra
-  :straight t
   :requires (ivy))
 
 (use-package lsp-ivy 
-  :straight t
   :requires (ivy))
 
+;; https://emacs-lsp.github.io/lsp-ui
 (use-package lsp-ui
-  :straight t
-  :requires (lsp-mode))
-
-(use-package dap-mode
-  :straight t
-  :requires (lsp-mode)
-  :config
-  (dap-mode t)
-  (dap-ui-mode t))
+  ;;XXX :after lsp-mode
+  ;;XXX :diminish
+  ;;XXX :commands lsp-ui-mode
+  :hook (lsp-mode . lsp-ui-mode)
+  :bind (:map lsp-ui-mode-map
+              ;;XXX ("C-c u" . lsp-ui-imenu)
+              ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+              ([remap xref-find-references]  . lsp-ui-peek-find-references))
+  :custom-face
+    (lsp-ui-doc-background ((t (:background nil))))
+    (lsp-ui-doc-header ((t (:inherit (font-lock-string-face italic)))))
+  :init
+    (setq lsp-ui-doc-enable t
+          lsp-ui-doc-delay 4.0
+          lsp-ui-doc-header t
+          lsp-ui-doc-include-signature t
+          lsp-ui-doc-max-height 25
+          lsp-ui-doc-max-width 180
+          lsp-ui-doc-position 'at-point
+          lsp-ui-doc-show-with-cursor t
+          lsp-ui-doc-show-with-mouse t
+          lsp-ui-doc-use-childframe t
+          lsp-ui-doc-use-webkit nil
+          lsp-ui-doc-border (face-foreground 'default)
+          lsp-ui-flycheck-enable t
+          lsp-ui-flycheck-list-position 'right
+          lsp-ui-flycheck-live-reporting t
+          lsp-ui-imenu-enable t
+          lsp-ui-imenu-kind-position 'right
+          lsp-ui-imenu-window-width 30
+          lsp-ui-imenu-auto-refresh t
+          lsp-ui-imenu-refresh-delay 5.0
+          lsp-ui-peek-always-show t
+          lsp-ui-peek-enable t
+          lsp-ui-peek-list-width 60
+          lsp-ui-peek-peek-height 25
+          lsp-ui-sideline-enable t
+          lsp-ui-sideline-code-actions-prefix " "
+          lsp-ui-sideline-delay 4.0
+          lsp-ui-sideline-ignore-duplicate t
+          lsp-ui-sideline-show-code-actions t
+          lsp-ui-sideline-show-diagnostics t
+          lsp-ui-sideline-show-hover t
+          lsp-ui-sideline-show-symbol t))
 #+END_SRC
 *** Rust
 #+BEGIN_SRC emacs-lisp
 (use-package rust-mode
-  :straight t
   :requires (lsp))
 #+END_SRC
 *** Haskell
 #+BEGIN_SRC emacs-lisp
-(use-package haskell-mode
-  :straight t
-)
+(use-package haskell-mode)
 
 (use-package lsp-haskell
-  :straight t
   :requires (lsp haskell-mode))
+#+END_SRC
+*** Java
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-java
+  :config
+    (require 'dap-java)
+  :demand t
+  :after (lsp lsp-mode dap-mode jmi-init-platform-paths))
 #+END_SRC
 *** Salt
 #+BEGIN_SRC emacs-lisp
 (use-package salt-mode
-  :straight t
-  :ensure t
   :config
   (add-hook 'salt-mode-hook
             (lambda ()
@@ -459,46 +1239,46 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 #+BEGIN_SRC emacs-lisp
 ;; Enable scala-mode and sbt-mode
 (use-package scala-mode
-  :straight t
   :requires (lsp)
   :mode "\\.s\\(cala\\|bt\\)$")
 
 (use-package sbt-mode
-  :straight t
   :commands sbt-start sbt-command
   :config
   ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-  ;; allows using SPACE when in the minibuffer
+  ;; Allows using space when in the minibuffer
   (substitute-key-definition
-   'minibuffer-complete-word
-   'self-insert-command
-   minibuffer-local-completion-map)
+    'minibuffer-complete-word
+    'self-insert-command
+     minibuffer-local-completion-map)
    ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
-   (setq sbt:program-options '("-Dsbt.supershell=false")))
+   (setq sbt:program-options '("-Dsbt.supershell=false"))
+  :bind (:map sbt-mode-map
+              ("<space>"  . sbt-hydra)) ;; fixme
+)
 
 ;; Add metals backend for lsp-mode
 (use-package lsp-metals
-  :straight t
   :config (setq lsp-metals-treeview-show-when-views-received t))
 
 ;; Use the Debug Adapter Protocol for running tests and debugging
 ;; Posframe is a pop-up tool that must be manually installed for dap-mode
-(use-package posframe
-  :straight t
-  )
+;;-- Already installed somewhere else
+;;(use-package posframe)
 
 (use-package dap-mode
-  :straight t
+  :after lsp-mode posframe
+  :config
+    (dap-auto-configure-mode)
+    (add-hook 'dap-stopped-hook
+      (lambda (arg) (call-interactively #'dap-hydra)))
   :hook
-  (lsp-mode . dap-mode)
-  (lsp-mode . dap-ui-mode)
-  )
+    (lsp-mode . dap-mode)
+    (lsp-mode . dap-ui-mode))
 #+END_SRC
 *** Dhall
 #+BEGIN_SRC emacs-lisp
-;; Enable scala-mode and sbt-mode
 (use-package dhall-mode
-  :straight t
   :requires (lsp)
   :mode "\\.dhall$"
   :config
@@ -522,98 +1302,14 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 #+BEGIN_SRC emacs-lisp 
 (use-package monokai-theme
-  :straight t
   :config (load-theme 'monokai t)
   :init (setq frame-background-mode 'dark))
 #+END_SRC
 
-*** /treemacs/: tree navigation sidebar
-#+BEGIN_SRC emacs-lisp 
-(use-package treemacs
-  :requires (ivy)
-  :defer t
-  :init
-  (with-eval-after-load 'winum
-    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
-  :config
-  (progn
-    (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
-          treemacs-deferred-git-apply-delay      0.5
-          treemacs-directory-name-transformer    #'identity
-          treemacs-display-in-side-window        t
-          treemacs-eldoc-display                 t
-          treemacs-file-event-delay              5000
-          treemacs-file-extension-regex          treemacs-last-period-regex-value
-          treemacs-file-follow-delay             0.2
-          treemacs-file-name-transformer         #'identity
-          treemacs-follow-after-init             t
-          treemacs-git-command-pipe              ""
-          treemacs-goto-tag-strategy             'refetch-index
-          treemacs-indentation                   2
-          treemacs-indentation-string            " "
-          treemacs-is-never-other-window         nil
-          treemacs-max-git-entries               5000
-          treemacs-missing-project-action        'ask
-          treemacs-no-png-images                 nil
-          treemacs-no-delete-other-windows       t
-          treemacs-project-follow-cleanup        nil
-          treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
-          treemacs-position                      'left
-          treemacs-recenter-distance             0.1
-          treemacs-recenter-after-file-follow    nil
-          treemacs-recenter-after-tag-follow     nil
-          treemacs-recenter-after-project-jump   'always
-          treemacs-recenter-after-project-expand 'on-distance
-          treemacs-show-cursor                   nil
-          treemacs-show-hidden-files             t
-          treemacs-silent-filewatch              nil
-          treemacs-silent-refresh                nil
-          treemacs-sorting                       'alphabetic-asc
-          treemacs-space-between-root-nodes      t
-          treemacs-tag-follow-cleanup            t
-          treemacs-tag-follow-delay              1.5
-          treemacs-width                         35)
-
-    ;; The default width and height of the icons is 22 pixels. If you are
-    ;; using a Hi-DPI display, uncomment this to double the icon size.
-    ;;(treemacs-resize-icons 44)
-
-    (treemacs-follow-mode t)
-    (treemacs-filewatch-mode t)
-    (treemacs-fringe-indicator-mode t)
-    (pcase (cons (not (null (executable-find "git")))
-                 (not (null treemacs-python-executable)))
-      (`(t . t)
-       (treemacs-git-mode 'deferred))
-      (`(t . _)
-       (treemacs-git-mode 'simple))))
-  :bind
-    (:map global-map
-      ("M-0"       . treemacs-select-window)
-      ("C-x t 1"   . treemacs-delete-other-windows)
-      ("C-x t t"   . treemacs)
-      ("C-x t B"   . treemacs-bookmark)
-      ("C-x t C-t" . treemacs-find-file)
-      ("C-x t M-t" . treemacs-find-tag)))
-
-(use-package treemacs-projectile
-  :straight t
-  :after treemacs projectile)
-
-(use-package treemacs-icons-dired
-  :straight t
-  :after treemacs dired
-  :config (treemacs-icons-dired-mode))
-
-(use-package treemacs-magit
-  :straight t
-  :after treemacs magit)
-#+END_SRC
 *** /undo-tree/: recovers any past state of a buffer
 
 #+BEGIN_SRC emacs-lisp 
 (use-package undo-tree
-  :straight t
   :diminish undo-tree-mode
   :config (global-undo-tree-mode)
   :bind ("s-/" . undo-tree-visualize))
@@ -623,7 +1319,6 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 #+BEGIN_SRC emacs-lisp
 (use-package move-dup
-  :straight t
   :config (global-move-dup-mode)
   :bind (("S-M-<up>"     . move-dup-move-lines-up)
          ("S-M-<down>"   . move-dup-move-lines-down)
@@ -635,7 +1330,6 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 #+BEGIN_SRC emacs-lisp 
 (use-package highlight-symbol
-  :straight t
   :diminish highlight-symbol-mode
   :commands highlight-symbol
   :bind ("s-h" . highlight-symbol))
@@ -645,7 +1339,6 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 #+BEGIN_SRC emacs-lisp 
 (use-package goto-chg
-  :straight t
   :commands goto-last-change
   ;; complementary to
   ;; C-x r m / C-x r l
@@ -658,7 +1351,6 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 #+BEGIN_SRC emacs-lisp 
 (use-package smartparens
-  :straight t
   :diminish smartparens-mode
   :commands
     smartparens-strict-mode
@@ -682,16 +1374,13 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 *** /multiple-cursors/: edit multiple places of a buffer at once
 
 #+BEGIN_SRC emacs-lisp 
-(use-package multiple-cursors
-  :straight t
-)
+(use-package multiple-cursors)
 #+END_SRC
 
 *** /window-numbering/: assign numbers to windows for quick access
 
 #+BEGIN_SRC emacs-lisp 
 (use-package window-numbering
-  :straight t
   :init (window-numbering-mode 1))
 #+END_SRC
 
@@ -699,7 +1388,6 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 #+BEGIN_SRC emacs-lisp 
 (use-package expand-region
-  :straight t
   :bind ("C-=" . er/expand-region))
 #+END_SRC
   
@@ -707,7 +1395,6 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 #+BEGIN_SRC emacs-lisp 
 (use-package gist
-  :straight t
   :diminish gist-list
   :commands (gist-list gist-region-or-buffer)
   :bind (("M-s M-o" . gist-list)
@@ -718,7 +1405,6 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 #+BEGIN_SRC emacs-lisp
 (use-package restclient
-  :straight t
   :ensure t
   :mode (("\\.http\\'" . restclient-mode)))
 #+END_SRC
@@ -727,7 +1413,6 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 #+BEGIN_SRC emacs-lisp
 (use-package rg
-  :straight t
   :init (rg-enable-default-bindings))
 #+END_SRC
 
@@ -800,7 +1485,6 @@ Make sure we are employing =org-plus-contrib= instead of =org=.
 
 #+BEGIN_SRC emacs-lisp
 ;; (use-package org
-;;     :straight t
 ;;     :requires (org-plus-contrib)
 ;;     :commands org-agenda org-capture org-index)
 #+END_SRC

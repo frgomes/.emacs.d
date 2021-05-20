@@ -56,7 +56,11 @@
 ;; -UnsetSRF
 
 ;; DisableUnnecessaryInterface
-(menu-bar-mode -1)
+(setq menu-bar-mode nil)
+(setq tool-bar-mode nil)
+(setq scroll-bar-mode nil)
+(setq tooltip-mode nil)
+(setq inhibit-startup-message t)
 (unless (and (display-graphic-p) (eq system-type 'darwin))
   (push '(menu-bar-lines . 0) default-frame-alist))
 (push '(tool-bar-lines . 0) default-frame-alist)

@@ -148,7 +148,7 @@ This file you are reading right now is also a Emacs configuration file.
 You can skip reading the remainder of this file, unless you'd like to learn how to configure Emacs or you'd like to learn a bit of ``org-mode``.
 
 ** Bootstrap
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 ;; Turn off mouse interface early in startup to avoid momentary display
 (if (fboundp 'menu-bar-mode)   (menu-bar-mode -1))
 (if (fboundp 'tool-bar-mode)   (tool-bar-mode -1))
@@ -158,7 +158,7 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
 (setq inhibit-startup-message t)
 #+END_SRC
 ** Bootstrap straight.el
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -222,7 +222,7 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
          ("C-x B"   . ivy-switch-buffer-other-window))
          ("C-c v"   . ivy-push-view)
          ("C-c V"   . ivy-pop-view)
-         (:map ivy-minibuffer-map ("C-c C-c" . hydra-ivy/body))
+         (:map ivy-minibuffer-map ("C-c C-c" . hydra-avy/body))
   :custom
     (ivy-count-format "(%d/%d) ")
     (ivy-use-virtual-buffers t)
@@ -316,7 +316,7 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
 (use-package counsel-projectile)
 #+END_SRC
 *** Hydra has several arms
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (use-package ivy-hydra
   :after ivy)
 
@@ -584,66 +584,64 @@ _i_: previous error    _l_: last error
      nil :bind nil)
     ("q" nil            nil :color blue))
 
-(pretty-hydra-define hydra-lsp
-  (:hint nil :color teal :quit-key "q" :exit t :title (with-faicon "rocket" "Lsp"))
- ("Find"
-  (("D" lsp-find-declaration "declaration")
-   ("d" lsp-find-definition "definition")
-   ("R" lsp-find-references "references")
-   ("i" lsp-find-implementation "implementation")
-   ("gt" lsp-find-type-definition "type")
-   ("f" lsp-ivy-workspace-symbol "symbol")
-   ("F" lsp-ivy-global-workspace-symbol "global symbol")
-   ("uf" lsp-ui-find-workspace-symbol "ui symbol")
-   ("pd" lsp-ui-peek-find-definitions "peek def")
-   ("pr" lsp-ui-peek-find-references "peek refs")
-   ("pf" lsp-ui-peek-find-workspace-symbol "peek symb")
-   ("pi" lsp-ui-peek-find-implementation "peek impl"))
-  "Toggle"
-  (("Td" lsp-ui-doc-mode "doc" :toggle t)
-   ("TS" lsp-ui-sideline-mode "sideline" :toggle t)
-   ("Ts" lsp-ui-sideline-toggle-symbols-info "side symb" :toggle t)
-   ("Tl" lsp-lens-mode "lens" :toggle t)
-   ("Ti" lsp-toggle-trace-io "trace-io" :toggle t)
-   ("Th" lsp-toggle-symbol-highlight "symb highlight")
-   ("Tf" lsp-toggle-on-type-formatting "format" :toggle t)
-   ("TF" lsp-ui-flycheck-list "flycheck")
-   ("TT" lsp-treemacs-sync-mode "treemacs sync" :toggle t)
-   ("TD" lsp-diagnostics-modeline-mode "diag line" :toggle t)
-   ("Tnf" lsp-signature-toggle-full-docs "sign docs full")
-   ("Tna" lsp-signature-activate "sign activate help")
-   ("Tns" lsp-toggle-signature-auto-activate "sign auto activate"))
-  "Help"
-  (("hd" lsp-ui-doc-glance "doc glance")
-   ("hh" lsp-describe-thing-at-point "describe"))
-  "Code"
-  (("=f" lsp-format-buffer "format")
-   ("=r" lsp-format-region "region")
-   ("r" lsp-rename "rename")
-   ("o" lsp-organize-imports "org imports")
-   ("m" lsp-ui-imenu "imenu")
-   ("x" lsp-execute-code-action "action"))
-  "Other"
-  (("l" lsp-avy-lens "avy lens")
-   ("ge" lsp-treemacs-errors-list "errors")
-   ("gh" lsp-treemacs-call-hierarchy "hierarchy")
-   ("gf" lsp-ui-flycheck-list "flycheck")
-   ("ga" xref-find-apropos "xref-apropos"))
-  "Metals"
-  (("Mb" lsp-metals-build-import "build import")
-   ("Ms" lsp-metals-sources-scan "sources rescan")
-   ("Mr" lsp-metals-build-connect "bloop reconnect"))
-  "Session"
-  (("s?" lsp-describe-session "describe")
-   ("ss" lsp "start")
-   ("sd" lsp-disconnect "disconnect")
-   ("sr" lsp-workspace-restart "restart")
-   ("sq" lsp-workspace-shutdown "shutdown")
-   ("sl" lsp-workspace-show-log "log")
-   ("sfa" lsp-workspace-folders-add "folders +")
-   ("sfo" lsp-workspace-folders-open "folder")
-   ("sfr" lsp-workspace-folders-remove "folders -")
-   ("sfb" lsp-workspace-blacklist-remove "blacklist -"))))
+(pretty-hydra-define hydra-lsp-metals
+  (:hint nil :color teal :quit-key "q" :exit t :title (with-faicon "rocket" "LSP"))
+    ("Find"
+     (("fD"  lsp-find-declaration "declaration")
+      ("fd"  lsp-find-definition "definition")
+      ("fr"  lsp-find-references "references")
+      ("fi"  lsp-find-implementation "implementation")
+      ("ft"  lsp-find-type-definition "type")
+      ("fs"  lsp-ivy-workspace-symbol "symbol")
+      ("fS"  lsp-ivy-global-workspace-symbol "global symbol")
+      ("fw"  lsp-ui-find-workspace-symbol "ui symbol")
+      ("fe"  lsp-treemacs-errors-list "errors list")
+      ("fh"  lsp-treemacs-call-hierarchy "call hierarchy")
+      ("pd"  lsp-ui-peek-find-definitions "peek definitions")
+      ("pr"  lsp-ui-peek-find-references "peek references")
+      ("pf"  lsp-ui-peek-find-workspace-symbol "peek symbol")
+      ("pi"  lsp-ui-peek-find-implementation "peek implementation"))
+     "Toggle"
+     (("td"  lsp-ui-doc-mode "doc" :toggle t)
+      ("tS"  lsp-ui-sideline-mode "sideline mode" :toggle t)
+      ("ts"  lsp-ui-sideline-toggle-symbols-info "sideline symbols" :toggle t)
+      ("tl"  lsp-lens-mode "lens" :toggle t)
+      ("ti"  lsp-toggle-trace-io "trace-io" :toggle t)
+      ("th"  lsp-toggle-symbol-highlight "symbol highlight")
+      ("tf"  lsp-toggle-on-type-formatting "format" :toggle t)
+      ("tF"  lsp-ui-flycheck-list "flycheck")
+      ("tT"  lsp-treemacs-sync-mode "treemacs sync" :toggle t)
+      ("tD"  lsp-diagnostics-modeline-mode "diag line" :toggle t)
+      ("tnf" lsp-signature-toggle-full-docs "sign docs full")
+      ("tna" lsp-signature-activate "sign activate help")
+      ("tns" lsp-toggle-signature-auto-activate "sign auto activate"))
+     "Code"
+     (("cr"  lsp-rename "rename")
+      ("co"  lsp-organize-imports "org imports")
+      ("cm"  lsp-ui-imenu "imenu")
+      ("cx"  lsp-execute-code-action "action")
+      ("cd"  lsp-ui-doc-glance "doc glance")
+      ("c."  lsp-describe-thing-at-point "describe")
+      ("=f"  lsp-format-buffer "format")
+      ("=r"  lsp-format-region "region")
+      ("=l"  lsp-avy-lens "avy lens")
+      ("=f"  lsp-ui-flycheck-list "flycheck list")
+      ("=x"  xref-find-apropos "xref-apropos"))
+     "Metals"
+     (("Lb"  lsp-metals-build-import "build import")
+      ("Ls"  lsp-metals-sources-scan "sources rescan")
+      ("Lr"  lsp-metals-build-connect "bloop reconnect"))
+     "Session"
+     (("S?"  lsp-describe-session "describe")
+      ("Ss"  lsp "start")
+      ("Sd"  lsp-disconnect "disconnect")
+      ("Sr"  lsp-workspace-restart "restart")
+      ("Sq"  lsp-workspace-shutdown "shutdown")
+      ("Sl"  lsp-workspace-show-log "log")
+      ("Sfa" lsp-workspace-folders-add "folders +")
+      ("Sfo" lsp-workspace-folders-open "folder")
+      ("Sfr" lsp-workspace-folders-remove "folders -")
+      ("Sfb" lsp-workspace-blacklist-remove "blacklist -"))))
 
 (pretty-hydra-define hydra-magit
   (:hint nil :color teal :quit-key "q" :title (with-alltheicon "git" "Magit" 1 -0.05))
@@ -923,7 +921,7 @@ _c_ontinue (_C_ fast)      ^^^^                       _X_ global breakpoint
 #+END_SRC
 ** Source code management
 *** /magit/: a powerful frontend for Git
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (use-package magit
   :init
     (progn
@@ -981,7 +979,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (use-package forge)
 #+END_SRC
 *** /monky/: a powerful frontend for Mercurial/Hg
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (use-package monky
   :diminish monky-status
   :commands monky-status
@@ -989,7 +987,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :bind ("M-s M-m" . monky-status))
 #+END_SRC
 *** /find-file-in-repository/ find files in the source control
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (use-package find-file-in-repository
   :diminish find-file-in-repository
   :commands find-file-in-repository
@@ -1048,8 +1046,8 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
   :init
     (setq gc-cons-threshold (* 100 1024 1024)     ;; 100Mb
           read-process-output-max (* 8 1024 1024) ;;   8Mb
-          max-lisp-eval-depth (* 50 1024) ;; 50Kb
-          max-specpdl-size    (* 20 1024) ;; 20Kb
+          max-lisp-eval-depth (* 10 1024)
+          max-specpdl-size    (*  4 1024)
           lsp-idle-delay 0.500
           lsp-log-io nil
           lsp-prefer-flymake nil
@@ -1162,7 +1160,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 ;; https://emacs-lsp.github.io/lsp-ui
 (use-package lsp-ui
-  ;;XXX :after lsp-mode
+  :after lsp-mode
   ;;XXX :diminish
   ;;XXX :commands lsp-ui-mode
   :hook (lsp-mode . lsp-ui-mode)
@@ -1198,7 +1196,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
           lsp-ui-peek-enable t
           lsp-ui-peek-list-width 60
           lsp-ui-peek-peek-height 25
-          lsp-ui-sideline-enable t
+          lsp-ui-sideline-enable nil
           lsp-ui-sideline-code-actions-prefix " "
           lsp-ui-sideline-delay 4.0
           lsp-ui-sideline-ignore-duplicate t
@@ -1240,9 +1238,11 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 ;; Enable scala-mode and sbt-mode
 (use-package scala-mode
   :requires (lsp)
-  :mode "\\.s\\(cala\\|bt\\)$")
+  :interpreter
+    ("scala" . scala-mode))
 
 (use-package sbt-mode
+  :after scala-mode
   :commands sbt-start sbt-command
   :config
   ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
@@ -1259,6 +1259,10 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 ;; Add metals backend for lsp-mode
 (use-package lsp-metals
+  :after scala-mode
+  :bind
+  :bind
+    ("s-k" . hydra-lsp-metals/body)
   :config (setq lsp-metals-treeview-show-when-views-received t))
 
 ;; Use the Debug Adapter Protocol for running tests and debugging
@@ -1300,7 +1304,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 ** Additional extensions
 *** /monokai-theme/: a dark colour theme
 
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (use-package monokai-theme
   :config (load-theme 'monokai t)
   :init (setq frame-background-mode 'dark))
@@ -1308,7 +1312,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 *** /undo-tree/: recovers any past state of a buffer
 
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (use-package undo-tree
   :diminish undo-tree-mode
   :config (global-undo-tree-mode)
@@ -1328,7 +1332,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 *** /highlight-symbol/: highlight and navigate between symbols
 
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (use-package highlight-symbol
   :diminish highlight-symbol-mode
   :commands highlight-symbol
@@ -1337,7 +1341,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 *** /goto-chg/: goto last change in current buffer
 
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (use-package goto-chg
   :commands goto-last-change
   ;; complementary to
@@ -1349,7 +1353,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
    
 *** /smartparens/: deals with parens pairs in smart ways
 
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (use-package smartparens
   :diminish smartparens-mode
   :commands
@@ -1373,27 +1377,27 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 *** /multiple-cursors/: edit multiple places of a buffer at once
 
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (use-package multiple-cursors)
 #+END_SRC
 
 *** /window-numbering/: assign numbers to windows for quick access
 
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (use-package window-numbering
   :init (window-numbering-mode 1))
 #+END_SRC
 
 *** /expand-region/: increase selected region by semantic units
 
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
 #+END_SRC
   
 *** /gist/ shares snippets and pastes
 
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 (use-package gist
   :diminish gist-list
   :commands (gist-list gist-region-or-buffer)
@@ -1453,6 +1457,10 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 (global-set-key (kbd "C--") 'text-scale-decrease)
 (global-set-key (kbd "C-+") 'text-scale-increase)
 
+;; display line numbers
+(global-set-key (kbd "C-c n")   'display-line-numbers-mode)
+(global-set-key (kbd "C-c C-n") 'global-display-line-numbers-mode)
+
 ;; ivy, swiper and counsel integration with standard commands
 (ivy-mode 1)
 (counsel-projectile-mode 1)
@@ -1476,7 +1484,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 *** TODO [0/1] org-mode
  We are using packages from =org-plus-contrib= such as [[http://orgmode.org/worg/org-contrib/org-index.html][org-index]], which requires http://orgmode.org/elpa/ to be added to ``package-archives``.
 
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
 ;; (add-to-list 'package-archives 
 ;;              '("org"   . "http://orgmode.org/elpa/") t)
 #+END_SRC

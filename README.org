@@ -35,63 +35,69 @@ More information about Language Server Protocol:
  * https://github.com/emacs-lsp/lsp-mode#supported-languages
  * http://langserver.org
 
- The current support matrix is shown below:
+ The current support matrix is shown below, where /status/ means:
 
- | Language              | status    | LSP client  | LSP server      |
- |-----------------------+-----------+-------------+-----------------|
- | Ada                   | builtin   |             |                 |
- | Angular               | builtin   |             |                 |
- | Bash                  | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node.sh][install_node]]    |
- | C++                   | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_clang][install_clang]]   |
- | C#                    | builtin   |             |                 |
- | Closure               | builtin   |             |                 |
- | Cmake                 | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_python][install_python]]  |
- | Crystal               | builtin   |             |                 |
- | CSS/LessCSS/SASS/SCSS | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
- | Dart                  | builtin   |             |                 |
- | Dhall                 | supported | dhall-mode  | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_dhall][install_dhall]]   |
- | Dockerfile            | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
- | Elixir                | builtin   |             |                 |
- | Elm                   | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
- | Erlang                | builtin   |             |                 |
- | Eslint                | builtin   |             |                 |
- | F#                    | builtin   |             |                 |
- | Fortran               | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_python][install_python]]  |
- | Go                    | MISSING   | MISSING     |                 |
- | Groovy                | builtin   |             |                 |
- | Hack                  | builtin   |             |                 |
- | HTML                  | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
- | Haskell               | supported | lsp-haskell | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_haskell][install_haskell]] |
- | Lua                   | MISSING   | MISSING     |                 |
- | Markdown              | builtin   | pandoc      |                 |
- | Java                  | MISSING   | MISSING     |                 |
- | Javascript            | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
- | Javascript Flow       | builtin   |             |                 |
- | JSON                  | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
- | Julia                 | MISSING   | MISSING     |                 |
- | Kotlin                | builtin   |             |                 |
- | Nim                   | builtin   |             |                 |
- | OCaml                 | builtin   |             |                 |
- | PHP                   | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
- | Powershell            | builtin   |             |                 |
- | Python                | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_python][install_python]]  |
- | R                     | builtin   |             |                 |
- | RST(ReStructuredText) | builtin   |             |                 |
- | Ruby                  | builtin   |             |                 |
- | Rust                  | supported | rust-mode   | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_rust][install_rust]]    |
- | Salt                  | supported | salt-mode   |                 |
- | Scala                 | supported | scala-mode  | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_scala][install_scala]]   |
- | Scala SBT             | supported | sbt-mode    | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_sbt][install_sbt]]     |
- | Sphinx                | MISSING   | MISSING     |                 |
- | Swift                 | MISSING   | MISSING     |                 |
- | TeX/LaTeX             | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_rust][install_rust]]    |
- | Typescript            | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
- | Verilog               | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_python][install_python]]  |
- | VHDL                  | builtin   |             |                 |
- | VIMscript             | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
- | Vue                   | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
- | XML                   | builtin   |             |                 |
- | YAML                  | builtin   |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
+  * builtin - LSP client natively supported by Emacs; it may require external additional software for full support.
+  * provided - The provided LSP client is known to work well without external additional software.
+  * supported - The provided LSP cliend is known to work well, but requires external additional software for full support.
+  * unknown - The author not know whether or not additional software is required for full support.
+  * missing - please send a PR and contribute for adding support for this programming language.
+    
+ | Language              | status            | LSP client  | LSP server      |
+ |-----------------------+-------------------+-------------+-----------------|
+ | Ada                   | builtin           |             | unknown         |
+ | Angular               | builtin           |             | unknown         |
+ | Bash                  | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node.sh][install_node]]    |
+ | C++                   | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_clang][install_clang]]   |
+ | C#                    | builtin           |             | unknown         |
+ | Closure               | builtin           |             | unknown         |
+ | Cmake                 | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_python][install_python]]  |
+ | Crystal               | builtin           |             | unknown         |
+ | CSS/LessCSS/SASS/SCSS | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
+ | Dart                  | builtin           |             | unknown         |
+ | Dhall                 | supported         | dhall-mode  | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_dhall][install_dhall]]   |
+ | Dockerfile            | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
+ | Elixir                | builtin           |             | unknown         |
+ | Elm                   | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
+ | Erlang                | builtin           |             | unknown         |
+ | Eslint                | builtin           |             | unknown         |
+ | F#                    | builtin           |             | unknown         |
+ | Fortran               | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_python][install_python]]  |
+ | Go                    | missing           |             |                 |
+ | Groovy                | builtin           |             | unknown         |
+ | Hack                  | builtin           |             | unknown         |
+ | HTML                  | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
+ | Haskell               | supported         | lsp-haskell | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_haskell][install_haskell]] |
+ | Lua                   | missing           |             |                 |
+ | Markdown              | builtin/provided  | pandoc      |                 |
+ | Java                  | supported         | lsp-java    | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_java][install_java]]    |
+ | Javascript            | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
+ | Javascript Flow       | builtin           |             | unknown         |
+ | JSON                  | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
+ | Julia                 | missing           |             |                 |
+ | Kotlin                | builtin           |             | unknown         |
+ | Nim                   | builtin           |             | unknown         |
+ | OCaml                 | builtin           |             | unknown         |
+ | PHP                   | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
+ | Powershell            | builtin           |             | unknown         |
+ | Python                | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_python][install_python]]  |
+ | R                     | builtin           |             | unknown         |
+ | RST(ReStructuredText) | builtin           |             | unknown         |
+ | Ruby                  | builtin           |             | unknown         |
+ | Rust                  | supported         | rust-mode   | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_rust][install_rust]]    |
+ | Salt                  | provided          | salt-mode   | unknown         |
+ | Scala                 | supported         | scala-mode  | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_scala][install_scala]]   |
+ | Scala SBT             | supported         | sbt-mode    | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_sbt][install_sbt]]     |
+ | Sphinx                | missing           |             |                 |
+ | Swift                 | missing           |             |                 |
+ | TeX/LaTeX             | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_rust][install_rust]]    |
+ | Typescript            | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
+ | Verilog               | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_python][install_python]]  |
+ | VHDL                  | builtin           |             | unknown         |
+ | VIMscript             | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
+ | Vue                   | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
+ | XML                   | builtin           |             | unknown         |
+ | YAML                  | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
 
 ** Install /ivy/, /swiper/ and /counsel/ for easy completion from a list
 

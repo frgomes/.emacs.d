@@ -66,7 +66,7 @@ More information about Language Server Protocol:
  | Go                    | missing           |             |                 |
  | Groovy                | builtin           |             | unknown         |
  | Hack                  | builtin           |             | unknown         |
- | HTML                  | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
+ | HTML and SGML         | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
  | Haskell               | supported         | lsp-haskell | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_haskell][install_haskell]] |
  | Lua                   | missing           |             |                 |
  | Markdown              | builtin/provided  | pandoc      |                 |
@@ -182,144 +182,165 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 #+END_SRC
+** Automatic package updates
+The auto-package-update package helps us keep our Emacs packages up to date! It will prompt you after a certain number of days either at startup or at a specific time of day to remind you to update your packages.
+
+You can also use M-x auto-package-update-now to update right now!
+
+#+BEGIN_SRC emacs-lisp
+(use-package auto-package-update
+  :custom
+  (auto-package-update-interval 7)
+  (auto-package-update-prompt-before-update t)
+  (auto-package-update-hide-results t)
+  :config
+  (auto-package-update-maybe)
+  (auto-package-update-at-time "09:00"))
+#+END_SRC
+** Keep Folders Clean
+
+We use the [[https://github.com/emacscollective/no-littering/blob/master/no-littering.el][no-littering]] package to keep folders where we edit files and the Emacs configuration folder clean!  It knows about a wide variety of variables for built in Emacs features as well as those from community packages so it can be much easier than finding and setting these variables yourself.
+
+#+BEGIN_SRC emacs-lisp
+  ;; NOTE: If you want to move everything out of the ~/.emacs.d folder
+  ;; reliably, set `user-emacs-directory` before loading no-littering!
+  ;(setq user-emacs-directory "~/.cache/emacs")
+  (use-package no-littering)
+
+  ;; no-littering doesn't set this by default so we must place
+  ;; auto save files in the same path as it uses for sessions
+  (setq auto-save-file-name-transforms
+        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+#+END_SRC
+** Helpful Help Commands
+
+[[https://github.com/Wilfred/helpful][Helpful]] adds a lot of very helpful (get it?) information to Emacs' =describe-= command buffers.  For example, if you use =describe-function=, you will not only get the documentation about the function, you will also see the source code of the function and where it gets used in other places in the Emacs configuration.  It is very useful for figuring out how things work in Emacs.
+
+#+begin_src emacs-lisp
+  (use-package helpful
+    :commands (helpful-callable helpful-variable helpful-command helpful-key)
+    :custom
+    (counsel-describe-function-function #'helpful-callable)
+    (counsel-describe-variable-function #'helpful-variable)
+    :bind
+    ([remap describe-function] . counsel-describe-function)
+    ([remap describe-command] . helpful-command)
+    ([remap describe-variable] . counsel-describe-variable)
+    ([remap describe-key] . helpful-key))
+#+end_src
+** Color Theme
+[[https://github.com/hlissner/emacs-doom-themes][doom-themes]] is a great set of themes with a lot of variety and support for many different Emacs modes.  Taking a look at the [[https://github.com/hlissner/emacs-doom-themes/tree/screenshots][screenshots]] might help you decide which one you like best.  You can also run =M-x counsel-load-theme= to choose between them easily.
+#+begin_src emacs-lisp
+(use-package doom-themes
+  :init (load-theme 'doom-dracula t))
+#+end_src
 ** Install /ivy/, /swiper/ and /counsel/ for easy completion from a list
 #+BEGIN_SRC emacs-lisp
-;; ivy and friends
+  ;; ivy and friends
 
-(use-package posframe)
-(use-package flx)
-(use-package wgrep)
-(use-package wgrep-ag)
+  (use-package posframe)
+  (use-package flx)
+  (use-package wgrep)
+  (use-package wgrep-ag)
 
-(use-package counsel
-  :after ivy
-  :config (counsel-mode)
-  :bind (("M-x"     . counsel-M-x)
-         ("C-c s c" . counsel-compile)
-         ("C-c s g" . counsel-git)
-         ("C-c s j" . counsel-git-grep)
-         ("C-c s L" . counsel-git-log)
-         ("C-c s k" . counsel-rg)
-         ("C-c s m" . counsel-linux-app)
-         ("C-c s n" . counsel-fzf)
-         ("C-c s l" . counsel-locate)
-         ("C-c s J" . counsel-file-jump)
-         ("C-c s b" . counsel-bookmark)
-         ("C-c s D" . counsel-descbinds)
-         ("C-c s o" . counsel-outline)
-         ("C-c s t" . counsel-load-theme)
-         ("C-c s f" . counsel-org-file)
-         ("C-c s u" . counsel-unicode-char)
-         ("C-c s v" . counsel-set-variable)
-         ("C-c s p" . counsel-package)
-         ("C-c i"   . counsel-info-lookup-symbol)
-         ("M-y"     . counsel-yank-pop)
-         ("C-h f"   . counsel-describe-function)
-         ("C-h v"   . counsel-describe-variable)
-         ("C-h l"   . counsel-find-library)
-         ("C-x C-f" . counsel-find-file))
-)
+  (use-package counsel
+    :after ivy
+    :config (counsel-mode)
+    :bind (("M-x"     . counsel-M-x)
+           ("C-c s c" . counsel-compile)
+           ("C-c s g" . counsel-git)
+           ("C-c s j" . counsel-git-grep)
+           ("C-c s L" . counsel-git-log)
+           ("C-c s k" . counsel-rg)
+           ("C-c s m" . counsel-linux-app)
+           ("C-c s n" . counsel-fzf)
+           ("C-c s l" . counsel-locate)
+           ("C-c s J" . counsel-file-jump)
+           ("C-c s b" . counsel-bookmark)
+           ("C-c s D" . counsel-descbinds)
+           ("C-c s o" . counsel-outline)
+           ("C-c s t" . counsel-load-theme)
+           ("C-c s f" . counsel-org-file)
+           ("C-c s u" . counsel-unicode-char)
+           ("C-c s v" . counsel-set-variable)
+           ("C-c s p" . counsel-package)
+           ("C-c i"   . counsel-info-lookup-symbol)
+           ("M-y"     . counsel-yank-pop)
+           ("C-h f"   . counsel-describe-function)
+           ("C-h v"   . counsel-describe-variable)
+           ("C-h l"   . counsel-find-library)
+           ("C-x C-f" . counsel-find-file))
+  )
 
-(use-package ivy
-  :diminish
-  :demand
-  :bind (("C-c C-r" . ivy-resume)
-         ("C-x b"   . ivy-switch-buffer)
-         ("C-x B"   . ivy-switch-buffer-other-window))
-         ("C-c v"   . ivy-push-view)
-         ("C-c V"   . ivy-pop-view)
-         (:map ivy-minibuffer-map ("C-c C-c" . hydra-avy/body))
-  :custom
-    (ivy-count-format "(%d/%d) ")
-    (ivy-use-virtual-buffers t)
-  :config
-  (ivy-mode)
-  (setq ivy-re-builders-alist
-        '(
-          (ivy-switch-buffer . ivy--regex-fuzzy)
-          (counsel-ag        . ivy--regex-plus)
-          (counsel-git-grep  . ivy--regex-plus)
-          (swiper            . ivy--regex-plus) 
-          (t                 . ivy--regex-fuzzy))))
+  (use-package ivy
+    :diminish
+    :demand
+    :bind (("C-c C-r" . ivy-resume)
+           ("C-x b"   . ivy-switch-buffer)
+           ("C-x B"   . ivy-switch-buffer-other-window))
+           ("C-c v"   . ivy-push-view)
+           ("C-c V"   . ivy-pop-view)
+           (:map ivy-minibuffer-map ("C-c C-c" . hydra-avy/body))
+    :custom
+      (ivy-count-format "(%d/%d) ")
+      (ivy-use-virtual-buffers t)
+    :config
+    (ivy-mode)
+    (setq ivy-re-builders-alist
+          '(
+            (ivy-switch-buffer . ivy--regex-fuzzy)
+            (counsel-ag        . ivy--regex-plus)
+            (counsel-git-grep  . ivy--regex-plus)
+            (swiper            . ivy--regex-plus) 
+            (t                 . ivy--regex-fuzzy))))
 
-(use-package ivy-rich
-  :demand
-  :after counsel
-  :custom
-    (ivy-virtual-abbreviate 'full
-                            ivy-rich-switch-buffer-align-virtual-buffer t
-                            ivy-rich-path-style 'abbrev)
-  :config
-    (ivy-rich-mode)
-)
+  (use-package ivy-rich
+    :demand
+    :after counsel
+    :custom
+      (ivy-virtual-abbreviate 'full
+                              ivy-rich-switch-buffer-align-virtual-buffer t
+                              ivy-rich-path-style 'abbrev)
+    :config
+      (ivy-rich-mode)
+  )
 
-(use-package ag
-  :custom
-    (ag-highlight-search t)
-    (ag-reuse-buffers t)
-  :config
-    (add-to-list 'ag-arguments "--word-regexp"))
+  (use-package ag
+    :demand
+    :custom
+      (ag-highlight-search t)
+      (ag-reuse-buffers t)
+    :config
+      (add-to-list 'ag-arguments "--word-regexp"))
 
-;; using ivy rich for now
-(use-package all-the-icons-ivy
-  :demand
-  :after ivy-rich
-  :config
-    (setq all-the-icons-ivy-file-commands
-          '(counsel-find-file counsel-file-jump counsel-recentf counsel-projectile-find-file counsel-projectile-find-dir))
-  ;;(all-the-icons-ivy-setup)
-)
+  ;; using ivy rich for now
+  (use-package all-the-icons-ivy
+    :demand
+    :after ivy-rich
+    :config
+      (setq all-the-icons-ivy-file-commands
+            '(counsel-find-file counsel-file-jump counsel-recentf counsel-projectile-find-file counsel-projectile-find-dir))
+    ;;(all-the-icons-ivy-setup)
+  )
 
-(use-package swiper
-  :after ivy
-  :bind
-    (("C-s"     . swiper-isearch)
-     ("C-S-s"   . swiper-thing-at-point)
-     ("C-c C-r" . ivy-resume)
-     ("M-x"     . counsel-M-x)
-     ("C-x C-f" . counsel-find-file))
-)
+  (use-package swiper
+    :after ivy
+    :bind
+      (("C-s"     . swiper-isearch)
+       ("C-S-s"   . swiper-thing-at-point)
+       ("C-c C-r" . ivy-resume)
+       ("M-x"     . counsel-M-x)
+       ("C-x C-f" . counsel-find-file)))
 
-;;XXX (use-package counsel
-;;XXX   :bind
-;;XXX     (("M-y" . counsel-yank-pop)
-;;XXX       :map ivy-minibuffer-map ("M-y" . ivy-next-line)))
-;;XXX  
-;;XXX (use-package ivy
-;;XXX   :requires (counsel)
-;;XXX   :diminish (ivy-mode)
-;;XXX   :bind (("C-x b" . ivy-switch-buffer))
-;;XXX   :config
-;;XXX     (ivy-mode 1)
-;;XXX     (setq ivy-use-virtual-buffers t)
-;;XXX     (setq ivy-count-format "%d/%d ")
-;;XXX     (setq ivy-display-style 'fancy))
-;;XXX  
-;;XXX (use-package swiper
-;;XXX   :requires (ivy)
-;;XXX   :bind
-;;XXX     (("C-s"     . swiper-isearch)
-;;XXX      ("C-r"     . swiper-isearch)
-;;XXX      ("C-c C-r" . ivy-resume)
-;;XXX      ("M-x"     . counsel-M-x)
-;;XXX      ("C-x C-f" . counsel-find-file))
-;;XXX   :config
-;;XXX     (progn
-;;XXX       (ivy-mode 1)
-;;XXX       (setq ivy-use-virtual-buffers t)
-;;XXX       (setq ivy-display-style 'fancy)
-;;XXX       (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)))
+  (use-package counsel-jq :demand)
 
-(use-package counsel-jq)
-;;XXX (use-package counsel-etags)
-
-(use-package projectile
-  :demand
-  :init   (setq projectile-use-git-grep t)
-  :config (projectile-global-mode t)
-  :bind   (("s-f" . projectile-find-file)
-           ("s-F" . projectile-grep)))
-(use-package counsel-projectile)
+  (use-package projectile
+    :demand
+    :init   (setq projectile-use-git-grep t)
+    :config (projectile-global-mode t)
+    :bind   (("s-f" . projectile-find-file)
+             ("s-F" . projectile-grep)))
+  (use-package counsel-projectile :demand)
 #+END_SRC
 *** Hydra has several arms
 #+BEGIN_SRC emacs-lisp
@@ -929,21 +950,24 @@ _c_ontinue (_C_ fast)      ^^^^                       _X_ global breakpoint
 *** /magit/: a powerful frontend for Git
 #+BEGIN_SRC emacs-lisp
 (use-package magit
+  :demand
   :init
     (progn
-      (bind-key "C-x g" 'magit-status)))
-
-(setq magit-status-margin '(t "%Y-%m-%d %H:%M " magit-log-margin-width t 18))
+      (bind-key "C-x g" 'magit-status))
+    (setq magit-status-margin '(t "%Y-%m-%d %H:%M " magit-log-margin-width t 18)))
 
 (use-package git-timemachine
+  :demand
   :requires (magit))
 
 (use-package git-gutter
+  :demand
   :requires (magit)
   :init
     (global-git-gutter-mode +1))
 
 (use-package smerge-mode
+  :demand
   :after hydra
   :config
     (defhydra unpackaged/smerge-hydra
@@ -982,11 +1006,12 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
                                    (when smerge-mode
                                      (unpackaged/smerge-hydra/body)))))
 
-(use-package forge)
+(use-package forge :demand)
 #+END_SRC
 *** /monky/: a powerful frontend for Mercurial/Hg
 #+BEGIN_SRC emacs-lisp
 (use-package monky
+  :demand
   :diminish monky-status
   :commands monky-status
   :init (setq monky-process-type 'cmdserver)
@@ -1009,12 +1034,13 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 (use-package yatemplate
 ;  :defer 2 ;; WORKAROUND https://github.com/mineo/yatemplate/issues/3
+  :demand
   :config
     (auto-insert-mode)
     (setq auto-insert-alist nil)
     (yatemplate-fill-alist))
 
-(use-package ivy-yasnippet)
+(use-package ivy-yasnippet :demand)
 #+END_SRC
 *** Install Language Server Protocol
 
@@ -1038,6 +1064,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
     (json-mode    . lsp)
     (yaml-mode    . lsp)
     (php-mode     . lsp)
+    (sgml-mode    . lsp)
     (html-mode    . lsp)
     (css-mode     . lsp)
     (sh-mode      . lsp)
@@ -1084,7 +1111,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
   :config
     (which-key-mode))
 
-(use-package projectile)
+(use-package projectile :demand)
 
 (use-package treemacs
   :requires (ivy)
@@ -1213,27 +1240,30 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 #+END_SRC
 *** Rust
 #+BEGIN_SRC emacs-lisp
-(use-package rust-mode
-  :requires (lsp))
+(use-package rustic
+  :demand
+  :requires (lsp-ui))
 #+END_SRC
 *** Haskell
 #+BEGIN_SRC emacs-lisp
-(use-package haskell-mode)
+(use-package haskell-mode :demand)
 
 (use-package lsp-haskell
+  :demand
   :requires (lsp haskell-mode))
 #+END_SRC
 *** Java
 #+BEGIN_SRC emacs-lisp
 (use-package lsp-java
+  :demand
   :config
     (require 'dap-java)
-  :demand t
   :after (lsp lsp-mode dap-mode jmi-init-platform-paths))
 #+END_SRC
 *** Salt
 #+BEGIN_SRC emacs-lisp
 (use-package salt-mode
+  :demand
   :config
   (add-hook 'salt-mode-hook
             (lambda ()
@@ -1243,11 +1273,13 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 #+BEGIN_SRC emacs-lisp
 ;; Enable scala-mode and sbt-mode
 (use-package scala-mode
+  :demand
   :requires (lsp)
   :interpreter
     ("scala" . scala-mode))
 
 (use-package sbt-mode
+  :demand
   :after scala-mode
   :commands sbt-start sbt-command
   :config
@@ -1265,6 +1297,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 ;; Add metals backend for lsp-mode
 (use-package lsp-metals
+  :demand
   :after scala-mode
   :bind
   :bind
@@ -1289,6 +1322,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 *** Dhall
 #+BEGIN_SRC emacs-lisp
 (use-package dhall-mode
+  :demand
   :requires (lsp)
   :mode "\\.dhall$"
   :config
@@ -1302,11 +1336,50 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
     ;; header-line is obsoleted by lsp-mode
     dhall-use-header-line nil))
 #+END_SRC
+
+*** Python
+We use =lsp-mode= and =dap-mode= to provide a more complete development environment for Python in Emacs.  Check out [[https://emacs-lsp.github.io/lsp-mode/page/lsp-pyls/][the =pyls= configuration]] in the =lsp-mode= documentation for more details.
+#+begin_src emacs-lisp
+  (use-package python-mode
+    :ensure t
+    :hook (python-mode . lsp-deferred)
+    :custom
+    ;; NOTE: Set these if Python 3 is called "python3" on your system!
+    ;; (python-shell-interpreter "python3")
+    ;; (dap-python-executable "python3")
+    (dap-python-debugger 'debugpy)
+    :config
+    (require 'dap-python))
+#+end_src
+You can use the pyvenv package to use =virtualenv= environments in Emacs.  The =pyvenv-activate= command should configure Emacs to cause =lsp-mode= and =dap-mode= to use the virtual environment when they are loaded, just select the path to your virtual environment before loading your project.
+#+begin_src emacs-lisp
+  (use-package pyvenv
+    :after python-mode
+    :config
+    (pyvenv-mode 1))
+#+end_src
+*** TypeScript
+This is a basic configuration for the TypeScript language so that =.ts= files activate =typescript-mode= when opened.  We're also adding a hook to =typescript-mode-hook= to call =lsp-deferred= so that we activate =lsp-mode= to get LSP features every time we edit TypeScript code.
+#+begin_src emacs-lisp
+  (use-package typescript-mode
+    :mode "\\.ts\\'"
+    :hook (typescript-mode . lsp-deferred)
+    :config
+    (setq typescript-indent-level 2))
+#+end_src
 *** Markdown
 #+BEGIN_SRC emacs-lisp
 (custom-set-variables
  '(markdown-command "pandoc"))
 #+END_SRC
+*** SGML and HTML
+#+BEGIN_SRC emacs-lisp
+(use-package sgml-mode
+  :demand
+  :mode ("\\.html\\'" . html-mode)
+  :config (add-hook 'html-mode-hook 'turn-off-auto-fill))
+#+END_SRC
+
 ** Additional extensions
 *** /monokai-theme/: a dark colour theme
 
@@ -1320,6 +1393,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 #+BEGIN_SRC emacs-lisp
 (use-package undo-tree
+  :demand
   :diminish undo-tree-mode
   :config (global-undo-tree-mode)
   :bind ("s-/" . undo-tree-visualize))
@@ -1329,6 +1403,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 #+BEGIN_SRC emacs-lisp
 (use-package move-dup
+  :demand
   :config (global-move-dup-mode)
   :bind (("S-M-<up>"     . move-dup-move-lines-up)
          ("S-M-<down>"   . move-dup-move-lines-down)
@@ -1349,6 +1424,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 #+BEGIN_SRC emacs-lisp
 (use-package goto-chg
+  :demand
   :commands goto-last-change
   ;; complementary to
   ;; C-x r m / C-x r l
@@ -1361,6 +1437,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 #+BEGIN_SRC emacs-lisp
 (use-package smartparens
+  :demand
   :diminish smartparens-mode
   :commands
     smartparens-strict-mode
@@ -1384,7 +1461,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 *** /multiple-cursors/: edit multiple places of a buffer at once
 
 #+BEGIN_SRC emacs-lisp
-(use-package multiple-cursors)
+(use-package multiple-cursors :demand)
 #+END_SRC
 
 *** /window-numbering/: assign numbers to windows for quick access
@@ -1398,6 +1475,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 #+BEGIN_SRC emacs-lisp
 (use-package expand-region
+  :demand
   :bind ("C-=" . er/expand-region))
 #+END_SRC
   
@@ -1405,6 +1483,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 #+BEGIN_SRC emacs-lisp
 (use-package gist
+  :demand
   :diminish gist-list
   :commands (gist-list gist-region-or-buffer)
   :bind (("M-s M-o" . gist-list)
@@ -1415,6 +1494,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 #+BEGIN_SRC emacs-lisp
 (use-package restclient
+  :demand
   :mode (("\\.http\\'" . restclient-mode)))
 #+END_SRC
 
@@ -1422,9 +1502,17 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 #+BEGIN_SRC emacs-lisp
 (use-package rg
+  :demand
   :init (rg-enable-default-bindings))
 #+END_SRC
 
+*** /command-log-mode/: display key bindings as you type
+[[https://github.com/lewang/command-log-mode][command-log-mode]] is useful for displaying a panel showing each key binding you use in a panel on the right side of the frame.  Great for live streams and screencasts!
+
+#+BEGIN_SRC emacs-lisp
+(use-package command-log-mode
+  :commands command-log-mode)
+#+END_SRC
 
 *** /editorconfig/: Support for Editor Config
 
@@ -1462,7 +1550,6 @@ More info at:
 (cua-selection-mode t)
 
 ;; keybinding for multiple-cursors
-(require 'sgml-mode)
 (global-set-key (kbd "C-` <right>")  'mc/mark-next-like-this)
 (global-set-key (kbd "C-` <left>")   'mc/mark-previous-like-this)
 (global-set-key (kbd "C-` <return>") 'mc/mark-all-like-this)
@@ -1505,6 +1592,19 @@ More info at:
 ** TODO [0/4] Configure additional Org Mode modules
 *** TODO [0/1] org-mode
  We are using packages from =org-plus-contrib= such as [[http://orgmode.org/worg/org-contrib/org-index.html][org-index]], which requires http://orgmode.org/elpa/ to be added to ``package-archives``.
+
+*** Install /org-roam/
+Explaining video here: https://www.youtube.com/watch?v=AyhPmypHDEw
+#+BEGIN_SRC emacs-lisp
+(use-package org-roam
+  :demand
+  :custom (org-roam-directory "~/Documents/Emacs/RoamNotes") ;;FIXME: hardcoded
+  :bind (("C-c r l" . org-roam-buffer-toggle)
+         ("C-c r f" . org-roam-node-find)
+         ("C-c r i" . org-roam-node-insert))
+  :init (setq org-roam-v2-ack t)
+  :config (org-roam-setup))
+#+END_SRC
 
 #+BEGIN_SRC emacs-lisp
 ;; (add-to-list 'package-archives 

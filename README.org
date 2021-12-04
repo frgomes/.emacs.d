@@ -228,12 +228,6 @@ We use the [[https://github.com/emacscollective/no-littering/blob/master/no-litt
     ([remap describe-variable] . counsel-describe-variable)
     ([remap describe-key] . helpful-key))
 #+end_src
-** Color Theme
-[[https://github.com/hlissner/emacs-doom-themes][doom-themes]] is a great set of themes with a lot of variety and support for many different Emacs modes.  Taking a look at the [[https://github.com/hlissner/emacs-doom-themes/tree/screenshots][screenshots]] might help you decide which one you like best.  You can also run =M-x counsel-load-theme= to choose between them easily.
-#+begin_src emacs-lisp
-(use-package doom-themes
-  :init (load-theme 'doom-dracula t))
-#+end_src
 ** Install /ivy/, /swiper/ and /counsel/ for easy completion from a list
 #+BEGIN_SRC emacs-lisp
   ;; ivy and friends
@@ -397,7 +391,7 @@ We use the [[https://github.com/emacscollective/no-littering/blob/master/no-litt
 ;;Hydra / BToggle
 ;;Group a lot of commands.
 (pretty-hydra-define hydra-btoggle
-  (:hint nil :color amaranth :quit-key "q" :title (with-faicon "toggle-on" "Toggle" 1 -0.05))
+  (:hint nil :quit-key "q" :title (with-faicon "toggle-on" "Toggle" 1 -0.05))
   ("Basic"
    (("a" abbrev-mode "abbrev" :toggle t)
     ("n" auto-insert-mode "auto-insert" :toggle t)
@@ -416,22 +410,22 @@ We use the [[https://github.com/emacscollective/no-littering/blob/master/no-litt
    (("i" ivy-rich-mode "ivy-rich" :toggle t))))
 
 (pretty-hydra-define hydra-flycheck
-  (:hint nil :color teal :quit-key "q" :title (with-faicon "plane" "Flycheck" 1 -0.05))
+  (:hint nil :quit-key "q" :title (with-faicon "plane" "Flycheck" 1 -0.05))
   ("Checker"
    (("?" flycheck-describe-checker "describe")
     ("d" flycheck-disable-checker "disable")
     ("m" flycheck-mode "mode")
     ("s" flycheck-select-checker "select"))
    "Errors"
-   (("k" flycheck-previous-error "previous" :color pink)
-    ("j" flycheck-next-error "next" :color pink)
+   (("k" flycheck-previous-error "previous")
+    ("j" flycheck-next-error "next")
     ("f" flycheck-buffer "check")
     ("l" flycheck-list-errors "list"))
    "Other"
    (("M" flycheck-manual "manual")
     ("v" flycheck-verify-setup "verify setup"))))
 
-(defhydra hydra-yasnippet (:color blue :hint nil)
+(defhydra hydra-yasnippet (:hint nil)
   "
               ^YASnippets^
 --------------------------------------------
@@ -444,7 +438,7 @@ We use the [[https://github.com/emacscollective/no-littering/blob/master/no-litt
   ("d" yas-load-directory)
   ("e" yas-activate-extra-mode)
   ("i" yas-insert-snippet)
-  ("f" yas-visit-snippet-file :color blue)
+  ("f" yas-visit-snippet-file)
   ("n" yas-new-snippet)
   ("t" yas-tryout-snippet)
   ("l" yas-describe-tables)
@@ -506,7 +500,7 @@ We use the [[https://github.com/emacscollective/no-littering/blob/master/no-litt
 
 ;; TODO this doesn't work
 (pretty-hydra-define hydra-s
-  (:hint t :color teal :quit-key "RET" :title "String manipulation")
+  (:hint t :quit-key "RET" :title "String manipulation")
   ("Pertaining to words"
    (("w" (lambda()(interactive)(s-split-words (buffer-substring-no-properties (region-beginning) (region-end)))) "split words")
     ("c" (lambda()(interactive)(s-lower-camel-case (buffer-substring-no-properties (region-beginning) (region-end)))) "lower camel")
@@ -539,7 +533,7 @@ We use the [[https://github.com/emacscollective/no-littering/blob/master/no-litt
   ("Y" avy-copy-region))
 
 (defhydra hydra-smerge
-  (:color red :hint nil
+  (:hint nil
           :pre (smerge-mode 1))
   "
 ^Move^ ^Keep^ ^Diff^ ^Pair^
@@ -564,10 +558,10 @@ _q_uit _RET_: current
   ("<" smerge-diff-base-upper)
   ("=" smerge-diff-upper-lower)
   (">" smerge-diff-base-lower)
-  ("q" nil :color blue))
+  ("q" nil))
 
 (pretty-hydra-define hydra-projectile
-  (:hint nil :color teal :quit-key "q" :title (with-faicon "rocket" "Projectile" 1 -0.05))
+  (:hint nil :quit-key "q" :title (with-faicon "rocket" "Projectile" 1 -0.05))
   ("Buffers"
    (("b" counsel-projectile-switch-to-buffer "list")
     ("k" projectile-kill-buffers "kill all")
@@ -609,10 +603,10 @@ _i_: previous error    _l_: last error
                (next-error))
            (user-error nil))
      nil :bind nil)
-    ("q" nil            nil :color blue))
+    ("q" nil            nil))
 
 (pretty-hydra-define hydra-lsp-metals
-  (:hint nil :color teal :quit-key "q" :exit t :title (with-faicon "rocket" "LSP"))
+  (:hint nil :quit-key "q" :exit t :title (with-faicon "rocket" "LSP"))
     ("Find"
      (("fD"  lsp-find-declaration "declaration")
       ("fd"  lsp-find-definition "definition")
@@ -671,7 +665,7 @@ _i_: previous error    _l_: last error
       ("Sfb" lsp-workspace-blacklist-remove "blacklist -"))))
 
 (pretty-hydra-define hydra-magit
-  (:hint nil :color teal :quit-key "q" :title (with-alltheicon "git" "Magit" 1 -0.05))
+  (:hint nil :quit-key "q" :title (with-alltheicon "git" "Magit" 1 -0.05))
   ("Action"
    (("b" magit-blame-addition "blame")
     ("c" magit-clone "clone")
@@ -704,14 +698,13 @@ _i_: previous error    _l_: last error
     ("H" enlarge-window-horizontally "widen")
     ("J" shrink-window "lower")
     ("K" enlarge-window "heighten")
-    ("S" switch-window-then-swap-buffer "swap" :color teal))
+    ("S" switch-window-then-swap-buffer "swap"))
    "Zoom"
    (("-" zoom-out "out");text-scale-decrease "out")
     ("+" zoom-in "in");text-scale-increase "in")
     ("=" zoom-frm-unzoom "reset"))));(text-scale-increase 0) "reset"))))
 
-(defhydra hydra-buffer-menu (:color pink
-                             :hint nil)
+(defhydra hydra-buffer-menu (:hint nil)
   "
 ^Mark^             ^Unmark^           ^Actions^          ^Search
 ^^^^^^^^-----------------------------------------------------------------
@@ -732,15 +725,15 @@ _~_: modified
   ("b" Buffer-menu-bury)
   ("g" revert-buffer)
   ("T" Buffer-menu-toggle-files-only)
-  ("O" Buffer-menu-multi-occur :color blue)
-  ("I" Buffer-menu-isearch-buffers :color blue)
-  ("R" Buffer-menu-isearch-buffers-regexp :color blue)
+  ("O" Buffer-menu-multi-occur)
+  ("I" Buffer-menu-isearch-buffers)
+  ("R" Buffer-menu-isearch-buffers-regexp)
   ("c" nil "cancel")
-  ("v" Buffer-menu-select "select" :color blue)
-  ("o" Buffer-menu-other-window "other-window" :color blue)
-  ("q" quit-window "quit" :color blue))
+  ("v" Buffer-menu-select "select")
+  ("o" Buffer-menu-other-window "other-window")
+  ("q" quit-window "quit"))
 
-(defhydra hydra-folding (:color red)
+(defhydra hydra-folding (:hint nil)
    "
   _o_pen node    _n_ext fold       toggle _f_orward  _s_how current only
   _c_lose node   _p_revious fold   toggle _a_ll
@@ -754,14 +747,14 @@ _~_: modified
    ("s" origami-show-only-node))
 
 (pretty-hydra-define hydra-accessibility
-  (:hint nil :color teal :quit-key "q" :title (with-faicon "universal-access" "Accessibility" 1 -0.05))
+  (:hint nil :quit-key "q" :title (with-faicon "universal-access" "Accessibility" 1 -0.05))
   ("TTS" (
     ("b" festival-say-buffer "festival bufer")
     ("r" festival-say-region "festival region")
     ("k" festival-kill-process "festival kill"))))
 
 (pretty-hydra-define hydra-org
-  (:hint nil :color teal :quit-key "q" :title (with-fileicon "org" "Org" 1 -0.05))
+  (:hint nil :quit-key "q" :title (with-fileicon "org" "Org" 1 -0.05))
   ("Action"
    (
     ("a" org-agenda "agenda")
@@ -784,7 +777,7 @@ _~_: modified
 
 
 (pretty-hydra-define hydra-org-clock
-  (:hint nil :color blue :quit-key "q" :exit t :title (with-faicon "clock-o" "Clock"))
+  (:hint nil :quit-key "q" :exit t :title (with-faicon "clock-o" "Clock"))
   ("Clock"
    (("i" org-mru-clock-in "pick in")
     ("I" org-clock-in "in")
@@ -890,8 +883,7 @@ _vr_ reset      ^^                       ^^                 ^^
   ("gr" org-agenda-redo))
 
 ;; came from here - https://github.com/kaushalmodi/.emacs.d/blob/master/setup-files/setup-elisp.el
-(defhydra hydra-edebug (:color amaranth
-                        :hint  none)
+(defhydra hydra-edebug (:hint  none)
   "
     EDEBUG MODE
 ^^_<SPC>_ step             ^^_f_ forward sexp         _b_reakpoint set                previous _r_esult      _w_here                    ^^_d_ebug backtrace
@@ -938,10 +930,10 @@ _c_ontinue (_C_ fast)      ^^^^                       _X_ global breakpoint
   ("d"     edebug-backtrace)
 
   ;; quitting and stopping
-  ("q"     top-level :color blue)
-  ("Q"     edebug-top-level-nonstop :color blue)
-  ("a"     abort-recursive-edit :color blue)
-  ("S"     edebug-stop :color blue))
+  ("q"     top-level)
+  ("Q"     edebug-top-level-nonstop)
+  ("a"     abort-recursive-edit)
+  ("S"     edebug-stop))
 
 (with-eval-after-load 'edebug
   (bind-key "?" #'hydra-edebug/body edebug-mode-map))
@@ -971,7 +963,7 @@ _c_ontinue (_C_ fast)      ^^^^                       _X_ global breakpoint
   :after hydra
   :config
     (defhydra unpackaged/smerge-hydra
-      (:color pink :hint nil :post (smerge-auto-leave))
+      (:hint nil :post (smerge-auto-leave))
 "
 ^Move^       ^Keep^               ^Diff^                 ^Other^
 ^^-----------^^-------------------^^---------------------^^-------
@@ -1000,8 +992,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
             (interactive)
             (save-buffer)
             (bury-buffer))
-     "Save and bury buffer" :color blue)
-    ("q" nil "cancel" :color blue))
+     "Save and bury buffer")
+    ("q" nil "cancel"))
   :hook (magit-diff-visit-file . (lambda ()
                                    (when smerge-mode
                                      (unpackaged/smerge-hydra/body)))))
@@ -1091,8 +1083,10 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
           lsp-lens-enable t
           lsp-enable-imenu t
           lsp-enable-symbol-highlighting t
-          ;; lsp-enable-indentation nil         ;; uncomment to use cider indentation instead of lsp
-          ;; lsp-enable-completion-at-point nil ;; uncomment to use cider completion instead of lsp
+          lsp-headerline-breadcrumb-enable t
+          lsp-enable-indentation t
+          lsp-enable-completion-at-point t
+          lsp-headerline-breadcrumb-enable-diagnostics t
           lsp-modeline-code-actions-enable t
           lsp-modeline-diagnostics-enable t
           lsp-signature-auto-activate t
@@ -1672,6 +1666,12 @@ In case of trouble caused by =use-package=, you can try to load =oreg-plus-contr
 ;; (mapcar 'org-babel-load-file
 ;;   (directory-files "~/Documents/orgfiles/config" t ".+\.org$"))
 #+END_SRC
+** Color Theme
+[[https://github.com/hlissner/emacs-doom-themes][doom-themes]] is a great set of themes with a lot of variety and support for many different Emacs modes.  Taking a look at the [[https://github.com/hlissner/emacs-doom-themes/tree/screenshots][screenshots]] might help you decide which one you like best.  You can also run =M-x counsel-load-theme= to choose between them easily.
+#+begin_src emacs-lisp
+(use-package doom-themes
+  :init (load-theme 'doom-molokai t))
+#+end_src
 ** Epilogue
 #+BEGIN_SRC emacs-lisp
 (message "Initialization complete.")

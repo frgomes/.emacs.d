@@ -1415,7 +1415,6 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
 #+BEGIN_SRC emacs-lisp
 (use-package restclient
-  :ensure t
   :mode (("\\.http\\'" . restclient-mode)))
 #+END_SRC
 
@@ -1439,7 +1438,6 @@ More info at:
 
 #+BEGIN_SRC emacs-lisp
 (use-package editorconfig
-  :ensure t
   :config
   (editorconfig-mode 1))
 #+END_SRC

@@ -7,7 +7,6 @@ Emacs is a programmable text editor.
 [[screenshot.png]]
 
 * Installation
-
 Just clone this repository onto your $HOME directory and start Emacs, like this:
 
 #+BEGIN_EXAMPLE bash
@@ -21,10 +20,8 @@ emacs &
 That's it!
 
 If everything goes according to plan, Emacs will download a lot of stuff from the Internet, compile everything and configure itself without presenting any error. Then you type ~C-x t t~ (Ctrl-X t t) and a sidebar will be presented on the left side, which allows you to manage projects.
-
-
 * Features
-** Support for programming languages and data languages
+** Support for programming languages
 
 Emacs has builtin support for Language Server Protocol. However, the range of languages which work out of the box is limited and, for this reason ...
 
@@ -40,89 +37,114 @@ More information about Language Server Protocol:
   * builtin - LSP client natively supported by Emacs; it may require external additional software for full support.
   * provided - The provided LSP client is known to work well without external additional software.
   * supported - The provided LSP cliend is known to work well, but requires external additional software for full support.
-  * unknown - The author not know whether or not additional software is required for full support.
   * missing - please send a PR and contribute for adding support for this programming language.
+  * unknown - The author not know whether or not additional software is required for full support.
     
- | Language              | status            | LSP client  | LSP server      |
- |-----------------------+-------------------+-------------+-----------------|
- | Ada                   | builtin           |             | unknown         |
- | Angular               | builtin           |             | unknown         |
- | Bash                  | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node.sh][install_node]]    |
- | C++                   | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_clang][install_clang]]   |
- | C#                    | builtin           |             | unknown         |
- | Closure               | builtin           |             | unknown         |
- | Cmake                 | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_python][install_python]]  |
- | Crystal               | builtin           |             | unknown         |
- | CSS/LessCSS/SASS/SCSS | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
- | Dart                  | builtin           |             | unknown         |
- | Dhall                 | supported         | dhall-mode  | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_dhall][install_dhall]]   |
- | Dockerfile            | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
- | Elixir                | builtin           |             | unknown         |
- | Elm                   | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
- | Erlang                | builtin           |             | unknown         |
- | Eslint                | builtin           |             | unknown         |
- | F#                    | builtin           |             | unknown         |
- | Fortran               | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_python][install_python]]  |
- | Go                    | missing           |             |                 |
- | Groovy                | builtin           |             | unknown         |
- | Hack                  | builtin           |             | unknown         |
- | HTML and SGML         | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
- | Haskell               | supported         | lsp-haskell | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_haskell][install_haskell]] |
- | Lua                   | missing           |             |                 |
- | Markdown              | builtin/provided  | pandoc      |                 |
- | Java                  | supported         | lsp-java    | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_java][install_java]]    |
- | Javascript            | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
- | Javascript Flow       | builtin           |             | unknown         |
- | JSON                  | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
- | Julia                 | missing           |             |                 |
- | Kotlin                | builtin           |             | unknown         |
- | Nim                   | builtin           |             | unknown         |
- | OCaml                 | builtin           |             | unknown         |
- | PHP                   | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
- | Powershell            | builtin           |             | unknown         |
- | Python                | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_python][install_python]]  |
- | R                     | builtin           |             | unknown         |
- | RST(ReStructuredText) | builtin           |             | unknown         |
- | Ruby                  | builtin           |             | unknown         |
- | Rust                  | supported         | rust-mode   | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_rust][install_rust]]    |
- | Salt                  | provided          | salt-mode   | unknown         |
- | Scala                 | supported         | scala-mode  | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_scala][install_scala]]   |
- | Scala SBT             | supported         | sbt-mode    | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_sbt][install_sbt]]     |
- | Sphinx                | missing           |             |                 |
- | Swift                 | missing           |             |                 |
- | TeX/LaTeX             | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_rust][install_rust]]    |
- | Typescript            | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
- | Verilog               | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_python][install_python]]  |
- | VHDL                  | builtin           |             | unknown         |
- | VIMscript             | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
- | Vue                   | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
- | XML                   | builtin           |             | unknown         |
- | YAML                  | builtin/supported |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_node][install_node]]    |
+ | Language              | major mode      | LSP client  | LSP server             |
+ |-----------------------+-----------------+-------------+------------------------|
+ | ActionScript          |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Ada                   |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Angular               |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Bash                  | builtin         | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_lsp_bash][install_lsp_bash]]       |
+ | C/C++                 |                 | [[https://github.com/emacs-lsp/emacs-ccls][emacs-ccls]]  | [[https://github.com/frgomes/bash-scripts/issues/66][(pending)]]              |
+ | C#                    | [[https://github.com/emacs-csharp/csharp-mode][csharp-mode]]     | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Closure               | [[https://github.com/clojure-emacs/clojure-mode][clojure-mode]]    | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Cmake                 | [[https://melpa.org/#/cmake-mode][cmake-mode]]      | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_lsp_cmake][install_lsp_cmake]]      |
+ | Crystal               |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | CSS/LessCSS/SASS/SCSS |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_lsp_css][install_lsp_css]]        |
+ | D                     |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Dart                  |                 | [[https://github.com/emacs-lsp/lsp-dart][lsp-dart]]    |                        |
+ | Dockerfile            |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_lsp_dockerfile][install_lsp_dockerfile]] |
+ | Elixir                |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Elm                   | [[https://github.com/jcollard/elm-mode][elm-mode]]        | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_lsp_elm][install_lsp_elm]]        |
+ | Erlang                |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | ESlint                |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | F#                    |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Fish                  | [[https://github.com/wwwjfy/emacs-fish][fish-mode]]       |             |                        |
+ | Fortran               | builtin         | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_lsp_fortran][install_lsp_fortran]]    |
+ | GDScript              |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Go                    | [[https://github.com/dominikh/go-mode.el][go-mode]]         | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    | missing                |
+ | Groovy                | [[https://github.com/Groovy-Emacs-Modes/groovy-emacs-modes][groovy-mode]]     | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Hack                  |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Haskell               | [[https://github.com/haskell/haskell-mode][haskell-mode]]    | [[https://github.com/emacs-lsp/lsp-haskell][lsp-haskell]] | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_haskell][install_haskell]]        |
+ | Haxe                  |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Lisp                  | builtin         |             |                        |
+ | Lua                   |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Java                  |                 | [[https://github.com/emacs-lsp/lsp-java][lsp-java]]    | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_java][install_java]]           |
+ | Javascript            |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_lsp_typescript][install_lsp_typescript]] |
+ | Julia                 |                 | [[https://github.com/non-Jedi/lsp-julia][lsp-julia]]   |                        |
+ | Kotlin                |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Nim                   |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Nix                   |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | OCaml                 | [[https://github.com/ocaml/caml-mode][caml-mode]]       | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Perl                  |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | ObjectiveC            |                 | [[https://github.com/emacs-lsp/emacs-ccls][emacs-ccls]]  | [[https://github.com/frgomes/bash-scripts/issues/66][(pending)]]              |
+ | PHP                   | [[https://github.com/phpactor/phpactor][php-actor]]       | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_lsp_php][install_lsp_php]]        |
+ | Prolog                |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | PureScript            | [[https://github.com/purescript-emacs/purescript-mode][purescript-mode]] | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_lsp_purescript][install_lsp_purescript]] |
+ | Powershell            | builtin         | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Python                | [[https://gitlab.com/python-mode-devs/python-mode][python-mode]]     | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_lsp_python][install_lsp_python]]     |
+ | R                     |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    | [[https://github.com/frgomes/bash-scripts/issues/67][(pending)]]              |
+ | Racket                |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Ruby                  | [[https://github.com/zenspider/Enhanced-Ruby-Mode][ruby-mode]]       |             | missing                |
+ | RF                    |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Rust                  | [[https://github.com/rust-lang/rust-mode][rust-mode]]       | [[https://github.com/brotzeit/rustic][rustic]]      | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_rust][install_rust]]           |
+ | SolarGraph            |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Sorbet                |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | SQL                   |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Steep                 |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Svelte                |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Salt                  | [[https://github.com/glynnforrest/salt-mode][salt-mode]]       |             | missing                |
+ | Scala                 | [[https://github.com/hvesalai/emacs-scala-mode][scala-mode]]      | [[https://github.com/emacs-lsp/lsp-metals][lsp-metals]]  | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_scala][install_scala]]          |
+ | SBT                   | [[   https://github.com/hvesalai/emacs-sbt-mode][sbt-mode]]        |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_sbt][install_sbt]]            |
+ | Swift                 | [[https://github.com/swift-emacs/swift-mode][swift-mode]]      |             | [[https://github.com/frgomes/bash-scripts/issues/66][(pending)]]              |
+ | Typescript            | [[https://github.com/emacs-typescript/typescript.el][typescript-mode]] |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_lsp_typescript][install_lsp_typescript]] |
+ | TOML                  | [[https://github.com/dryman/toml-mode.el][toml-mode]]       |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_rust][install_rust]]           |
+ | V                     |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Vala                  |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
+ | Verilog               |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_lsp_hdl][install_lsp_hdl]]        |
+ | Vetur                 | [[https://github.com/AdamNiederer/vue-mode][vue-mode]]        |             | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_lsp_vue][install_lsp_vue]]        |
+ | VIMscript             | [[https://github.com/mcandre/vimrc-mode][vimrc-mode]]      | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_lsp_vimrc][install_lsp_vimrc]]      |
+ | WASM                  | [[https://github.com/devonsparks/wat-mode/blob/master/wat-mode.el][wat-mode]]        |             | missing                |
+ | Zig                   |                 | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]    |                        |
 
-** Install /ivy/, /swiper/ and /counsel/ for easy completion from a list
-
- | Package                 | Purpose                                        | Status  |
- |-------------------------+------------------------------------------------+---------|
- | projectile              | project interaction library                    | done    |
- | ivy                     | Easy completion from a list                    | done    |
- | swiper                  | Isearch with an overview. Oh, man!             | done    |
- | counsel-jq              | Live preview of "jq" queries using counsel     | done    |
- | counsel-etags           | Complete Ctags/Etags solution using ivy        | done    |
- | counsel-projectile      | Ivy integration for Projectile                 | done    |
-
+** Support for data languages
+ | Language  | major mode   | LSP client | LSP server          |
+ |-----------+--------------+------------+---------------------|
+ | Dhall     | [[https://github.com/psibi/dhall-mode][dhall-mode]]   | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]   | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_dhall][install_dhall]]       |
+ | GraphQL   | [[https://github.com/davazp/graphql-mode][graphql-mode]] | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]   | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_lsp_graphql][install_lsp_graphql]] |
+ | JSON      | [[https://github.com/joshwnj/json-mode][json-mode]]    | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]   | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_lsp_json][install_lsp_json]]    |
+ | Terraform | [[https://github.com/purcell/emacs-hcl-mode][hcl-mode]]     | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]   | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_terraform][install_terraform]]   |
+ | VHDL      |              | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]   |                     |
+ | YAML      | [[https://github.com/yoshiki/yaml-mode][yaml-mode]]    | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]   | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_lsp_yaml][install_lsp_yaml]]    |
+ | XML       | builtin      | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]   |                     |
+** Support for markup languages
+ | Language | mode          | LSP client | LSP server           |
+ |----------+---------------+------------+----------------------|
+ | HTML     | builtin       | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]   | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_lsp_html][install_lsp_html]]     |
+ | LaTeX    | builtin       | [[https://github.com/ROCKTAKEY/lsp-latex][lsp-latex]]  | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_rust][install_rust]]         |
+ | Markdown | [[https://github.com/jrblevin/markdown-mode][markdown-mode]] | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]   | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_lsp_markdown][install_lsp_markdown]] |
+ | RST      | builtin       |            |                      |
+ | Sphinx   | [[https://github.com/Fuco1/sphinx-mode][sphinx-mode]]   |            |                      |
+ | TeX      | builtin       | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]   | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_rust][install_rust]]         |
 ** Source code management
-
  | Package                 | Purpose                                        | Status  |
  |-------------------------+------------------------------------------------+---------|
  | magit                   | a powerful frontend for Git                    | done    |
  | monky                   | a powerful frontend for Mercurial/Hg           | done    |
  | find-file-in-repository | find files in the source control               | done    |
-
+** Ivy, an excellent completion framework
+ | Package            | Purpose                                    | Status |
+ |--------------------+--------------------------------------------+--------|
+ | ivy                | Easy completion from a list                | done   |
+ | ivy-treemacs       | tree navigation sidebar                    | done   |
+ | swiper             | Isearch with an overview. Oh, man!         | done   |
+ | counsel-jq         | Live preview of "jq" queries using counsel | done   |
+ | counsel-etags      | Complete Ctags/Etags solution using ivy    | done   |
+ | counsel-projectile | Ivy integration for Projectile             | done   |
 ** Additional extensions
-
  | Package                 | Purpose                                        | Status  |
  |-------------------------+------------------------------------------------+---------|
- | org-plus-contrib        | Org Mode with contributions                    | testing |
  | undo-tree               | recovers any past state of a buffer            | done    |
  | move-dup                | Eclipse-like move and duplicate lines          | done    |
  | highlight-symbol        | highlight and navigate between symbols         | done    |
@@ -130,38 +152,34 @@ More information about Language Server Protocol:
  | yasnippet               | template system                                | done    |
  | yatemplate              | expand abbreviations into function templates   | done    |
  | smartparens             | deals with parens pairs in smart ways          | done    |
- | treemacs                | tree navigation sidebar                        | done    |
  | gist                    | share snippets and pastes                      | done    |
  | restclient              | REST REPL                                      | done    |
  | rg                      | ripgrep                                        | done    |
  | multiple-cursors        | edit multiple places of a buffer at once       | done    |
  | window-numbering        | assign numbers to windows for quick access     | done    |
  | expand-region           | increase selected region by semantic units     | done    |
- | monokai-theme           | a dark colour theme                            | done    |
-
 ** Additional custom functions
 
  * move-region-to-file
-
+ * save-latest-defined-macro
 
 ----
 
-
 * About this configuration file
-
 This file you are reading right now is also a Emacs configuration file.
 
 You can skip reading the remainder of this file, unless you'd like to learn how to configure Emacs or you'd like to learn a bit of ``org-mode``.
-
-** Bootstrap
+** Disable menus
 #+BEGIN_SRC emacs-lisp
+;; Dark screen as soon as possible
+(add-to-list 'default-frame-alist '(background-color . "#000000"))
+;; No splash screen please
+(setq inhibit-startup-message t)
 ;; Turn off mouse interface early in startup to avoid momentary display
 (if (fboundp 'menu-bar-mode)   (menu-bar-mode -1))
 (if (fboundp 'tool-bar-mode)   (tool-bar-mode -1))
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (if (fboundp 'tooltip-mode)    (tooltip-mode -1))
-;; No splash screen please ... jeez
-(setq inhibit-startup-message t)
 #+END_SRC
 ** Bootstrap straight.el
 #+BEGIN_SRC emacs-lisp
@@ -198,7 +216,6 @@ You can also use M-x auto-package-update-now to update right now!
   (auto-package-update-at-time "09:00"))
 #+END_SRC
 ** Keep Folders Clean
-
 We use the [[https://github.com/emacscollective/no-littering/blob/master/no-littering.el][no-littering]] package to keep folders where we edit files and the Emacs configuration folder clean!  It knows about a wide variety of variables for built in Emacs features as well as those from community packages so it can be much easier than finding and setting these variables yourself.
 
 #+BEGIN_SRC emacs-lisp
@@ -212,8 +229,13 @@ We use the [[https://github.com/emacscollective/no-littering/blob/master/no-litt
   (setq auto-save-file-name-transforms
         `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 #+END_SRC
+** Color Theme
+[[https://github.com/hlissner/emacs-doom-themes][doom-themes]] is a great set of themes with a lot of variety and support for many different Emacs modes.  Taking a look at the [[https://github.com/hlissner/emacs-doom-themes/tree/screenshots][screenshots]] might help you decide which one you like best.  You can also run =M-x counsel-load-theme= to choose between them easily.
+#+begin_src emacs-lisp
+(use-package doom-themes
+  :init (load-theme 'doom-molokai t))
+#+end_src
 ** Helpful Help Commands
-
 [[https://github.com/Wilfred/helpful][Helpful]] adds a lot of very helpful (get it?) information to Emacs' =describe-= command buffers.  For example, if you use =describe-function=, you will not only get the documentation about the function, you will also see the source code of the function and where it gets used in other places in the Emacs configuration.  It is very useful for figuring out how things work in Emacs.
 
 #+begin_src emacs-lisp
@@ -228,19 +250,12 @@ We use the [[https://github.com/emacscollective/no-littering/blob/master/no-litt
     ([remap describe-variable] . counsel-describe-variable)
     ([remap describe-key] . helpful-key))
 #+end_src
-** Install /ivy/, /swiper/ and /counsel/ for easy completion from a list
+** Ivy, an excellent completion framework
 #+BEGIN_SRC emacs-lisp
-  ;; ivy and friends
-
-  (use-package posframe)
-  (use-package flx)
-  (use-package wgrep)
-  (use-package wgrep-ag)
-
   (use-package counsel
-    :after ivy
-    :config (counsel-mode)
     :bind (("M-x"     . counsel-M-x)
+           ("M-y"     . counsel-yank-pop)
+           ("C-c s B" . counsel-switch-buffer)
            ("C-c s c" . counsel-compile)
            ("C-c s g" . counsel-git)
            ("C-c s j" . counsel-git-grep)
@@ -258,26 +273,34 @@ We use the [[https://github.com/emacscollective/no-littering/blob/master/no-litt
            ("C-c s u" . counsel-unicode-char)
            ("C-c s v" . counsel-set-variable)
            ("C-c s p" . counsel-package)
-           ("C-c i"   . counsel-info-lookup-symbol)
-           ("M-y"     . counsel-yank-pop)
+           ("C-c s i" . counsel-info-lookup-symbol)
            ("C-h f"   . counsel-describe-function)
            ("C-h v"   . counsel-describe-variable)
            ("C-h l"   . counsel-find-library)
-           ("C-x C-f" . counsel-find-file))
-  )
+           ("C-x C-f" . counsel-find-file)
+           :map minibuffer-local-map
+           ("C-r" . 'counsel-minibuffer-history))
+    :custom
+    (counsel-linux-app-format-function #'counsel-linux-app-format-function-name-only)
+    :config
+    (counsel-mode t))
+
+  ;; (use-package posframe)
+  ;; (use-package flx)
+  ;; (use-package wgrep)
+  ;; (use-package wgrep-ag)
 
   (use-package ivy
     :diminish
-    :demand
     :bind (("C-c C-r" . ivy-resume)
            ("C-x b"   . ivy-switch-buffer)
-           ("C-x B"   . ivy-switch-buffer-other-window))
+           ("C-x B"   . ivy-switch-buffer-other-window)
            ("C-c v"   . ivy-push-view)
            ("C-c V"   . ivy-pop-view)
-           (:map ivy-minibuffer-map ("C-c C-c" . hydra-avy/body))
+           (:map ivy-minibuffer-map ("C-c C-c" . hydra-avy/body)))
     :custom
-      (ivy-count-format "(%d/%d) ")
-      (ivy-use-virtual-buffers t)
+    (ivy-count-format "(%d/%d) ")
+    (ivy-use-virtual-buffers t)
     :config
     (ivy-mode)
     (setq ivy-re-builders-alist
@@ -285,58 +308,62 @@ We use the [[https://github.com/emacscollective/no-littering/blob/master/no-litt
             (ivy-switch-buffer . ivy--regex-fuzzy)
             (counsel-ag        . ivy--regex-plus)
             (counsel-git-grep  . ivy--regex-plus)
-            (swiper            . ivy--regex-plus) 
+            (swiper            . ivy--regex) 
             (t                 . ivy--regex-fuzzy))))
 
   (use-package ivy-rich
-    :demand
     :after counsel
     :custom
-      (ivy-virtual-abbreviate 'full
-                              ivy-rich-switch-buffer-align-virtual-buffer t
-                              ivy-rich-path-style 'abbrev)
+    (ivy-virtual-abbreviate 'full
+                            ivy-rich-switch-buffer-align-virtual-buffer t
+                            ivy-rich-path-style 'abbrev)
     :config
-      (ivy-rich-mode)
-  )
+    (ivy-rich-mode t))
 
-  (use-package ag
-    :demand
+  (use-package ivy-prescient
+    :after counsel
     :custom
-      (ag-highlight-search t)
-      (ag-reuse-buffers t)
+    (ivy-prescient-enable-filtering nil)
     :config
-      (add-to-list 'ag-arguments "--word-regexp"))
+    ;; Uncomment the following line to have sorting remembered across sessions!
+    (prescient-persist-mode t)
+    (ivy-prescient-mode t))
 
-  ;; using ivy rich for now
-  (use-package all-the-icons-ivy
-    :demand
-    :after ivy-rich
-    :config
-      (setq all-the-icons-ivy-file-commands
-            '(counsel-find-file counsel-file-jump counsel-recentf counsel-projectile-find-file counsel-projectile-find-dir))
-    ;;(all-the-icons-ivy-setup)
-  )
+  ;;XXX (use-package ivy-postframe :demand :after counsel)
 
-  (use-package swiper
-    :after ivy
-    :bind
-      (("C-s"     . swiper-isearch)
-       ("C-S-s"   . swiper-thing-at-point)
-       ("C-c C-r" . ivy-resume)
-       ("M-x"     . counsel-M-x)
-       ("C-x C-f" . counsel-find-file)))
-
-  (use-package counsel-jq :demand)
-
-  (use-package projectile
-    :demand
-    :init   (setq projectile-use-git-grep t)
-    :config (projectile-global-mode t)
-    :bind   (("s-f" . projectile-find-file)
-             ("s-F" . projectile-grep)))
   (use-package counsel-projectile :demand)
+  ;;FIXME: (use-package ag :demand 'lisp-indent-function)
+  ;;FIXME: (use-package wgrep-ag :demand)
+
+  (use-package smartparens
+    :demand
+    :diminish smartparens-mode
+    :commands
+    smartparens-strict-mode
+    smartparens-mode
+    sp-restrict-to-pairs-interactive
+    sp-local-pair
+    :hook (common-lisp-modes-mode . smartparens-strict-mode)
+    :hook (prog-mode              . smartparens-strict-mode)
+    :hook (common-lisp-mode       . smartparens-strict-mode)
+    :hook (emacs-lisp-mode        . smartparens-strict-mode)
+    :hook (reb-mode               . smartparens-strict-mode)
+    :hook (reb-lisp-mode          . smartparens-strict-mode)
+    :hook (closure-mode           . smartparens-strict-mode)
+    ;;:init (setq sp-interactive-dwim t)
+    :config
+    (require 'smartparens-config)
+    (sp-use-smartparens-bindings)
+    (sp-pair "(" ")" :wrap "C-(") ;; how do people live without this?
+    (sp-pair "[" "]" :wrap "s-[") ;; C-[ sends ESC
+    (sp-pair "{" "}" :wrap "C-{")
+    ;; WORKAROUND https://github.com/Fuco1/smartparens/issues/543
+    (bind-key "C-<left>"  nil smartparens-mode-map)
+    (bind-key "C-<right>" nil smartparens-mode-map)
+    (bind-key "s-<delete>"    'sp-kill-sexp smartparens-mode-map)
+    (bind-key "s-<backspace>" 'sp-backward-kill-sexp smartparens-mode-map))
 #+END_SRC
-*** Hydra has several arms
+** Hydra has several arms
 #+BEGIN_SRC emacs-lisp
 (use-package ivy-hydra
   :after ivy)
@@ -938,6 +965,480 @@ _c_ontinue (_C_ fast)      ^^^^                       _X_ global breakpoint
 (with-eval-after-load 'edebug
   (bind-key "?" #'hydra-edebug/body edebug-mode-map))
 #+END_SRC
+** Programming languages
+*** Support for code snippets
+#+BEGIN_SRC emacs-lisp
+(use-package yasnippet
+  :diminish yas-minor-mode
+  :commands yas-minor-mode
+  :config (yas-reload-all))
+
+(use-package yatemplate
+;  :defer 2 ;; WORKAROUND https://github.com/mineo/yatemplate/issues/3
+  :demand
+  :config
+    (auto-insert-mode)
+    (setq auto-insert-alist nil)
+    (yatemplate-fill-alist))
+
+(use-package ivy-yasnippet :demand)
+#+END_SRC
+*** Support for Language Server Protocol
+LSP provides builtin support for a vast range of programming languages.
+See: https://github.com/emacs-lsp/lsp-mode#supported-languages
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+    :init (global-flycheck-mode t))
+
+  ;; see: https://emacs-lsp.github.io/lsp-mode/lsp-mode.html
+  (use-package lsp-mode
+    :commands (lsp lsp-deferred)
+    :hook
+    (csharp-mode      . lsp)
+    (css-mode         . lsp)
+    (closure-mode     . lsp)
+    (cmake-mode       . lsp)
+    (fish-mode        . lsp)
+    (groovy-mode      . lsp)
+    (haskell-mode     . lsp)
+    (emacs-lisp-mode  . lsp)
+    ;;(ocaml-mode     . lsp)
+    ;; (php-mode      . lsp)
+    (purescript-mode  . lsp)
+    ;; (pwsh-mode     . lsp)
+    (python-mode      . lsp)
+    ;; (ruby-mode     . lsp)
+    (rust-mode        . lsp)
+    (salt-mode        . lsp)
+    (scala-mode       . lsp)
+    (sh-mode          . lsp)
+    ;;(swift-mode     . lsp)
+    (js-mode          . lsp)
+    (typescript-mode  . lsp)
+    (vue-mode         . lsp)
+    (vimrc-mode       . lsp)
+    (wasm-mode        . lsp)
+    (dhall-mode       . lsp)
+    (graphql-mode     . lsp)
+    (json-mode        . lsp)
+    (hcl-mode         . lsp)
+    (yaml-mode        . lsp)
+    (xml-mode         . lsp)
+    (html-mode        . lsp)
+    (markdown-mode    . lsp)
+    (rst-mode         . lsp)
+    ;;(sphinx-mode    . lsp)
+    ;;(tex-mode       . lsp)
+    ;;(latex-mode     . lsp)
+    (prog-mode        . lsp)
+    (lsp-managed-mode . lsp-modeline-diagnostics-mode)
+    (lsp-mode         . (lsp-lens-mode
+                         lsp-enable-which-key-integration
+                         lsp-headerline-breadcrumb-mode
+                         lsp-modeline-code-actions-mode))
+    :init
+      (setq gc-cons-threshold (* 100 1024 1024)     ;; 100Mb
+            read-process-output-max (* 8 1024 1024) ;;   8Mb
+            max-lisp-eval-depth (* 10 1024)
+            max-specpdl-size    (*  4 1024)
+            lsp-idle-delay 0.500
+            lsp-log-io nil
+            lsp-prefer-flymake nil
+            lsp-keymap-prefix "C-c l"
+            lsp-completion-show-detail t
+            lsp-completion-show-kind t
+            lsp-eldoc-enable-hover t
+            lsp-lens-enable t
+            lsp-enable-imenu t
+            lsp-enable-symbol-highlighting t
+            lsp-headerline-breadcrumb-enable t
+            lsp-enable-indentation t
+            lsp-enable-completion-at-point t
+            lsp-headerline-breadcrumb-enable-diagnostics t
+            lsp-modeline-code-actions-enable t
+            lsp-modeline-diagnostics-enable t
+            lsp-signature-auto-activate t
+            lsp-signature-render-documentation t))
+
+  (use-package which-key
+    :config
+      (which-key-mode))
+
+  (use-package projectile :demand)
+
+  (use-package treemacs
+    :requires (ivy)
+    :defer t
+    :init
+      (with-eval-after-load 'winum
+        (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+    :bind (:map global-map ("C-x t t" . treemacs))
+    :commands treemacs-modify-theme
+    :config
+      (require 'treemacs-themes)
+      (require 'treemacs-icons)
+      (require 'treemacs-icons-dired)
+      (require 'treemacs-projectile)
+      (require 'treemacs-magit)
+      (progn
+        (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
+              treemacs-deferred-git-apply-delay      0.5
+              treemacs-directory-name-transformer    #'identity
+              treemacs-display-in-side-window        t
+              treemacs-eldoc-display                 t
+              treemacs-file-event-delay              5000
+              treemacs-file-extension-regex          treemacs-last-period-regex-value
+              treemacs-file-follow-delay             0.2
+              treemacs-file-name-transformer         #'identity
+              treemacs-follow-after-init             t
+              treemacs-git-command-pipe              ""
+              treemacs-goto-tag-strategy             'refetch-index
+              treemacs-indentation                   2
+              treemacs-indentation-string            " "
+              treemacs-is-never-other-window         nil
+              treemacs-max-git-entries               5000
+              treemacs-missing-project-action        'ask
+              treemacs-no-png-images                 nil
+              treemacs-no-delete-other-windows       t
+              treemacs-project-follow-cleanup        nil
+              treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+              treemacs-position                      'left
+              treemacs-recenter-distance             0.1
+              treemacs-recenter-after-file-follow    nil
+              treemacs-recenter-after-tag-follow     nil
+              treemacs-recenter-after-project-jump   'always
+              treemacs-recenter-after-project-expand 'on-distance
+              treemacs-show-cursor                   nil
+              treemacs-show-hidden-files             t
+              treemacs-silent-filewatch              nil
+              treemacs-silent-refresh                nil
+              treemacs-sorting                       'alphabetic-asc
+              treemacs-space-between-root-nodes      nil
+              treemacs-tag-follow-cleanup            t
+              treemacs-tag-follow-delay              1.5
+              treemacs-width                         35)))
+
+  (use-package treemacs-projectile
+    :after treemacs projectile)
+
+  (use-package treemacs-icons-dired
+    :after treemacs dired
+    :config (treemacs-icons-dired-mode))
+
+  (use-package treemacs-magit
+    :after treemacs magit)
+
+  (use-package lsp-treemacs
+    :after lsp
+    :requires (lsp-mode treemacs)
+    :commands lsp-treemacs-errors-list
+    :config
+      (lsp-treemacs-symbols t)
+      (lsp-treemacs-references t)
+      (lsp-treemacs-error-list t)
+      (lsp-treemacs-sync-mode t))
+
+  (use-package hydra
+    :requires (ivy))
+
+  (use-package lsp-ivy 
+    :requires (ivy))
+
+  ;; https://emacs-lsp.github.io/lsp-ui
+  (use-package lsp-ui
+    :after lsp-mode
+    ;;XXX :diminish
+    ;;XXX :commands lsp-ui-mode
+    :hook (lsp-mode . lsp-ui-mode)
+    :bind (:map lsp-ui-mode-map
+                ;;XXX ("C-c u" . lsp-ui-imenu)
+                ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+                ([remap xref-find-references]  . lsp-ui-peek-find-references))
+    :custom-face
+      (lsp-ui-doc-background ((t (:background nil))))
+      (lsp-ui-doc-header ((t (:inherit (font-lock-string-face italic)))))
+    :init
+      (setq lsp-ui-doc-enable t
+            lsp-ui-doc-delay 4.0
+            lsp-ui-doc-header t
+            lsp-ui-doc-include-signature t
+            lsp-ui-doc-max-height 25
+            lsp-ui-doc-max-width 180
+            lsp-ui-doc-position 'at-point
+            lsp-ui-doc-show-with-cursor t
+            lsp-ui-doc-show-with-mouse t
+            lsp-ui-doc-use-childframe t
+            lsp-ui-doc-use-webkit nil
+            lsp-ui-doc-border (face-foreground 'default)
+            lsp-ui-flycheck-enable t
+            lsp-ui-flycheck-list-position 'right
+            lsp-ui-flycheck-live-reporting t
+            lsp-ui-imenu-enable t
+            lsp-ui-imenu-kind-position 'right
+            lsp-ui-imenu-window-width 30
+            lsp-ui-imenu-auto-refresh t
+            lsp-ui-imenu-refresh-delay 5.0
+            lsp-ui-peek-always-show t
+            lsp-ui-peek-enable t
+            lsp-ui-peek-list-width 60
+            lsp-ui-peek-peek-height 25
+            lsp-ui-sideline-enable nil
+            lsp-ui-sideline-code-actions-prefix " "
+            lsp-ui-sideline-delay 4.0
+            lsp-ui-sideline-ignore-duplicate t
+            lsp-ui-sideline-show-code-actions t
+            lsp-ui-sideline-show-diagnostics t
+            lsp-ui-sideline-show-hover t
+            lsp-ui-sideline-show-symbol t))
+#+END_SRC
+** Support for Debugging Application Protocol
+#+BEGIN_SRC emacs-lisp
+(use-package dap-mode
+  :demand
+  :after lsp-mode posframe
+  :config
+    (dap-auto-configure-mode)
+    (add-hook 'dap-stopped-hook
+      (lambda (arg) (call-interactively #'dap-hydra)))
+  :hook
+    (lsp-mode . dap-mode)
+    (lsp-mode . dap-ui-mode))
+#+END_SRC
+** Support for programming languages
+*** C/C++/ObjectiveC
+#+BEGIN_SRC emacs-lisp
+  (use-package ccls :demand)
+#+END_SRC
+*** CSharp
+#+BEGIN_SRC emacs-lisp
+  (use-package csharp-mode :demand)
+#+END_SRC    
+*** Clojure
+#+BEGIN_SRC emacs-lisp
+  (use-package clojure-mode :demand)
+#+END_SRC
+*** Elm
+#+BEGIN_SRC emacs-lisp
+  (use-package elm-mode :demand)
+#+END_SRC
+*** Fish
+#+BEGIN_SRC emacs-lisp
+  (use-package fish-mode :demand)
+#+END_SRC
+*** Groovy
+#+BEGIN_SRC emacs-lisp
+  (use-package groovy-mode :demand)
+#+END_SRC
+*** Haskell
+#+BEGIN_SRC emacs-lisp
+(use-package haskell-mode :demand)
+(use-package lsp-haskell
+  :demand
+  :requires (haskell-mode))
+#+END_SRC
+*** Java
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-java
+  :demand
+  :config
+    (require 'dap-java)
+  :after (lsp lsp-mode dap-mode jmi-init-platform-paths))
+#+END_SRC
+*** Ocaml
+#+BEGIN_SRC emacs-lisp
+  ;;TODO: (use-package caml-mode :demand)
+#+END_SRC
+*** Python
+We use =lsp-mode= and =dap-mode= to provide a more complete development environment for Python in Emacs.  Check out [[https://emacs-lsp.github.io/lsp-mode/page/lsp-pyls/][the =pyls= configuration]] in the =lsp-mode= documentation for more details.
+#+begin_src emacs-lisp
+(use-package python-mode
+  :ensure t
+  :hook (python-mode . lsp-deferred)
+  :custom
+  ;; NOTE: Set these if Python 3 is called "python3" on your system!
+  ;; (python-shell-interpreter "python3")
+  ;; (dap-python-executable "python3")
+  (dap-python-debugger 'debugpy)
+  :config
+  (require 'dap-python))
+#+end_src
+You can use the pyvenv package to use =virtualenv= environments in Emacs.  The =pyvenv-activate= command should configure Emacs to cause =lsp-mode= and =dap-mode= to use the virtual environment when they are loaded, just select the path to your virtual environment before loading your project.
+#+begin_src emacs-lisp
+(use-package pyvenv
+  :after python-mode
+  :config
+  (pyvenv-mode 1))
+#+end_src
+*** Ruby
+#+BEGIN_SRC emacs-lisp
+  ;;(use-package enh-ruby-mode :demand)
+#+END_SRC
+*** Rust
+#+BEGIN_SRC emacs-lisp
+  (use-package rustic :demand)
+#+END_SRC
+*** Salt
+#+BEGIN_SRC emacs-lisp
+  (use-package salt-mode
+    :demand
+    :config
+    :hook (salt-mode . (lambda () (flyspell-mode t))))
+    ;;XXX (add-hook 'salt-mode-hook
+    ;;XXX           (lambda ()
+    ;;XXX             (flyspell-mode t))))
+#+END_SRC
+*** Scala
+#+BEGIN_SRC emacs-lisp
+;; Enable scala-mode and sbt-mode
+(use-package scala-mode
+  :demand
+  :requires (lsp)
+  :interpreter
+    ("scala" . scala-mode))
+
+(use-package sbt-mode
+  :demand
+  :after scala-mode
+  :commands sbt-start sbt-command
+  :mode "\\.sbt\\'"
+  :config
+  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+  ;; Allows using space when in the minibuffer
+  (substitute-key-definition
+    'minibuffer-complete-word
+    'self-insert-command
+     minibuffer-local-completion-map)
+   ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+   (setq sbt:program-options '("-Dsbt.supershell=false"))
+  :bind (:map sbt-mode-map
+              ("<space>"  . sbt-hydra)) ;; FIXME
+)
+
+(use-package company
+  :hook
+    (scala-mode . company-mode)
+  :config
+    (setq company-idle-delay 0)
+    (setq company-minimum-prefix-length 1)
+    (setq lsp-completion-provider :capf)
+    (global-company-mode t))
+
+;; Add metals backend for lsp-mode
+(use-package lsp-metals
+  :demand
+  :after scala-mode
+  :bind
+  :bind
+    ("s-k" . hydra-lsp-metals/body)
+  :config (setq lsp-metals-treeview-show-when-views-received t))
+#+END_SRC
+*** Swift
+#+BEGIN_SRC emacs-lisp
+;;(use-package swift-mode :demand)
+#+END_SRC
+*** TypeScript
+This is a basic configuration for the TypeScript language so that =.ts= files activate =typescript-mode= when opened.  We're also adding a hook to =typescript-mode-hook= to call =lsp-deferred= so that we activate =lsp-mode= to get LSP features every time we edit TypeScript code.
+#+begin_src emacs-lisp
+(use-package typescript-mode
+  :demand
+  :mode "\\.ts\\'"
+  :hook (typescript-mode . lsp-deferred)
+  :config
+  (setq typescript-indent-level 2))
+#+end_src
+*** VIM Script
+#+BEGIN_SRC emacs-lisp
+;;(use-package vimrc-mode :demand)
+#+END_SRC
+*** VUE
+#+BEGIN_SRC emacs-lisp
+;;(use-package vue-mode :demand)
+#+END_SRC
+*** WASM
+#+BEGIN_SRC emacs-lisp
+;;TODO:  (straight-use-package
+;;TODO:   `(wasm-mode :type git :host github :repo "devonsparks/wat-mode"
+;;TODO:               :build nil :files ("wat-mode.el")
+;;TODO:               :demand
+;;TODO:               :mode ("\\.wasm\\'" . wasm-mode)
+;;TODO:               :mode ("\\.wast\\'" . wasm-mode)
+;;TODO:               :mode ("\\.wat\\'"  . wasm-mode)))
+#+END_SRC
+** Data languages
+*** Dhall
+#+BEGIN_SRC emacs-lisp
+(use-package dhall-mode
+  :demand
+  :requires (lsp)
+  :mode "\\.dhall$"
+  :config
+  (setq
+    dhall-format-at-save t ;; FIXME: formatting option is hardcoded
+    dhall-format-arguments (\` ("--ascii")) ;;FIXME: unicode syntax is hardcoded
+    ;; header-line is obsoleted by lsp-mode
+    dhall-use-header-line nil))
+#+END_SRC
+*** GraphQL
+#+BEGIN_SRC emacs-lisp
+  (use-package graphql-mode :demand)
+#+END_SRC
+*** JSON
+#+BEGIN_SRC emacs-lisp
+  (use-package json-mode :demand)
+#+END_SRC
+*** Terraform HCL
+#+BEGIN_SRC emacs-lisp
+  (use-package hcl-mode :demand)
+#+END_SRC
+*** YAML
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode :demand)
+#+END_SRC
+** Markup languages
+*** Markdown
+#+BEGIN_SRC emacs-lisp
+  (use-package markdown-mode
+    :commands (markdown-mode gfm-mode)
+    :mode (("README\\.md\\'" . gfm-mode)
+           ("\\.md\\'" . markdown-mode)
+           ("\\.markdown\\'" . markdown-mode))
+    :hook (markdown-mode . auto-fill-mode)
+    :config (setq markdown-command "pandoc")) ;;FIXME: pandoc is hardcoded
+#+END_SRC
+*** HTML
+#+BEGIN_SRC emacs-lisp
+(use-package sgml-mode
+  :demand
+  ;;XXX :hook (sgml-mode . lsp-deferred)
+  ;;XXX :hook (html-mode . lsp-deferred)
+  :mode ("\\.html\\'" . html-mode)
+  :config (add-hook 'html-mode-hook 'turn-off-auto-fill))
+#+END_SRC
+*** Sphinx
+#+BEGIN_SRC emacs-lisp
+  (use-package sphinx-mode :demand)
+#+END_SRC
+
+** Advanced syntax tree parsing
+[[https://emacs-tree-sitter.github.io/][tree-sitter]], an incremental parsing system.
+
+It aims to be the foundation for a new breed of Emacs packages that understand code structurally. For example:
+
+    * Faster, fine-grained code highlighting.
+    * More flexible code folding.
+    * Structural editing (like Paredit, or even better) for non-Lisp code.
+    * More informative indexing for imenu.
+
+The author of Tree-sitter articulated its merits a lot better in this [[https://www.thestrangeloop.com/2018/tree-sitter---a-new-parsing-system-for-programming-tools.html][StrangeLoop]] talk.
+
+| /tree-sitter/ must be installed after all language modes were installed.
+#+BEGIN_SRC emacs-lisp
+  (use-package tree-sitter)
+  (use-package tree-sitter-langs)
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+#+END_SRC
+    
 ** Source code management
 *** /magit/: a powerful frontend for Git
 #+BEGIN_SRC emacs-lisp
@@ -1016,375 +1517,32 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :commands find-file-in-repository
   :bind ("M-s M-f" . find-file-in-repository))
 #+END_SRC
-** Configure programming languages and markup languages
-*** Support for code snippets
+** Org Mode modules
+*** Install /org-roam/
+Explaining video here: https://www.youtube.com/watch?v=AyhPmypHDEw
 #+BEGIN_SRC emacs-lisp
-(use-package yasnippet
-  :diminish yas-minor-mode
-  :commands yas-minor-mode
-  :config (yas-reload-all))
-
-(use-package yatemplate
-;  :defer 2 ;; WORKAROUND https://github.com/mineo/yatemplate/issues/3
+(use-package org-roam
   :demand
-  :config
-    (auto-insert-mode)
-    (setq auto-insert-alist nil)
-    (yatemplate-fill-alist))
-
-(use-package ivy-yasnippet :demand)
+  :custom (org-roam-directory "~/Documents/Emacs/RoamNotes") ;;FIXME: hardcoded
+  :bind (("C-c r l" . org-roam-buffer-toggle)
+         ("C-c r f" . org-roam-node-find)
+         ("C-c r i" . org-roam-node-insert))
+  :init (setq org-roam-v2-ack t)
+  :config (org-roam-setup))
 #+END_SRC
-*** Install Language Server Protocol
+*** TODO [0/1] Integration with Google Calendar
 
-LSP provides builtin support for a vast range of programming languages.
-See: https://github.com/emacs-lsp/lsp-mode#supported-languages
+ - [ ] See: https://www.youtube.com/watch?v=vO_RF2dK7M0
 
 #+BEGIN_SRC emacs-lisp
-(use-package flycheck
-  :init (global-flycheck-mode))
-
-;; see: https://emacs-lsp.github.io/lsp-mode/lsp-mode.html
-(use-package lsp-mode
-  :commands (lsp lsp-deferred)
-  :hook
-    (java-mode    . lsp)
-    (scala-mode   . lsp)
-    (rust-mode    . lsp)
-    (python-mode  . lsp)
-    (js-mode      . lsp)
-    (xml-mode     . lsp)
-    (json-mode    . lsp)
-    (yaml-mode    . lsp)
-    (php-mode     . lsp)
-    (sgml-mode    . lsp)
-    (html-mode    . lsp)
-    (css-mode     . lsp)
-    (sh-mode      . lsp)
-    (salt-mode    . lsp)
-    (haskell-mode . lsp)
-    (prog-mode    . lsp)
-    (lsp-mode     . (lsp-lens-mode
-                     lsp-enable-which-key-integration
-                     lsp-headerline-breadcrumb-mode
-                     lsp-modeline-code-actions-mode))
-    (lsp-managed-mode . lsp-modeline-diagnostics-mode)
-  :init
-    (setq gc-cons-threshold (* 100 1024 1024)     ;; 100Mb
-          read-process-output-max (* 8 1024 1024) ;;   8Mb
-          max-lisp-eval-depth (* 10 1024)
-          max-specpdl-size    (*  4 1024)
-          lsp-idle-delay 0.500
-          lsp-log-io nil
-          lsp-prefer-flymake nil
-          lsp-keymap-prefix "s-l"
-          lsp-completion-show-detail t
-          lsp-completion-show-kind t
-          lsp-eldoc-enable-hover t
-          lsp-lens-enable t
-          lsp-enable-imenu t
-          lsp-enable-symbol-highlighting t
-          lsp-headerline-breadcrumb-enable t
-          lsp-enable-indentation t
-          lsp-enable-completion-at-point t
-          lsp-headerline-breadcrumb-enable-diagnostics t
-          lsp-modeline-code-actions-enable t
-          lsp-modeline-diagnostics-enable t
-          lsp-signature-auto-activate t
-          lsp-signature-render-documentation t))
-
-(use-package company
-  :hook
-    (scala-mode . company-mode)
-  :config
-    (setq company-idle-delay 0)
-    (setq company-minimum-prefix-length 1)
-    (setq lsp-completion-provider :capf)
-    (global-company-mode t))
-
-(use-package which-key
-  :config
-    (which-key-mode))
-
-(use-package projectile :demand)
-
-(use-package treemacs
-  :requires (ivy)
-  :defer t
-  :init
-    (with-eval-after-load 'winum
-      (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
-  :bind (:map global-map ("C-x t t" . treemacs))
-  :commands treemacs-modify-theme
-  :config
-    (require 'treemacs-themes)
-    (require 'treemacs-icons)
-    (require 'treemacs-icons-dired)
-    (require 'treemacs-projectile)
-    (require 'treemacs-magit)
-    (progn
-      (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
-            treemacs-deferred-git-apply-delay      0.5
-            treemacs-directory-name-transformer    #'identity
-            treemacs-display-in-side-window        t
-            treemacs-eldoc-display                 t
-            treemacs-file-event-delay              5000
-            treemacs-file-extension-regex          treemacs-last-period-regex-value
-            treemacs-file-follow-delay             0.2
-            treemacs-file-name-transformer         #'identity
-            treemacs-follow-after-init             t
-            treemacs-git-command-pipe              ""
-            treemacs-goto-tag-strategy             'refetch-index
-            treemacs-indentation                   2
-            treemacs-indentation-string            " "
-            treemacs-is-never-other-window         nil
-            treemacs-max-git-entries               5000
-            treemacs-missing-project-action        'ask
-            treemacs-no-png-images                 nil
-            treemacs-no-delete-other-windows       t
-            treemacs-project-follow-cleanup        nil
-            treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
-            treemacs-position                      'left
-            treemacs-recenter-distance             0.1
-            treemacs-recenter-after-file-follow    nil
-            treemacs-recenter-after-tag-follow     nil
-            treemacs-recenter-after-project-jump   'always
-            treemacs-recenter-after-project-expand 'on-distance
-            treemacs-show-cursor                   nil
-            treemacs-show-hidden-files             t
-            treemacs-silent-filewatch              nil
-            treemacs-silent-refresh                nil
-            treemacs-sorting                       'alphabetic-asc
-            treemacs-space-between-root-nodes      nil
-            treemacs-tag-follow-cleanup            t
-            treemacs-tag-follow-delay              1.5
-            treemacs-width                         35)))
-
-(use-package treemacs-projectile
-  :after treemacs projectile)
-
-(use-package treemacs-icons-dired
-  :after treemacs dired
-  :config (treemacs-icons-dired-mode))
-
-(use-package treemacs-magit
-  :after treemacs magit)
-
-(use-package lsp-treemacs
-  :after lsp
-  :requires (lsp-mode treemacs)
-  :commands lsp-treemacs-errors-list
-  :config
-    (lsp-treemacs-symbols t)
-    (lsp-treemacs-references t)
-    (lsp-treemacs-error-list t)
-    (lsp-treemacs-sync-mode t))
-
-(use-package hydra
-  :requires (ivy))
-
-(use-package lsp-ivy 
-  :requires (ivy))
-
-;; https://emacs-lsp.github.io/lsp-ui
-(use-package lsp-ui
-  :after lsp-mode
-  ;;XXX :diminish
-  ;;XXX :commands lsp-ui-mode
-  :hook (lsp-mode . lsp-ui-mode)
-  :bind (:map lsp-ui-mode-map
-              ;;XXX ("C-c u" . lsp-ui-imenu)
-              ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-              ([remap xref-find-references]  . lsp-ui-peek-find-references))
-  :custom-face
-    (lsp-ui-doc-background ((t (:background nil))))
-    (lsp-ui-doc-header ((t (:inherit (font-lock-string-face italic)))))
-  :init
-    (setq lsp-ui-doc-enable t
-          lsp-ui-doc-delay 4.0
-          lsp-ui-doc-header t
-          lsp-ui-doc-include-signature t
-          lsp-ui-doc-max-height 25
-          lsp-ui-doc-max-width 180
-          lsp-ui-doc-position 'at-point
-          lsp-ui-doc-show-with-cursor t
-          lsp-ui-doc-show-with-mouse t
-          lsp-ui-doc-use-childframe t
-          lsp-ui-doc-use-webkit nil
-          lsp-ui-doc-border (face-foreground 'default)
-          lsp-ui-flycheck-enable t
-          lsp-ui-flycheck-list-position 'right
-          lsp-ui-flycheck-live-reporting t
-          lsp-ui-imenu-enable t
-          lsp-ui-imenu-kind-position 'right
-          lsp-ui-imenu-window-width 30
-          lsp-ui-imenu-auto-refresh t
-          lsp-ui-imenu-refresh-delay 5.0
-          lsp-ui-peek-always-show t
-          lsp-ui-peek-enable t
-          lsp-ui-peek-list-width 60
-          lsp-ui-peek-peek-height 25
-          lsp-ui-sideline-enable nil
-          lsp-ui-sideline-code-actions-prefix " "
-          lsp-ui-sideline-delay 4.0
-          lsp-ui-sideline-ignore-duplicate t
-          lsp-ui-sideline-show-code-actions t
-          lsp-ui-sideline-show-diagnostics t
-          lsp-ui-sideline-show-hover t
-          lsp-ui-sideline-show-symbol t))
+;; ; runs configuration for org files, if any.
+;; ; see: http://cestlaz.github.io/posts/using-emacs-26-gcal
+;; ; credits: Mike Zamansky
+;; (mapcar 'org-babel-load-file
+;;   (directory-files "~/Documents/orgfiles/config" t ".+\.org$"))
 #+END_SRC
-*** Rust
-#+BEGIN_SRC emacs-lisp
-(use-package rustic
-  :demand
-  :requires (lsp-ui))
-#+END_SRC
-*** Haskell
-#+BEGIN_SRC emacs-lisp
-(use-package haskell-mode :demand)
-
-(use-package lsp-haskell
-  :demand
-  :requires (lsp haskell-mode))
-#+END_SRC
-*** Java
-#+BEGIN_SRC emacs-lisp
-(use-package lsp-java
-  :demand
-  :config
-    (require 'dap-java)
-  :after (lsp lsp-mode dap-mode jmi-init-platform-paths))
-#+END_SRC
-*** Salt
-#+BEGIN_SRC emacs-lisp
-(use-package salt-mode
-  :demand
-  :config
-  (add-hook 'salt-mode-hook
-            (lambda ()
-              (flyspell-mode 1))))
-#+END_SRC
-*** Scala
-#+BEGIN_SRC emacs-lisp
-;; Enable scala-mode and sbt-mode
-(use-package scala-mode
-  :demand
-  :requires (lsp)
-  :interpreter
-    ("scala" . scala-mode))
-
-(use-package sbt-mode
-  :demand
-  :after scala-mode
-  :commands sbt-start sbt-command
-  :config
-  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-  ;; Allows using space when in the minibuffer
-  (substitute-key-definition
-    'minibuffer-complete-word
-    'self-insert-command
-     minibuffer-local-completion-map)
-   ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
-   (setq sbt:program-options '("-Dsbt.supershell=false"))
-  :bind (:map sbt-mode-map
-              ("<space>"  . sbt-hydra)) ;; fixme
-)
-
-;; Add metals backend for lsp-mode
-(use-package lsp-metals
-  :demand
-  :after scala-mode
-  :bind
-  :bind
-    ("s-k" . hydra-lsp-metals/body)
-  :config (setq lsp-metals-treeview-show-when-views-received t))
-
-;; Use the Debug Adapter Protocol for running tests and debugging
-;; Posframe is a pop-up tool that must be manually installed for dap-mode
-;;-- Already installed somewhere else
-;;(use-package posframe)
-
-(use-package dap-mode
-  :after lsp-mode posframe
-  :config
-    (dap-auto-configure-mode)
-    (add-hook 'dap-stopped-hook
-      (lambda (arg) (call-interactively #'dap-hydra)))
-  :hook
-    (lsp-mode . dap-mode)
-    (lsp-mode . dap-ui-mode))
-#+END_SRC
-*** Dhall
-#+BEGIN_SRC emacs-lisp
-(use-package dhall-mode
-  :demand
-  :requires (lsp)
-  :mode "\\.dhall$"
-  :config
-  (setq
-    ;; uncomment the next line to disable automatic format
-    ;; dhall-format-at-save nil
-
-    ;; comment the next line to use unicode syntax
-    dhall-format-arguments (\` ("--ascii"))
-
-    ;; header-line is obsoleted by lsp-mode
-    dhall-use-header-line nil))
-#+END_SRC
-
-*** Python
-We use =lsp-mode= and =dap-mode= to provide a more complete development environment for Python in Emacs.  Check out [[https://emacs-lsp.github.io/lsp-mode/page/lsp-pyls/][the =pyls= configuration]] in the =lsp-mode= documentation for more details.
-#+begin_src emacs-lisp
-  (use-package python-mode
-    :ensure t
-    :hook (python-mode . lsp-deferred)
-    :custom
-    ;; NOTE: Set these if Python 3 is called "python3" on your system!
-    ;; (python-shell-interpreter "python3")
-    ;; (dap-python-executable "python3")
-    (dap-python-debugger 'debugpy)
-    :config
-    (require 'dap-python))
-#+end_src
-You can use the pyvenv package to use =virtualenv= environments in Emacs.  The =pyvenv-activate= command should configure Emacs to cause =lsp-mode= and =dap-mode= to use the virtual environment when they are loaded, just select the path to your virtual environment before loading your project.
-#+begin_src emacs-lisp
-  (use-package pyvenv
-    :after python-mode
-    :config
-    (pyvenv-mode 1))
-#+end_src
-*** TypeScript
-This is a basic configuration for the TypeScript language so that =.ts= files activate =typescript-mode= when opened.  We're also adding a hook to =typescript-mode-hook= to call =lsp-deferred= so that we activate =lsp-mode= to get LSP features every time we edit TypeScript code.
-#+begin_src emacs-lisp
-  (use-package typescript-mode
-    :mode "\\.ts\\'"
-    :hook (typescript-mode . lsp-deferred)
-    :config
-    (setq typescript-indent-level 2))
-#+end_src
-*** Markdown
-#+BEGIN_SRC emacs-lisp
-(custom-set-variables
- '(markdown-command "pandoc"))
-#+END_SRC
-*** SGML and HTML
-#+BEGIN_SRC emacs-lisp
-(use-package sgml-mode
-  :demand
-  :mode ("\\.html\\'" . html-mode)
-  :config (add-hook 'html-mode-hook 'turn-off-auto-fill))
-#+END_SRC
-
 ** Additional extensions
-*** /monokai-theme/: a dark colour theme
-
-#+BEGIN_SRC emacs-lisp
-(use-package monokai-theme
-  :config (load-theme 'monokai t)
-  :init (setq frame-background-mode 'dark))
-#+END_SRC
-
 *** /undo-tree/: recovers any past state of a buffer
-
 #+BEGIN_SRC emacs-lisp
 (use-package undo-tree
   :demand
@@ -1394,7 +1552,6 @@ This is a basic configuration for the TypeScript language so that =.ts= files ac
 #+END_SRC
 
 *** /move-dup/: Eclipse-like move and duplicate lines
-
 #+BEGIN_SRC emacs-lisp
 (use-package move-dup
   :demand
@@ -1406,7 +1563,6 @@ This is a basic configuration for the TypeScript language so that =.ts= files ac
 #+END_SRC
 
 *** /highlight-symbol/: highlight and navigate between symbols
-
 #+BEGIN_SRC emacs-lisp
 (use-package highlight-symbol
   :diminish highlight-symbol-mode
@@ -1415,7 +1571,6 @@ This is a basic configuration for the TypeScript language so that =.ts= files ac
 #+END_SRC
 
 *** /goto-chg/: goto last change in current buffer
-
 #+BEGIN_SRC emacs-lisp
 (use-package goto-chg
   :demand
@@ -1427,46 +1582,18 @@ This is a basic configuration for the TypeScript language so that =.ts= files ac
          ("C-," . goto-last-change-reverse)))
 #+END_SRC
    
-*** /smartparens/: deals with parens pairs in smart ways
-
-#+BEGIN_SRC emacs-lisp
-(use-package smartparens
-  :demand
-  :diminish smartparens-mode
-  :commands
-    smartparens-strict-mode
-    smartparens-mode
-    sp-restrict-to-pairs-interactive
-    sp-local-pair
-  :init (setq sp-interactive-dwim t)
-  :config
-    (require 'smartparens-config)
-    (sp-use-smartparens-bindings)
-    (sp-pair "(" ")" :wrap "C-(") ;; how do people live without this?
-    (sp-pair "[" "]" :wrap "s-[") ;; C-[ sends ESC
-    (sp-pair "{" "}" :wrap "C-{")
-    ;; WORKAROUND https://github.com/Fuco1/smartparens/issues/543
-    (bind-key "C-<left>"  nil smartparens-mode-map)
-    (bind-key "C-<right>" nil smartparens-mode-map)
-    (bind-key "s-<delete>"    'sp-kill-sexp smartparens-mode-map)
-    (bind-key "s-<backspace>" 'sp-backward-kill-sexp smartparens-mode-map))
-#+END_SRC
-
 *** /multiple-cursors/: edit multiple places of a buffer at once
-
 #+BEGIN_SRC emacs-lisp
 (use-package multiple-cursors :demand)
 #+END_SRC
 
 *** /window-numbering/: assign numbers to windows for quick access
-
 #+BEGIN_SRC emacs-lisp
 (use-package window-numbering
   :init (window-numbering-mode 1))
 #+END_SRC
 
 *** /expand-region/: increase selected region by semantic units
-
 #+BEGIN_SRC emacs-lisp
 (use-package expand-region
   :demand
@@ -1474,7 +1601,6 @@ This is a basic configuration for the TypeScript language so that =.ts= files ac
 #+END_SRC
   
 *** /gist/ shares snippets and pastes
-
 #+BEGIN_SRC emacs-lisp
 (use-package gist
   :demand
@@ -1485,7 +1611,6 @@ This is a basic configuration for the TypeScript language so that =.ts= files ac
 #+END_SRC
 
 *** /restclient/: provides a REST REPL
-
 #+BEGIN_SRC emacs-lisp
 (use-package restclient
   :demand
@@ -1493,7 +1618,6 @@ This is a basic configuration for the TypeScript language so that =.ts= files ac
 #+END_SRC
 
 *** /rg/: ripgrep
-
 #+BEGIN_SRC emacs-lisp
 (use-package rg
   :demand
@@ -1509,7 +1633,6 @@ This is a basic configuration for the TypeScript language so that =.ts= files ac
 #+END_SRC
 
 *** /editorconfig/: Support for Editor Config
-
 EditorConfig helps maintain consistent coding styles for multiple developers working on the same project across various editors and IDEs.
 The EditorConfig project consists of a file format for defining coding styles and a collection of text editor plugins that enable editors
 to read the file format and adhere to defined styles. EditorConfig files are easily readable and they work nicely with version control systems.
@@ -1525,13 +1648,38 @@ More info at:
 #+END_SRC
 
 ** Additional custom functions
-
 #+BEGIN_SRC emacs-lisp
-(defun move-region-to-file(start end filename)
-  "function takes current region, and writes it to specified file"
-  (interactive "r\nsFilename: ")
-  (write-region start end filename t)
-  (kill-region start end))
+  (defun move-region-to-file(start end filename)
+    "function takes current region, and writes it to specified file"
+    (interactive "r\nsSave region as file name: ")
+    (write-region start end filename t)
+    (kill-region start end))
+
+  (defun save-latest-defined-macro (name)
+    "Save the last defined macro into file associated to variable macros-file"
+    (interactive "SSave macro as file name: ")
+    (kmacro-name-last-macro name)
+    (find-file macros-file)      
+    (goto-char (point-max))   
+    (newline)                 
+    (insert-kbd-macro name)   
+    (newline)                 
+    (switch-to-buffer nil))
+
+  ;;XXX (defun hotfix-kmacro-hack (&rest _)
+  ;;XXX   (interactive
+  ;;XXX    (list (intern (completing-read
+  ;;XXX                   "Insert kbd macro (name): "
+  ;;XXX                   obarray
+  ;;XXX                   (lambda (elt)
+  ;;XXX                     (and (fboundp elt)
+  ;;XXX                          (or (stringp (symbol-function elt))
+  ;;XXX                              (vectorp (symbol-function elt))
+  ;;XXX                              (kmacro-extract-lambda (symbol-function elt)))))
+  ;;XXX                   t))
+  ;;XXX          current-prefix-arg))
+  ;;XXX   nil)
+  ;;(advice-add 'insert-kbd-macro :before #'hotfix-kmacro-hack)
 #+END_SRC
 
 ** Configure global settings and keybindings
@@ -1583,95 +1731,6 @@ More info at:
 ;(global-set-key (kbd "<f2> j") 'counsel-set-variable)
 #+END_SRC
 
-** TODO [0/4] Configure additional Org Mode modules
-*** TODO [0/1] org-mode
- We are using packages from =org-plus-contrib= such as [[http://orgmode.org/worg/org-contrib/org-index.html][org-index]], which requires http://orgmode.org/elpa/ to be added to ``package-archives``.
-
-*** Install /org-roam/
-Explaining video here: https://www.youtube.com/watch?v=AyhPmypHDEw
-#+BEGIN_SRC emacs-lisp
-(use-package org-roam
-  :demand
-  :custom (org-roam-directory "~/Documents/Emacs/RoamNotes") ;;FIXME: hardcoded
-  :bind (("C-c r l" . org-roam-buffer-toggle)
-         ("C-c r f" . org-roam-node-find)
-         ("C-c r i" . org-roam-node-insert))
-  :init (setq org-roam-v2-ack t)
-  :config (org-roam-setup))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-;; (add-to-list 'package-archives 
-;;              '("org"   . "http://orgmode.org/elpa/") t)
-#+END_SRC
-*** TODO [0/1] Employ /org-plus-contrib/ instead of /org/
-Make sure we are employing =org-plus-contrib= instead of =org=.
-
-#+BEGIN_SRC emacs-lisp
-;; (use-package org
-;;     :requires (org-plus-contrib)
-;;     :commands org-agenda org-capture org-index)
-#+END_SRC
-
-In case of trouble caused by =use-package=, you can try to load =oreg-plus-contrib= like this:
-
-#+BEGIN_SRC emacs-lisp
-;; (load-packages '(org-plus-contrib))
-#+END_SRC
-*** Support for multiple agendas
-#+BEGIN_SRC emacs-lisp
-;;;(require 'org-agenda)
-;;;(global-set-key (kbd "C-c a") 'org-agenda)
-;;;(setq org-agenda-files (list-file-contents "~/Documents/org-mode/agenda"))
-#+END_SRC
-*** Support for /org-index/
-#+BEGIN_SRC emacs-lisp
-;; (require 'org-index)
-;; (global-set-key (kbd "C-c i") 'org-index)
-#+END_SRC
-*** TODO [0/1] Support for /org-capture/
-
-- [ ] See: https://www.gnu.org/software/emacs/manual/html_node/org/Capture.html
-
-#+BEGIN_SRC emacs-lisp
-;;;(require 'org-capture)
-;;;(global-set-key (kbd "C-c c") 'org-capture)
-#+END_SRC
-
-*** Support for multiple Trello boards
-
- [[https://org-trello.github.io/trello-setup.html][See org-trello setup instructions here]]
-
- In addition, *make sure you protect your private data*, moving Trello credentials from *~/.emacs.d/.trello* and putting it *somewhere else*. You will have to create a symbolic link as below in order to cheat Emacs and make it find the configuration files where it would normally expect.
-
-#+BEGIN_EXAMPLE bash
- $ ln -s ~/Documents/org-mode/.emacs.d/.trello ~/.emacs.d
-#+END_EXAMPLE
-
-#+BEGIN_SRC emacs-lisp
-;; (load-packages '(org-trello))
-;; (require 'org-trello)
-;; ;(setq orgtrello-log-level orgtrello-log-trace)
-;; (setq org-trello-files
-;;   (directory-files "~/Documents/org-mode/trello" ".*\.org$"))
-#+END_SRC
-*** TODO [0/1] Integration with Google Calendar
-
- - [ ] See: https://www.youtube.com/watch?v=vO_RF2dK7M0
-
-#+BEGIN_SRC emacs-lisp
-;; ; runs configuration for org files, if any.
-;; ; see: http://cestlaz.github.io/posts/using-emacs-26-gcal
-;; ; credits: Mike Zamansky
-;; (mapcar 'org-babel-load-file
-;;   (directory-files "~/Documents/orgfiles/config" t ".+\.org$"))
-#+END_SRC
-** Color Theme
-[[https://github.com/hlissner/emacs-doom-themes][doom-themes]] is a great set of themes with a lot of variety and support for many different Emacs modes.  Taking a look at the [[https://github.com/hlissner/emacs-doom-themes/tree/screenshots][screenshots]] might help you decide which one you like best.  You can also run =M-x counsel-load-theme= to choose between them easily.
-#+begin_src emacs-lisp
-(use-package doom-themes
-  :init (load-theme 'doom-molokai t))
-#+end_src
 ** Epilogue
 #+BEGIN_SRC emacs-lisp
 (message "Initialization complete.")

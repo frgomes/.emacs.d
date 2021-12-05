@@ -55,6 +55,13 @@
 (setq site-run-file nil)
 ;; -UnsetSRF
 
+;; Dark screen as soon as possible
+(add-to-list 'default-frame-alist '(background-color . "#202020"))
+(add-to-list 'default-frame-alist '(foreground-color . "#FFFFFF"))
+
+;; No splash screen please
+(setq inhibit-startup-message t)
+
 ;; DisableUnnecessaryInterface
 (setq menu-bar-mode nil)
 (setq tool-bar-mode nil)
@@ -62,7 +69,7 @@
 (setq tooltip-mode nil)
 (setq inhibit-startup-message t)
 (unless (and (display-graphic-p) (eq system-type 'darwin))
-  (push '(menu-bar-lines . 0) default-frame-alist))
+(push '(menu-bar-lines . 0) default-frame-alist))
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
 ;; -DisableUnnecessaryInterface

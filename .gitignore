@@ -33,6 +33,8 @@ ac-comphist.dat
 forge-database.sqlite
 recentf
 tramp
+.last-package-update-day
+org-roam.db
 
 # symlinks
 .trello

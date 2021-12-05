@@ -1,4 +1,12 @@
 ;;; init.el --- -*- lexical-binding: t -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;; Commentary:
+;;
+;; This initialization script reads configuration from README.org and
+;; obtains custom configuration from user directories under $HOME/.config/emacs
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (cond ((version< emacs-version "26.1")
        (warn "Emacs 26.1 or above is required!"))
@@ -16,14 +24,13 @@
 ;; Generate README.el and perform configurations from it
 (org-babel-load-file "~/.emacs.d/README.org")
 
-;; install hotfixes
-(setq hotfixes-file "~/.emacs.d/hotfix.el")
-(if (file-exists-p hotfixes-file) (load-file hotfixes-file))
-
 ;; Load macros
-(setq macros-file "~/.emacs.d/macros.el")
-(if (file-exists-p macros-file) (load-file macros-file))
+(defvar macros-file "~/.config/emacs/macros.el")
+(if (file-exists-p macros-file) (load macros-file))
 
 ;; Load custom settings
-(setq custom-file "~/.emacs.d/custom.el")
-(if (file-exists-p custom-file) (load-file custom-file))
+(setq custom-file "~/.config/emacs/custom.el")
+(if (file-exists-p custom-file) (load custom-file))
+
+(provide 'init)
+;;; init.el ends here

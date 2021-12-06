@@ -21,16 +21,16 @@
          (add-to-list 'load-path early-init-do-not-edit-d)
          (require 'early-init))))
 
+;; Load defaults, if any
+(defvar user-defaults-file "~/.config/emacs/defaults.el")
+(if (file-exists-p user-defaults-file) (load user-defaults-file))
+
 ;; Generate README.el and perform configurations from it
 (org-babel-load-file "~/.emacs.d/README.org")
 
-;; Load macros
-(defvar macros-file "~/.config/emacs/macros.el")
-(if (file-exists-p macros-file) (load macros-file))
-
 ;; Load custom settings
-(setq custom-file "~/.config/emacs/custom.el")
-(if (file-exists-p custom-file) (load custom-file))
+(setq user-custom-file "~/.config/emacs/custom.el")
+(if (file-exists-p user-custom-file) (load user-custom-file))
 
 (provide 'init)
 ;;; init.el ends here

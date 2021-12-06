@@ -1499,7 +1499,8 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
                                    (when smerge-mode
                                      (unpackaged/smerge-hydra/body)))))
 
-(use-package forge :demand)
+
+;; (use-package forge :demand) ;;FIXME Does not work on Windoze
 #+END_SRC
 *** /monky/: a powerful frontend for Mercurial/Hg
 #+BEGIN_SRC emacs-lisp
@@ -1521,14 +1522,15 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 *** Install /org-roam/
 Explaining video here: https://www.youtube.com/watch?v=AyhPmypHDEw
 #+BEGIN_SRC emacs-lisp
-(use-package org-roam
-  :demand
-  :custom (org-roam-directory "~/Documents/Emacs/RoamNotes") ;;FIXME: hardcoded
-  :bind (("C-c r l" . org-roam-buffer-toggle)
-         ("C-c r f" . org-roam-node-find)
-         ("C-c r i" . org-roam-node-insert))
-  :init (setq org-roam-v2-ack t)
-  :config (org-roam-setup))
+;;FIXME:: Does not work on Windoze
+;;(use-package org-roam
+;;  :demand
+;;  :custom (org-roam-directory "~/Documents/Emacs/RoamNotes") ;;FIXME: hardcoded
+;;  :bind (("C-c r l" . org-roam-buffer-toggle)
+;;         ("C-c r f" . org-roam-node-find)
+;;         ("C-c r i" . org-roam-node-insert))
+;;  :init (setq org-roam-v2-ack t)
+;;  :config (org-roam-setup))
 #+END_SRC
 *** TODO [0/1] Integration with Google Calendar
 
@@ -1553,13 +1555,13 @@ Explaining video here: https://www.youtube.com/watch?v=AyhPmypHDEw
 
 *** /move-dup/: Eclipse-like move and duplicate lines
 #+BEGIN_SRC emacs-lisp
-(use-package move-dup
-  :demand
-  :config (global-move-dup-mode)
-  :bind (("S-M-<up>"     . move-dup-move-lines-up)
-         ("S-M-<down>"   . move-dup-move-lines-down)
-         ("C-M-<up>"     . move-dup-duplicate-up)
-         ("C-M-<down>"   . move-dup-duplicate-down)))
+;(use-package move-dup
+;  :demand
+;  :config (global-move-dup-mode)
+;  :bind (("S-M-<up>"     . move-dup-move-lines-up)
+;         ("S-M-<down>"   . move-dup-move-lines-down)
+;         ("C-M-<up>"     . move-dup-duplicate-up)
+;         ("C-M-<down>"   . move-dup-duplicate-down)))
 #+END_SRC
 
 *** /highlight-symbol/: highlight and navigate between symbols
@@ -1584,7 +1586,9 @@ Explaining video here: https://www.youtube.com/watch?v=AyhPmypHDEw
    
 *** /multiple-cursors/: edit multiple places of a buffer at once
 #+BEGIN_SRC emacs-lisp
-(use-package multiple-cursors :demand)
+(use-package multiple-cursors
+  :demand
+  :commands(edit-lines))
 #+END_SRC
 
 *** /window-numbering/: assign numbers to windows for quick access
@@ -1646,7 +1650,55 @@ More info at:
   :config
   (editorconfig-mode 1))
 #+END_SRC
+** Configure global settings and keybindings
+#+BEGIN_SRC emacs-lisp
+  ; general defaults
+  (setq-default indent-tabs-mode nil)
+  ;;(global-auto-complete-mode t)
 
+  ;; CUA selection mode is handy for highlighting rectangular regions properly.
+  (cua-selection-mode t)
+
+  ;; keybinding for multiple-cursors
+  (global-set-key (kbd "C-M-<return>") 'mc/edit-lines)
+  (global-set-key (kbd "C-` <right>")  'mc/mark-next-like-this)
+  (global-set-key (kbd "C-` <left>")   'mc/mark-previous-like-this)
+  (global-set-key (kbd "C-` <return>") 'mc/mark-all-like-this)
+  (global-set-key (kbd "C-` /")        'mc/mark-sgml-tag-pair)
+  (global-set-key (kbd "C-` <SPC>")    'mc/vertical-align-with-spaces)
+
+  ;; editing very long lines... 
+  (global-set-key (kbd "C-|")  'toggle-truncate-lines)
+
+  ;; reassign negative-argument
+  (global-set-key (kbd "C-_") 'negative-argument)
+
+  ;; make sure we can increase and decrease font size
+  (global-set-key (kbd "C--") 'text-scale-decrease)
+  (global-set-key (kbd "C-+") 'text-scale-increase)
+
+  ;; display line numbers
+  (global-set-key (kbd "C-c n")   'display-line-numbers-mode)
+  (global-set-key (kbd "C-c C-n") 'global-display-line-numbers-mode)
+
+  ;; ivy, swiper and counsel integration with standard commands
+  (ivy-mode 1)
+  (counsel-projectile-mode t)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (global-set-key (kbd "C-s") 'swiper-isearch)
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  (global-set-key (kbd "M-y") 'counsel-yank-pop)
+  (global-set-key (kbd "C-x b") 'ivy-switch-buffer)
+  (global-set-key (kbd "C-c v") 'ivy-push-view)
+  (global-set-key (kbd "C-c V") 'ivy-pop-view)
+  ;(global-set-key (kbd "<f1> f") 'counsel-describe-function)
+  ;(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+  ;(global-set-key (kbd "<f1> l") 'counsel-find-library)
+  ;(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+  ;(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+  ;(global-set-key (kbd "<f2> j") 'counsel-set-variable)
+#+END_SRC
 ** Additional custom functions
 #+BEGIN_SRC emacs-lisp
   (defun move-region-to-file(start end filename)
@@ -1666,71 +1718,14 @@ More info at:
     (newline)                 
     (switch-to-buffer nil))
 
-  ;;XXX (defun hotfix-kmacro-hack (&rest _)
-  ;;XXX   (interactive
-  ;;XXX    (list (intern (completing-read
-  ;;XXX                   "Insert kbd macro (name): "
-  ;;XXX                   obarray
-  ;;XXX                   (lambda (elt)
-  ;;XXX                     (and (fboundp elt)
-  ;;XXX                          (or (stringp (symbol-function elt))
-  ;;XXX                              (vectorp (symbol-function elt))
-  ;;XXX                              (kmacro-extract-lambda (symbol-function elt)))))
-  ;;XXX                   t))
-  ;;XXX          current-prefix-arg))
-  ;;XXX   nil)
-  ;;(advice-add 'insert-kbd-macro :before #'hotfix-kmacro-hack)
+  (defun eval-region-or-sexp()
+  "Evaluates a region or an expression"
+    (interactive)
+    (if (region-active-p)
+      (eval-region region-beginning region-end)
+      (call-interactively #'eval-last-sexp)))
+  (global-set-key (kbd "C-x C-e") 'eval-region-or-sexp)
 #+END_SRC
-
-** Configure global settings and keybindings
-#+BEGIN_SRC emacs-lisp
-; general defaults
-(setq-default indent-tabs-mode nil)
-;;(global-auto-complete-mode t)
-
-;; CUA selection mode is handy for highlighting rectangular regions properly.
-(cua-selection-mode t)
-
-;; keybinding for multiple-cursors
-(global-set-key (kbd "C-` <right>")  'mc/mark-next-like-this)
-(global-set-key (kbd "C-` <left>")   'mc/mark-previous-like-this)
-(global-set-key (kbd "C-` <return>") 'mc/mark-all-like-this)
-(global-set-key (kbd "C-` /")        'mc/mark-sgml-tag-pair)
-(global-set-key (kbd "C-` <SPC>")    'mc/vertical-align-with-spaces)
-
-;; editing very long lines... 
-(global-set-key (kbd "C-|")  'toggle-truncate-lines)
-
-;; reassign negative-argument
-(global-set-key (kbd "C-_") 'negative-argument)
-
-;; make sure we can increase and decrease font size
-(global-set-key (kbd "C--") 'text-scale-decrease)
-(global-set-key (kbd "C-+") 'text-scale-increase)
-
-;; display line numbers
-(global-set-key (kbd "C-c n")   'display-line-numbers-mode)
-(global-set-key (kbd "C-c C-n") 'global-display-line-numbers-mode)
-
-;; ivy, swiper and counsel integration with standard commands
-(ivy-mode 1)
-(counsel-projectile-mode 1)
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-(global-set-key (kbd "C-s") 'swiper-isearch)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "M-y") 'counsel-yank-pop)
-(global-set-key (kbd "C-x b") 'ivy-switch-buffer)
-(global-set-key (kbd "C-c v") 'ivy-push-view)
-(global-set-key (kbd "C-c V") 'ivy-pop-view)
-;(global-set-key (kbd "<f1> f") 'counsel-describe-function)
-;(global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-;(global-set-key (kbd "<f1> l") 'counsel-find-library)
-;(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-;(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-;(global-set-key (kbd "<f2> j") 'counsel-set-variable)
-#+END_SRC
-
 ** Epilogue
 #+BEGIN_SRC emacs-lisp
 (message "Initialization complete.")

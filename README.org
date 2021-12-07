@@ -1011,6 +1011,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
     (rust-mode        . lsp)
     (salt-mode        . lsp)
     (scala-mode       . lsp)
+    (sbt-mode         . lsp)
     (sh-mode          . lsp)
     ;;(swift-mode     . lsp)
     (js-mode          . lsp)
@@ -1555,13 +1556,13 @@ Explaining video here: https://www.youtube.com/watch?v=AyhPmypHDEw
 
 *** /move-dup/: Eclipse-like move and duplicate lines
 #+BEGIN_SRC emacs-lisp
-;(use-package move-dup
-;  :demand
-;  :config (global-move-dup-mode)
-;  :bind (("S-M-<up>"     . move-dup-move-lines-up)
-;         ("S-M-<down>"   . move-dup-move-lines-down)
-;         ("C-M-<up>"     . move-dup-duplicate-up)
-;         ("C-M-<down>"   . move-dup-duplicate-down)))
+(use-package move-dup
+  :demand
+  :config (global-move-dup-mode)
+  :bind (("S-M-<up>"     . move-dup-move-lines-up)
+         ("S-M-<down>"   . move-dup-move-lines-down)
+         ("C-M-<up>"     . move-dup-duplicate-up)
+         ("C-M-<down>"   . move-dup-duplicate-down)))
 #+END_SRC
 
 *** /highlight-symbol/: highlight and navigate between symbols

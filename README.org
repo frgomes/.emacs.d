@@ -969,19 +969,29 @@ _c_ontinue (_C_ fast)      ^^^^                       _X_ global breakpoint
 *** Support for code snippets
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet
+  :demand
   :diminish yas-minor-mode
   :commands yas-minor-mode
-  :config (yas-reload-all))
+  :config (yas-global-mode))
 
-(use-package yatemplate
-;  :defer 2 ;; WORKAROUND https://github.com/mineo/yatemplate/issues/3
+(use-package yasnippet-snippets
   :demand
-  :config
-    (auto-insert-mode)
-    (setq auto-insert-alist nil)
-    (yatemplate-fill-alist))
+  :requires (yasnippet))
 
-(use-package ivy-yasnippet :demand)
+;;XXX (use-package yatemplate
+;;XXX ;  :defer 2 ;; WORKAROUND https://github.com/mineo/yatemplate/issues/3
+;;XXX   :demand
+;;XXX   :requires (yasnippet yasnippet-snippets)
+;;XXX   :config
+;;XXX     (auto-insert-mode)
+;;XXX     (setq auto-insert-alist nil)
+;;XXX     (yatemplate-fill-alist)
+;;XXX     (yas-reload-all)
+;;XXX     (yas-global-mode t))
+
+(use-package ivy-yasnippet
+  :demand
+  :requires (yasnippet yasnippet-snippets))
 #+END_SRC
 *** Support for Language Server Protocol
 LSP provides builtin support for a vast range of programming languages.

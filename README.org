@@ -1090,6 +1090,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
             lsp-idle-delay 0.500
             lsp-log-io nil
             lsp-prefer-flymake nil
+            lsp-auto-guess-root nil ;; https://github.com/hlissner/doom-emacs/issues/1928
             lsp-keymap-prefix "C-c l"
             lsp-completion-show-detail t
             lsp-completion-show-kind t

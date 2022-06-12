@@ -1,4 +1,8 @@
+#+TITLE: Emacs configuration
+#+PROPERTY: header-args :tangle README.el
+#+STARTUP: showeverything
 #+OPTIONS: toc:nil
+#+AUTHOR: Richard Gomes
 
 Emacs is a programmable text editor.
 
@@ -32,13 +36,12 @@ More information about Language Server Protocol:
  * https://github.com/emacs-lsp/lsp-mode#supported-languages
  * http://langserver.org
 
- The current support matrix is shown below, where /status/ means:
+ The current support matrix is shown below, where:
 
   * builtin - LSP client natively supported by Emacs; it may require external additional software for full support.
-  * provided - The provided LSP client is known to work well without external additional software.
-  * supported - The provided LSP cliend is known to work well, but requires external additional software for full support.
-  * missing - please send a PR and contribute for adding support for this programming language.
-  * unknown - The author not know whether or not additional software is required for full support.
+  * pending - LSP server is known to exist and an issue was raised for creation of an installation script.
+  * missing - LSP server is known to exist but the author is not committed on implementing an installation script for it.
+  * unknown - The author does not know whether or not additional software is required for full support.
     
  | Language              | major mode      | LSP client  | LSP server             |
  |-----------------------+-----------------+-------------+------------------------|
@@ -1566,26 +1569,74 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 *** Install /org-roam/
 Explaining video here: https://www.youtube.com/watch?v=AyhPmypHDEw
 #+BEGIN_SRC emacs-lisp
-;;FIXME:: Does not work on Windoze
-;;(use-package org-roam
-;;  :demand
-;;  :custom (org-roam-directory "~/Documents/Emacs/RoamNotes") ;;FIXME: hardcoded
-;;  :bind (("C-c r l" . org-roam-buffer-toggle)
-;;         ("C-c r f" . org-roam-node-find)
-;;         ("C-c r i" . org-roam-node-insert))
-;;  :init (setq org-roam-v2-ack t)
-;;  :config (org-roam-setup))
+(if (eq system-type "gnu/linux")
+  (defvar user-org-roam-directory "~/Documents/Emacs/RoamNotes"
+    "Directory for OrgRoam notes")
+  (if (not (file-directory-p user-org-roam-directory))(make-directory user-org-roam-directory))
+  (if (not (file-directory-p (concat user-org-roam-directory "/daily")))(make-directory (concat user-org-roam-directory "/daily")))
+  (use-package org-roam
+    :demand
+    :init (setq org-roam-v2-ack t)
+    :custom
+    (org-roam-directory user-org-roam-directory)
+    (org-roam-completion-everywhere t)
+    :bind (("C-c r l" . org-roam-buffer-toggle)
+           ("C-c r f" . org-roam-node-find)
+           ("C-c r i" . org-roam-node-insert)
+           :map org-mode-map
+           ("C-M-i"   . completion-at-point))
+
+    :config (org-roam-setup))
+)
 #+END_SRC
-*** TODO [0/1] Integration with Google Calendar
-
- - [ ] See: https://www.youtube.com/watch?v=vO_RF2dK7M0
-
+*** Install /org-roam-ui/
 #+BEGIN_SRC emacs-lisp
-;; ; runs configuration for org files, if any.
-;; ; see: http://cestlaz.github.io/posts/using-emacs-26-gcal
-;; ; credits: Mike Zamansky
-;; (mapcar 'org-babel-load-file
-;;   (directory-files "~/Documents/orgfiles/config" t ".+\.org$"))
+(if (eq system-type "gnu/linux")
+  (use-package org-roam-ui
+    :straight
+    (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
+    :after org-roam
+  ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+  ;;         a hookable mode anymore, you're advised to pick something yourself
+  ;;         if you don't care about startup time, use
+  ;;  :hook (after-init . org-roam-ui-mode)
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
+)
+#+END_SRC
+*** Install /org-roam-bibtex/
+#+BEGIN_SRC emacs-lisp
+(if (eq system-type "gnu/linux")
+  (use-package org-ref)
+  (use-package ivy-bibtex)
+  (use-package org-roam-bibtex)
+)
+#+END_SRC
+*** Install /org-gtd/
+#+BEGIN_SRC emacs-lisp
+(use-package org-gtd)
+#+END_SRC
+*** Install /org-sidebar/
+#+BEGIN_SRC emacs-lisp
+(use-package org-sidebar)
+#+END_SRC
+*** Install /org-auto-tangle/
+#+BEGIN_SRC emacs-lisp
+(use-package org-auto-tangle
+  :hook (org-mode . org-auto-tangle-mode)
+  :config
+  (setq org-auto-tangle-default t))
+#+END_SRC
+*** Install /org-gcal/
+#+BEGIN_SRC emacs-lisp
+(use-package org-gcal)
+#+END_SRC
+*** Install /org-caldav/
+#+BEGIN_SRC emacs-lisp
+(use-package org-caldav)
 #+END_SRC
 ** Additional extensions
 *** /undo-tree/: recovers any past state of a buffer

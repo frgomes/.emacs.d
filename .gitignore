@@ -1,7 +1,5 @@
 auto-save-list/
 elpa/
-elpa24/
-elpa25/
 snippets/
 var/
 request/
@@ -12,7 +10,7 @@ transient/
 workspace/
 early-init-do-not-edit/
 eclipse.jdt.ls/
-
+eln-cache/
 
 *~
 \#*\#
@@ -22,8 +20,6 @@ session.*
 README.el
 README.html
 README.pdf
-custom.el
-macros.el
 projectile-bookmarks.eld
 ac-comphist.dat
 .mc-lists.el
@@ -35,7 +31,3 @@ recentf
 tramp
 .last-package-update-day
 org-roam.db
-
-# symlinks
-.trello
-.trello/

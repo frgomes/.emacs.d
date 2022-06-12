@@ -22,15 +22,46 @@
          (require 'early-init))))
 
 ;; Load defaults, if any
-(defvar user-defaults-file "~/.config/emacs/defaults.el")
-(if (file-exists-p user-defaults-file) (load user-defaults-file))
+(setq user-defaults-file "~/.config/emacs/defaults.el")
+(if (file-exists-p user-defaults-file) (load user-defaults-file 'noerror))
+;;;;; This is my ~/.config/emacs/defaults.el
+;; (setq user-org-roam-directory "~/Documents/Emacs/RoamNotes")
 
 ;; Generate README.el and perform configurations from it
 (org-babel-load-file "~/.emacs.d/README.org")
 
 ;; Load custom settings
-(setq user-custom-file "~/.config/emacs/custom.el")
-(if (file-exists-p user-custom-file) (load user-custom-file))
+(setq custom-file (locate-user-emacs-file "~/.config/emacs/custom.el"))
+(load custom-file 'noerror)
+;;;;; This is my ~/.config/emacs/custom.el
+;; (custom-set-variables
+;;  ;; custom-set-variables was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  '(column-number-mode t)
+;;  '(cua-mode t nil (cua-base))
+;;  '(delete-selection-mode nil)
+;;  '(global-hl-line-mode 1)
+;;  '(lsp-verify-signature nil)
+;;  '(markdown-command "pandoc")
+;;  '(mouse-wheel-follow-mouse t)
+;;  '(mouse-wheel-mode t)
+;;  '(mouse-wheel-progressive-speed t)
+;;  '(mouse-wheel-scroll-amount '(1 ((shift) . 1) ((meta)) ((control) . text-scale)))
+;;  '(rg-enable-default-bindings nil)
+;;  '(scroll-step 1)
+;;  '(warning-suppress-types '((lsp-mode) (lsp-mode) (lsp-mode) (lsp-mode) (comp))))
+;; (custom-set-faces
+;;  ;; custom-set-faces was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  '(default ((t (:family "Hack" :foundry "SRC" :slant normal :weight normal :height 90 :width normal))))
+;;  '(hydra-posframe-border-face ((t (:background "#bf616a"))))
+;;  '(hydra-posframe-face ((t (:background "#3b4252"))))
+;;  '(lsp-ui-doc-background ((t (:background nil))))
+;;  '(lsp-ui-doc-header ((t (:inherit (font-lock-string-face italic))))))
 
 (provide 'init)
 ;;; init.el ends here

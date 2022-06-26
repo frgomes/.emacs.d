@@ -1617,7 +1617,27 @@ Explaining video here: https://www.youtube.com/watch?v=AyhPmypHDEw
 #+END_SRC
 *** Install /org-gtd/
 #+BEGIN_SRC emacs-lisp
-(use-package org-gtd)
+(defvar user-org-gtd-directory "~/Documents/Emacs/GTD"
+  "Directory for org-gtd files")
+(if (not (file-directory-p user-org-gtd-directory))(make-directory user-org-gtd-directory))
+(use-package org-gtd
+  :after org
+  ;;:quelpa (org-gtd :fetcher github :repo "trevoke/org-gtd.el"
+  ;;                 :branch "2.0.0" :upgrade t)
+  :demand t
+  :custom
+  (org-gtd-directory user-org-gtd-directory)
+  (org-edna-use-inheritance t)
+  :config
+  (org-edna-mode)
+  :bind
+  (("C-c d c" . org-gtd-capture)
+   ("C-c d e" . org-gtd-engage)
+   ("C-c d p" . org-gtd-process-inbox)
+   ("C-c d n" . org-gtd-show-all-next)
+   ("C-c d s" . org-gtd-show-stuck-projects)
+   :map org-gtd-process-map
+   ("C-c c" . org-gtd-choose)))
 #+END_SRC
 *** Install /org-sidebar/
 #+BEGIN_SRC emacs-lisp

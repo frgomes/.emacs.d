@@ -26,6 +26,7 @@
 (if (file-exists-p user-defaults-file) (load user-defaults-file 'noerror))
 ;;;;; This is my ~/.config/emacs/defaults.el
 ;; (setq user-org-roam-directory "~/Documents/Emacs/RoamNotes")
+;; (setq user-org-gtd-directory  "~/Documents/Emacs/GTD")
 
 ;; Generate README.el and perform configurations from it
 (org-babel-load-file "~/.emacs.d/README.org")

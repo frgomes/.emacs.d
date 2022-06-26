@@ -241,7 +241,7 @@ We use the [[https://github.com/emacscollective/no-littering/blob/master/no-litt
 (use-package doom-modeline
       :ensure t
       :defer t
-      :hook (after-init . doom-modeline-init))
+      :hook (after-init . doom-modeline-mode))
 #+end_src
 ** Helpful Help Commands
 [[https://github.com/Wilfred/helpful][Helpful]] adds a lot of very helpful (get it?) information to Emacs' =describe-= command buffers.  For example, if you use =describe-function=, you will not only get the documentation about the function, you will also see the source code of the function and where it gets used in other places in the Emacs configuration.  It is very useful for figuring out how things work in Emacs.

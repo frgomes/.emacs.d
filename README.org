@@ -127,6 +127,7 @@ More information about Language Server Protocol:
  | HTML     | builtin       | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]   | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_lsp_html][install_lsp_html]]     |
  | LaTeX    | builtin       | [[https://github.com/ROCKTAKEY/lsp-latex][lsp-latex]]  | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_rust][install_rust]]         |
  | Markdown | [[https://github.com/jrblevin/markdown-mode][markdown-mode]] | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]   | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_lsp_markdown][install_lsp_markdown]] |
+ | Obsidian | [[https://github.com/licht1stein/obsidian.el][obsidian-mode]] |            |                      |
  | RST      | builtin       |            |                      |
  | Sphinx   | [[https://github.com/Fuco1/sphinx-mode][sphinx-mode]]   |            |                      |
  | TeX      | builtin       | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]   | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_rust][install_rust]]         |
@@ -1450,7 +1451,29 @@ This is a basic configuration for the TypeScript language so that =.ts= files ac
 #+BEGIN_SRC emacs-lisp
   (use-package sphinx-mode :demand)
 #+END_SRC
+*** Obsidian
+[[http://obsidian.md][Obsidian]] is a powerful knowledge base on top of a local folder of plain text Markdown files.
 
+#+BEGIN_SRC emacs-lisp
+(defvar user-obsidian-directory "~/Documents/Emacs/ObsidianNotes" "Directory for Obsidian notes")
+(if (not (file-directory-p user-obsidian-directory))(make-directory user-obsidian-directory))
+(if (not (file-directory-p (concat user-obsidian-directory "/Inbox")))(make-directory (concat user-obsidian-directory "/Inbox")))
+(use-package obsidian
+  :straight
+    (:host github :repo "licht1stein/obsidian.el" :branch "merge-hydra" :files ("*.el"))
+  :demand t
+  :config
+    (obsidian-specify-path user-obsidian-directory)
+    (global-obsidian-mode t)
+  ;;:bind (:map obsidian-mode-map
+  ;;		;; Replace C-c C-o with Obsidian.el's implementation. It's ok to use another key binding.
+  ;;		("C-c C-o" . obsidian-follow-link-at-point)
+  ;;		;; If you prefer you can use `obsidian-insert-wikilink'
+  ;;		("C-c C-l" . obsidian-insert-wikilink))
+  :custom
+  ;; This directory will be used for `obsidian-capture' if set.
+  (obsidian-inbox-directory "Inbox"))
+#+END_SRC
 ** Advanced syntax tree parsing
 [[https://emacs-tree-sitter.github.io/][tree-sitter]], an incremental parsing system.
 

@@ -127,7 +127,6 @@ More information about Language Server Protocol:
  | HTML     | builtin       | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]   | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_lsp_html][install_lsp_html]]     |
  | LaTeX    | builtin       | [[https://github.com/ROCKTAKEY/lsp-latex][lsp-latex]]  | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_rust][install_rust]]         |
  | Markdown | [[https://github.com/jrblevin/markdown-mode][markdown-mode]] | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]   | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_lsp_markdown][install_lsp_markdown]] |
- | Obsidian | [[https://github.com/licht1stein/obsidian.el][obsidian-mode]] |            |                      |
  | RST      | builtin       |            |                      |
  | Sphinx   | [[https://github.com/Fuco1/sphinx-mode][sphinx-mode]]   |            |                      |
  | TeX      | builtin       | [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]   | [[http://github.com/frgomes/bash-scripts/blob/master/bin/install_rust][install_rust]]         |
@@ -162,6 +161,11 @@ More information about Language Server Protocol:
  | multiple-cursors        | edit multiple places of a buffer at once       | done    |
  | window-numbering        | assign numbers to windows for quick access     | done    |
  | expand-region           | increase selected region by semantic units     | done    |
+** Aditional useful tools
+ | Package  | Purpose                                                                                      | Status |
+ |----------+----------------------------------------------------------------------------------------------+--------|
+ | [[https://github.com/licht1stein/obsidian.el][Obsidian]] | [[http://obsidian.md][Obsidian]] is a powerful knowledge base on top of a local folder of plain text Markdown files. | done   |
+ | [[http://github.com/alphapapa/ement.el][Ement]]    | [[http://matrix.org][Matrix]] client                                                                                | done   |
 ** Additional custom functions
 
  * move-region-to-file
@@ -1473,6 +1477,15 @@ This is a basic configuration for the TypeScript language so that =.ts= files ac
   :custom
   ;; This directory will be used for `obsidian-capture' if set.
   (obsidian-inbox-directory "Inbox"))
+#+END_SRC
+*** Ement
+[[https://github.com/alphapapa/ement.el][Ement]] is a [[http://matrix.org][Matrix]] client.
+
+#+BEGIN_SRC emacs-lisp
+(use-package ement
+  :straight
+    (:host github :repo "alphapapa/ement.el" :branch "master") ;; :files ("*.el"))
+  :demand t)
 #+END_SRC
 ** Advanced syntax tree parsing
 [[https://emacs-tree-sitter.github.io/][tree-sitter]], an incremental parsing system.

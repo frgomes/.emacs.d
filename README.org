@@ -194,12 +194,13 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
+       (bootstrap-version 6))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/master/install.el"
-         'silent 'inhibit-cookies)
+	(url-retrieve-synchronously
+;;	 "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+	 "https://raw.githubusercontent.com/radian-software/straight.el/master/install.el"
+	 'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
@@ -224,14 +225,15 @@ We use the [[https://github.com/emacscollective/no-littering/blob/master/no-litt
 #+END_SRC
 ** Color theme and mode line
 [[https://github.com/hlissner/emacs-doom-themes][doom-themes]] is a great set of themes with a lot of variety and support for many different Emacs modes.  Taking a look at the [[https://github.com/hlissner/emacs-doom-themes/tree/screenshots][screenshots]] might help you decide which one you like best.  You can also run =M-x counsel-load-theme= to choose between them easily.
+;;FIXME: https://github.com/Alexander-Miller/treemacs/issues/1047
 #+begin_src emacs-lisp
-(use-package doom-themes
-  :init (load-theme 'doom-molokai t))
-
-(use-package doom-modeline
-      :ensure t
-      :defer t
-      :hook (after-init . doom-modeline-mode))
+;;(use-package doom-themes
+;;  :init (load-theme 'doom-molokai t))
+;;
+;;(use-package doom-modeline
+;;      :ensure t
+;;      :defer t
+;;      :hook (after-init . doom-modeline-mode))
 #+end_src
 ** Helpful Help Commands
 [[https://github.com/Wilfred/helpful][Helpful]] adds a lot of very helpful (get it?) information to Emacs' =describe-= command buffers.  For example, if you use =describe-function=, you will not only get the documentation about the function, you will also see the source code of the function and where it gets used in other places in the Emacs configuration.  It is very useful for figuring out how things work in Emacs.
@@ -1026,157 +1028,219 @@ _c_ontinue (_C_ fast)      ^^^^                       _X_ global breakpoint
 LSP provides builtin support for a vast range of programming languages.
 See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 #+BEGIN_SRC emacs-lisp
-  (use-package flycheck
-    :init (global-flycheck-mode t))
+      (use-package flycheck
+        :init (global-flycheck-mode t))
 
-  ;; see: https://emacs-lsp.github.io/lsp-mode/lsp-mode.html
-  (use-package lsp-mode
-    :commands (lsp lsp-deferred)
-    :hook
-    (csharp-mode      . lsp)
-    (css-mode         . lsp)
-    (closure-mode     . lsp)
-    (cmake-mode       . lsp)
-    (fish-mode        . lsp)
-    (groovy-mode      . lsp)
-    (haskell-mode     . lsp)
-    (emacs-lisp-mode  . lsp)
-    ;;(ocaml-mode     . lsp)
-    ;; (php-mode      . lsp)
-    (purescript-mode  . lsp)
-    ;; (pwsh-mode     . lsp)
-    (python-mode      . lsp)
-    ;; (ruby-mode     . lsp)
-    (rust-mode        . lsp)
-    (salt-mode        . lsp)
-    (scala-mode       . lsp)
-    (sh-mode          . lsp)
-    ;;(swift-mode     . lsp)
-    (js-mode          . lsp)
-    (typescript-mode  . lsp)
-    (vue-mode         . lsp)
-    (vimrc-mode       . lsp)
-    (wasm-mode        . lsp)
-    (dhall-mode       . lsp)
-    (graphql-mode     . lsp)
-    (json-mode        . lsp)
-    (hcl-mode         . lsp)
-    (yaml-mode        . lsp)
-    (xml-mode         . lsp)
-    (html-mode        . lsp)
-    (markdown-mode    . lsp)
-    (rst-mode         . lsp)
-    ;;(sphinx-mode    . lsp)
-    ;;(tex-mode       . lsp)
-    ;;(latex-mode     . lsp)
-    (prog-mode        . lsp)
-    (lsp-managed-mode . lsp-modeline-diagnostics-mode)
-    (lsp-mode         . (lsp-lens-mode
-                         lsp-enable-which-key-integration
-                         lsp-headerline-breadcrumb-mode
-                         lsp-modeline-code-actions-mode))
-    :init
-      (setq gc-cons-threshold (* 100 1024 1024)     ;; 100Mb
-            read-process-output-max (* 8 1024 1024) ;;   8Mb
-            max-lisp-eval-depth (* 10 1024)
-            max-specpdl-size    (*  4 1024)
-            lsp-idle-delay 0.500
-            lsp-log-io nil
-            lsp-prefer-flymake nil
-            lsp-auto-guess-root nil ;; https://github.com/hlissner/doom-emacs/issues/1928
-            lsp-keymap-prefix "C-c l"
-            lsp-completion-show-detail t
-            lsp-completion-show-kind t
-            lsp-eldoc-enable-hover t
-            lsp-lens-enable t
-            lsp-enable-imenu t
-            lsp-enable-symbol-highlighting t
-            lsp-headerline-breadcrumb-enable t
-            lsp-enable-indentation t
-            lsp-enable-completion-at-point t
-            lsp-headerline-breadcrumb-enable-diagnostics t
-            lsp-modeline-code-actions-enable t
-            lsp-modeline-diagnostics-enable t
-            lsp-signature-auto-activate t
-            lsp-signature-render-documentation t))
+      ;; see: https://emacs-lsp.github.io/lsp-mode/lsp-mode.html
+      (use-package lsp-mode
+        :commands (lsp lsp-deferred)
+        :hook
+        (csharp-mode      . lsp)
+        (css-mode         . lsp)
+        (closure-mode     . lsp)
+        (cmake-mode       . lsp)
+        (fish-mode        . lsp)
+        (groovy-mode      . lsp)
+        (haskell-mode     . lsp)
+        (emacs-lisp-mode  . lsp)
+        ;;(ocaml-mode     . lsp)
+        ;; (php-mode      . lsp)
+        (purescript-mode  . lsp)
+        ;; (pwsh-mode     . lsp)
+        (python-mode      . lsp)
+        ;; (ruby-mode     . lsp)
+        (rust-mode        . lsp)
+        (salt-mode        . lsp)
+        (scala-mode       . lsp)
+        (sh-mode          . lsp)
+        ;;(swift-mode     . lsp)
+        (js-mode          . lsp)
+        (typescript-mode  . lsp)
+        (vue-mode         . lsp)
+        (vimrc-mode       . lsp)
+        (wasm-mode        . lsp)
+        (dhall-mode       . lsp)
+        (graphql-mode     . lsp)
+        (json-mode        . lsp)
+        (hcl-mode         . lsp)
+        (yaml-mode        . lsp)
+        (xml-mode         . lsp)
+        (html-mode        . lsp)
+        (markdown-mode    . lsp)
+        (rst-mode         . lsp)
+        ;;(sphinx-mode    . lsp)
+        ;;(tex-mode       . lsp)
+        ;;(latex-mode     . lsp)
+        (prog-mode        . lsp)
+        (lsp-managed-mode . lsp-modeline-diagnostics-mode)
+        (lsp-mode         . (lsp-lens-mode
+                             lsp-enable-which-key-integration
+                             lsp-headerline-breadcrumb-mode
+                             lsp-modeline-code-actions-mode))
+        :init
+          (setq gc-cons-threshold (* 100 1024 1024)     ;; 100Mb
+                read-process-output-max (* 8 1024 1024) ;;   8Mb
+                max-lisp-eval-depth (* 10 1024)
+                max-specpdl-size    (*  4 1024)
+                lsp-idle-delay 0.500
+                lsp-log-io nil
+                lsp-prefer-flymake nil
+                lsp-auto-guess-root nil ;; https://github.com/hlissner/doom-emacs/issues/1928
+                lsp-keymap-prefix "C-c l"
+                lsp-completion-show-detail t
+                lsp-completion-show-kind t
+                lsp-eldoc-enable-hover t
+                lsp-lens-enable t
+                lsp-enable-imenu t
+                lsp-enable-symbol-highlighting t
+                lsp-headerline-breadcrumb-enable t
+                lsp-enable-indentation t
+                lsp-enable-completion-at-point t
+                lsp-headerline-breadcrumb-enable-diagnostics t
+                lsp-modeline-code-actions-enable t
+                lsp-modeline-diagnostics-enable t
+                lsp-signature-auto-activate t
+                lsp-signature-render-documentation t))
 
-  (use-package which-key
-    :config
-      (which-key-mode))
+      (use-package which-key
+        :config
+          (which-key-mode))
 
-  (use-package projectile :demand)
+      (use-package projectile :demand)
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   (use-package treemacs
-    :requires (ivy)
+    :ensure t
     :defer t
+    :requires
+      (ivy)
     :init
-      (with-eval-after-load 'winum
-        (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
-    :bind (:map global-map ("C-x t t" . treemacs))
-    :commands treemacs-modify-theme
+    (with-eval-after-load 'winum
+      (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
     :config
-      (require 'treemacs-themes)
-      (require 'treemacs-icons)
-      (require 'treemacs-icons-dired)
-      (require 'treemacs-projectile)
-      (require 'treemacs-magit)
-      (progn
-        (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
-              treemacs-deferred-git-apply-delay      0.5
-              treemacs-directory-name-transformer    #'identity
-              treemacs-display-in-side-window        t
-              treemacs-eldoc-display                 t
-              treemacs-file-event-delay              5000
-              treemacs-file-extension-regex          treemacs-last-period-regex-value
-              treemacs-file-follow-delay             0.2
-              treemacs-file-name-transformer         #'identity
-              treemacs-follow-after-init             t
-              treemacs-git-command-pipe              ""
-              treemacs-goto-tag-strategy             'refetch-index
-              treemacs-indentation                   2
-              treemacs-indentation-string            " "
-              treemacs-is-never-other-window         nil
-              treemacs-max-git-entries               5000
-              treemacs-missing-project-action        'ask
-              treemacs-no-png-images                 nil
-              treemacs-no-delete-other-windows       t
-              treemacs-project-follow-cleanup        nil
-              treemacs-persist-file                  (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
-              treemacs-position                      'left
-              treemacs-recenter-distance             0.1
-              treemacs-recenter-after-file-follow    nil
-              treemacs-recenter-after-tag-follow     nil
-              treemacs-recenter-after-project-jump   'always
-              treemacs-recenter-after-project-expand 'on-distance
-              treemacs-show-cursor                   nil
-              treemacs-show-hidden-files             t
-              treemacs-silent-filewatch              nil
-              treemacs-silent-refresh                nil
-              treemacs-sorting                       'alphabetic-asc
-              treemacs-space-between-root-nodes      nil
-              treemacs-tag-follow-cleanup            t
-              treemacs-tag-follow-delay              1.5
-              treemacs-width                         35)))
+    (defun treemacs--propagate-new-icons (_theme))
+    (progn
+      (setq treemacs-collapse-dirs                   (if treemacs-python-executable 3 0)
+            treemacs-deferred-git-apply-delay        0.5
+            treemacs-directory-name-transformer      #'identity
+            treemacs-display-in-side-window          t
+            treemacs-eldoc-display                   'simple
+            treemacs-file-event-delay                2000
+            treemacs-file-extension-regex            treemacs-last-period-regex-value
+            treemacs-file-follow-delay               0.2
+            treemacs-file-name-transformer           #'identity
+            treemacs-follow-after-init               t
+            treemacs-expand-after-init               t
+            treemacs-find-workspace-method           'find-for-file-or-pick-first
+            treemacs-git-command-pipe                ""
+            treemacs-goto-tag-strategy               'refetch-index
+            treemacs-header-scroll-indicators        '(nil . "^^^^^^")
+            treemacs-hide-dot-git-directory          t
+            treemacs-indentation                     2
+            treemacs-indentation-string              " "
+            treemacs-is-never-other-window           nil
+            treemacs-max-git-entries                 5000
+            treemacs-missing-project-action          'ask
+            treemacs-move-forward-on-expand          nil
+            treemacs-no-png-images                   nil
+            treemacs-no-delete-other-windows         t
+            treemacs-project-follow-cleanup          nil
+            treemacs-persist-file                    (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+            treemacs-position                        'left
+            treemacs-read-string-input               'from-child-frame
+            treemacs-recenter-distance               0.1
+            treemacs-recenter-after-file-follow      nil
+            treemacs-recenter-after-tag-follow       nil
+            treemacs-recenter-after-project-jump     'always
+            treemacs-recenter-after-project-expand   'on-distance
+            treemacs-litter-directories              '("/node_modules" "/.venv" "/.cask")
+            treemacs-project-follow-into-home        nil
+            treemacs-show-cursor                     nil
+            treemacs-show-hidden-files               t
+            treemacs-silent-filewatch                nil
+            treemacs-silent-refresh                  nil
+            treemacs-sorting                         'alphabetic-asc
+            treemacs-select-when-already-in-treemacs 'move-back
+            treemacs-space-between-root-nodes        t
+            treemacs-tag-follow-cleanup              t
+            treemacs-tag-follow-delay                1.5
+            treemacs-text-scale                      nil
+            treemacs-user-mode-line-format           nil
+            treemacs-user-header-line-format         nil
+            treemacs-wide-toggle-width               70
+            treemacs-width                           35
+            treemacs-width-increment                 1
+            treemacs-width-is-initially-locked       t
+            treemacs-workspace-switch-cleanup        nil)
+
+      ;; The default width and height of the icons is 22 pixels. If you are
+      ;; using a Hi-DPI display, uncomment this to double the icon size.
+      ;;(treemacs-resize-icons 44)
+
+      (treemacs-follow-mode t)
+      (treemacs-filewatch-mode t)
+      (treemacs-fringe-indicator-mode 'always)
+      (when treemacs-python-executable
+        (treemacs-git-commit-diff-mode t))
+
+      (pcase (cons (not (null (executable-find "git")))
+                   (not (null treemacs-python-executable)))
+        (`(t . t)
+         (treemacs-git-mode 'deferred))
+        (`(t . _)
+         (treemacs-git-mode 'simple)))
+
+      (treemacs-hide-gitignored-files-mode nil))
+    :bind
+    (:map global-map
+          ("M-0"       . treemacs-select-window)
+          ("C-x t 1"   . treemacs-delete-other-windows)
+          ("C-x t t"   . treemacs)
+          ("C-x t d"   . treemacs-select-directory)
+          ("C-x t B"   . treemacs-bookmark)
+          ("C-x t C-t" . treemacs-find-file)
+          ("C-x t M-t" . treemacs-find-tag)))
+
+  ;;(use-package treemacs-evil
+  ;;  :after (treemacs evil)
+  ;;  :ensure t)
 
   (use-package treemacs-projectile
-    :after treemacs projectile)
+    :after (treemacs projectile)
+    :ensure t)
+
+  ;;(use-package treemacs-all-the-icons
+  ;;  :after (treemacs)
+  ;;  :ensure t)
 
   (use-package treemacs-icons-dired
-    :after treemacs dired
-    :config (treemacs-icons-dired-mode))
+    :hook (dired-mode . treemacs-icons-dired-enable-once)
+    :ensure t)
 
   (use-package treemacs-magit
-    :after treemacs magit)
+    :after (treemacs magit)
+    :ensure t)
 
-  (use-package lsp-treemacs
-    :after lsp
-    :requires (lsp-mode treemacs)
-    :commands lsp-treemacs-errors-list
-    :config
-      (lsp-treemacs-symbols t)
-      (lsp-treemacs-references t)
-      (lsp-treemacs-error-list t)
-      (lsp-treemacs-sync-mode t))
+  ;;(use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
+  ;;  :after (treemacs persp-mode) ;;or perspective vs. persp-mode
+  ;;  :ensure t
+  ;;  :config (treemacs-set-scope-type 'Perspectives))
+
+  ;;(use-package treemacs-tab-bar ;;treemacs-tab-bar if you use tab-bar-mode
+  ;;  :after (treemacs)
+  ;;  :ensure t
+  ;;  :config (treemacs-set-scope-type 'Tabs))
+
+  ;;(use-package lsp-treemacs
+  ;;  :after lsp
+  ;;  :requires (lsp-mode treemacs)
+  ;;  :commands lsp-treemacs-errors-list
+  ;;  :config
+  ;;    (lsp-treemacs-symbols t)
+  ;;    (lsp-treemacs-references t)
+  ;;    (lsp-treemacs-error-list t)
+  ;;    (lsp-treemacs-sync-mode t))
 
   (use-package lsp-ivy 
     :requires (ivy))
@@ -1192,7 +1256,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
                 ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
                 ([remap xref-find-references]  . lsp-ui-peek-find-references))
     :custom-face
-      (lsp-ui-doc-background ((t (:background nil))))
+      (lsp-ui-doc-background ((t (:background unspecified))))
       (lsp-ui-doc-header ((t (:inherit (font-lock-string-face italic)))))
     :init
       (setq lsp-ui-doc-enable t
@@ -1228,6 +1292,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
             lsp-ui-sideline-show-hover t
             lsp-ui-sideline-show-symbol t))
 #+END_SRC
+*** 
 ** Support for Debugging Application Protocol
 #+BEGIN_SRC emacs-lisp
 (use-package dap-mode
@@ -1248,7 +1313,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 #+END_SRC
 *** CSharp
 #+BEGIN_SRC emacs-lisp
-  (use-package csharp-mode :demand)
+  ;;FIXME (use-package csharp-mode :demand)
 #+END_SRC    
 *** Clojure
 #+BEGIN_SRC emacs-lisp
@@ -1464,14 +1529,14 @@ This is a basic configuration for the TypeScript language so that =.ts= files ac
 #+END_SRC
 *** Obsidian
 [[http://obsidian.md][Obsidian]] is a powerful knowledge base on top of a local folder of plain text Markdown files.
-
 #+BEGIN_SRC emacs-lisp
-(defvar user-obsidian-directory "~/Documents/Emacs/ObsidianNotes" "Directory for Obsidian notes")
+(defvar user-obsidian-directory "~/Documents/Notes" "Directory for Obsidian notes")
 (if (not (file-directory-p user-obsidian-directory))(make-directory user-obsidian-directory))
 (if (not (file-directory-p (concat user-obsidian-directory "/Inbox")))(make-directory (concat user-obsidian-directory "/Inbox")))
 (use-package obsidian
   :straight
-    (:host github :repo "licht1stein/obsidian.el" :branch "merge-hydra" :files ("*.el"))
+;;    (:host github :repo "licht1stein/obsidian.el" :branch "merge-hydra" :files ("*.el"))
+    (:host github :repo "licht1stein/obsidian.el" :branch "master" :files ("*.el"))
   :demand t
   :config
     (obsidian-specify-path user-obsidian-directory)
@@ -1487,7 +1552,6 @@ This is a basic configuration for the TypeScript language so that =.ts= files ac
 #+END_SRC
 *** Ement
 [[https://github.com/alphapapa/ement.el][Ement]] is a [[http://matrix.org][Matrix]] client.
-
 #+BEGIN_SRC emacs-lisp
 (use-package ement
   :straight

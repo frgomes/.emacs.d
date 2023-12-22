@@ -1247,6 +1247,7 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
 
   ;; https://emacs-lsp.github.io/lsp-ui
   (use-package lsp-ui
+    :after lsp
     :after lsp-mode
     ;;XXX :diminish
     ;;XXX :commands lsp-ui-mode

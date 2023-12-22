@@ -64,7 +64,11 @@
 ;;  '(lsp-ui-doc-background ((t (:background nil))))
 ;;  '(lsp-ui-doc-header ((t (:inherit (font-lock-string-face italic))))))
 
+;; preferences
+(put 'downcase-word 'disabled nil)
+(put 'upcase-word 'disabled nil)
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+
 (provide 'init)
 ;;; init.el ends here
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)

@@ -176,18 +176,18 @@ More information about Language Server Protocol:
 * About this configuration file
 This file you are reading right now is also a Emacs configuration file.
 
-You can skip reading the remainder of this file, unless you'd like to learn how to configure Emacs or you'd like to learn a bit of ``org-mode``.
+You can skip reading the remainder of this file, unless you'd like to learn how to configure Emacs.
 ** Disable menus
 #+BEGIN_SRC emacs-lisp
-;; Dark screen as soon as possible
-(add-to-list 'default-frame-alist '(background-color . "#000000"))
-;; No splash screen please
-(setq inhibit-startup-message t)
-;; Turn off mouse interface early in startup to avoid momentary display
-(if (fboundp 'menu-bar-mode)   (menu-bar-mode -1))
-(if (fboundp 'tool-bar-mode)   (tool-bar-mode -1))
-(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-(if (fboundp 'tooltip-mode)    (tooltip-mode -1))
+;;;; Dark screen as soon as possible
+;;(add-to-list 'default-frame-alist '(background-color . "#000000"))
+;;;; No splash screen please
+;;(setq inhibit-startup-message t)
+;;;; Turn off mouse interface early in startup to avoid momentary display
+;;(if (fboundp 'menu-bar-mode)   (menu-bar-mode -1))
+;;(if (fboundp 'tool-bar-mode)   (tool-bar-mode -1))
+;;(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+;;(if (fboundp 'tooltip-mode)    (tooltip-mode -1))
 #+END_SRC
 ** Bootstrap straight.el
 #+BEGIN_SRC emacs-lisp
@@ -198,7 +198,6 @@ You can skip reading the remainder of this file, unless you'd like to learn how 
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
 	(url-retrieve-synchronously
-;;	 "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
 	 "https://raw.githubusercontent.com/radian-software/straight.el/master/install.el"
 	 'silent 'inhibit-cookies)
       (goto-char (point-max))
@@ -215,7 +214,8 @@ We use the [[https://github.com/emacscollective/no-littering/blob/master/no-litt
 #+BEGIN_SRC emacs-lisp
   ;; NOTE: If you want to move everything out of the ~/.emacs.d folder
   ;; reliably, set `user-emacs-directory` before loading no-littering!
-  ;(setq user-emacs-directory "~/.cache/emacs")
+  (setq user-emacs-directory "~/.cache/emacs")
+
   (use-package no-littering)
 
   ;; no-littering doesn't set this by default so we must place
@@ -227,13 +227,12 @@ We use the [[https://github.com/emacscollective/no-littering/blob/master/no-litt
 [[https://github.com/hlissner/emacs-doom-themes][doom-themes]] is a great set of themes with a lot of variety and support for many different Emacs modes.  Taking a look at the [[https://github.com/hlissner/emacs-doom-themes/tree/screenshots][screenshots]] might help you decide which one you like best.  You can also run =M-x counsel-load-theme= to choose between them easily.
 ;;FIXME: https://github.com/Alexander-Miller/treemacs/issues/1047
 #+begin_src emacs-lisp
-;;(use-package doom-themes
-;;  :init (load-theme 'doom-molokai t))
-;;
-;;(use-package doom-modeline
-;;      :ensure t
-;;      :defer t
-;;      :hook (after-init . doom-modeline-mode))
+(use-package doom-themes
+  :hook (after-init . (load-theme (car custom-enabled-themes)) ))
+(use-package doom-modeline
+      :ensure t
+      :defer t
+      :hook (after-init . doom-modeline-mode))
 #+end_src
 ** Helpful Help Commands
 [[https://github.com/Wilfred/helpful][Helpful]] adds a lot of very helpful (get it?) information to Emacs' =describe-= command buffers.  For example, if you use =describe-function=, you will not only get the documentation about the function, you will also see the source code of the function and where it gets used in other places in the Emacs configuration.  It is very useful for figuring out how things work in Emacs.
@@ -1077,6 +1076,23 @@ See: https://github.com/emacs-lsp/lsp-mode#supported-languages
                              lsp-enable-which-key-integration
                              lsp-headerline-breadcrumb-mode
                              lsp-modeline-code-actions-mode))
+        :custom
+          ;; what to use when checking on-save. "check" is default, I prefer clippy
+          (lsp-rust-analyzer-cargo-watch-command "clippy")
+          (lsp-eldoc-render-all t)
+          (lsp-idle-delay 0.6)
+          ;; This controls the overlays that display type and other hints inline. Enable
+          ;; / disable as you prefer. Well require a `lsp-workspace-restart' to have an
+          ;; effect on open projects.
+          (lsp-rust-analyzer-server-display-inlay-hints t)
+          (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
+          (lsp-rust-analyzer-display-chaining-hints t)
+          (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
+          (lsp-rust-analyzer-display-closure-return-type-hints t)
+          (lsp-rust-analyzer-display-parameter-hints nil)
+          (lsp-rust-analyzer-display-reborrow-hints nil)
+        :config
+          (add-hook 'lsp-mode-hook 'lsp-ui-mode)
         :init
           (setq gc-cons-threshold (* 100 1024 1024)     ;; 100Mb
                 read-process-output-max (* 8 1024 1024) ;;   8Mb
@@ -1386,7 +1402,24 @@ You can use the pyvenv package to use =virtualenv= environments in Emacs.  The =
 #+END_SRC
 *** Rust
 #+BEGIN_SRC emacs-lisp
-  (use-package rustic :demand)
+(use-package rustic
+  :ensure
+  ;; :config
+  ;;   (setq lsp-eldoc-hook nil)
+  ;;   (setq lsp-enable-symbol-highlighting nil)
+  ;;   (setq lsp-signature-auto-activate nil)
+  :bind (:map rustic-mode-map
+              ("M-j" . lsp-ui-imenu)
+              ("M-?" . lsp-find-references)
+              ("C-c C-c l" . flycheck-list-errors)
+              ("C-c C-c a" . lsp-execute-code-action)
+              ("C-c C-c r" . lsp-rename)
+              ("C-c C-c q" . lsp-workspace-restart)
+              ("C-c C-c Q" . lsp-workspace-shutdown)
+              ("C-c C-c s" . lsp-rust-analyzer-status)
+              ("C-c C-c e" . lsp-rust-analyzer-expand-macro)
+              ("C-c C-c d" . dap-hydra)
+              ("C-c C-c h" . lsp-ui-doc-glance)))
 #+END_SRC
 *** Salt
 #+BEGIN_SRC emacs-lisp
